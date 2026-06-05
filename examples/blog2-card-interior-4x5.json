@@ -1,0 +1,23 @@
+{
+  "postName": "BLOG 2 — What to Write on a Flower Card — Post 2 (interior, 3-up list)",
+  "design": "carousel-journal",
+  "ratio": "4:5",
+  "slides": [
+    {
+      "slide": "interior",
+      "tokens": {
+        "kicker": "On writing",
+        "index": "02",
+        "voice": "short is more sincere",
+        "label_1": "For a friend",
+        "quote_1": "Saw these and thought of you.",
+        "label_2": "For a thank-you",
+        "quote_2": "Thank you for making a hard week feel lighter.",
+        "label_3": "For a birthday",
+        "quote_3": "I hope these make your day feel more special.",
+        "cta": "Next →",
+        "photo": ""
+      }
+    }
+  ]
+}

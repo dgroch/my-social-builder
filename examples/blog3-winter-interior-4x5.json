@@ -1,0 +1,23 @@
+{
+  "postName": "BLOG 3 — Winter Flowers That Bring Warmth — Post 2 (interior, 3-up list)",
+  "design": "carousel-journal",
+  "ratio": "4:5",
+  "slides": [
+    {
+      "slide": "interior",
+      "tokens": {
+        "kicker": "On winter",
+        "index": "02",
+        "voice": "let the season lead",
+        "label_1": "Dining table",
+        "quote_1": "Texture and layered tones.",
+        "label_2": "Entryway",
+        "quote_2": "Shape and structure.",
+        "label_3": "Bedside",
+        "quote_3": "Gentler scale. Soft. Easy to live with.",
+        "cta": "Next →",
+        "photo": ""
+      }
+    }
+  ]
+}

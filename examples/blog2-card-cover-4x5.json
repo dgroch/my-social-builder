@@ -1,0 +1,19 @@
+{
+  "postName": "BLOG 2 — What to Write on a Flower Card — Post 1 (cover, image-anchored)",
+  "design": "carousel-journal",
+  "ratio": "4:5",
+  "slides": [
+    {
+      "slide": "cover",
+      "tokens": {
+        "kicker": "On the journal",
+        "index": "01",
+        "voice": "what to write when the words won't come",
+        "headline": "What to write on a flower card.",
+        "cta": "Read the guide →",
+        "photo": "https://brand-cdn.figandbloom.workers.dev/figandbloom/asset-manifest/2026/06/floral-arrangement-indoors-likely-a-home-or-studio-setting-pink-1oJNWF.jpg",
+        "theme": "dark"
+      }
+    }
+  ]
+}

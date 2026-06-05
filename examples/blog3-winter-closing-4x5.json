@@ -1,0 +1,16 @@
+{
+  "postName": "BLOG 3 — Winter Flowers That Bring Warmth — Post 3 (closing, sign-off)",
+  "design": "carousel-journal",
+  "ratio": "4:5",
+  "slides": [
+    {
+      "slide": "closing",
+      "tokens": {
+        "voice": "For the table, the morning coffee, the small moments in between.",
+        "cta": "Read the full guide",
+        "url": "figandbloom.com/journal",
+        "photo": "https://brand-cdn.figandbloom.workers.dev/figandbloom/asset-manifest/2026/06/floral-arrangement-indoor-on-a-wooden-tabletop-likely-a-floral-s-1euado.jpg"
+      }
+    }
+  ]
+}

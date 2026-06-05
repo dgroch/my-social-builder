@@ -1,0 +1,16 @@
+{
+  "postName": "BLOG 2 — What to Write on a Flower Card — Post 3 (closing, sign-off)",
+  "design": "carousel-journal",
+  "ratio": "4:5",
+  "slides": [
+    {
+      "slide": "closing",
+      "tokens": {
+        "voice": "For the message after the flowers.",
+        "cta": "Read the full guide",
+        "url": "figandbloom.com/journal",
+        "photo": "https://brand-cdn.figandbloom.workers.dev/figandbloom/asset-manifest/2026/06/floral-close-up-studio-indoor-close-up-no-discernible-background-1BksQx.jpg"
+      }
+    }
+  ]
+}

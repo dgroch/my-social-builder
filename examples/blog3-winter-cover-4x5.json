@@ -1,0 +1,19 @@
+{
+  "postName": "BLOG 3 — Winter Flowers That Bring Warmth — Post 1 (cover, image-anchored)",
+  "design": "carousel-journal",
+  "ratio": "4:5",
+  "slides": [
+    {
+      "slide": "cover",
+      "tokens": {
+        "kicker": "On the journal",
+        "index": "01",
+        "voice": "warmth is a feeling, not a palette",
+        "headline": "Winter flowers that bring warmth home.",
+        "cta": "Read the guide →",
+        "photo": "https://brand-cdn.figandbloom.workers.dev/figandbloom/asset-manifest/2026/06/floral-arrangement-indoor-implied-studio-or-event-setting-protea-1ne7yv.jpg",
+        "theme": "dark"
+      }
+    }
+  ]
+}

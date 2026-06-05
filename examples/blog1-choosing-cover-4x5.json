@@ -1,0 +1,19 @@
+{
+  "postName": "BLOG 1 — How to Choose Flowers for the Occasion — Post 1 (cover, image-anchored)",
+  "design": "carousel-journal",
+  "ratio": "4:5",
+  "slides": [
+    {
+      "slide": "cover",
+      "tokens": {
+        "kicker": "On the journal",
+        "index": "01",
+        "voice": "a small guide to choosing well",
+        "headline": "How to choose flowers that feel right for the occasion.",
+        "cta": "Read the guide →",
+        "photo": "https://brand-cdn.figandbloom.workers.dev/figandbloom/asset-manifest/2026/06/floral-arrangement-product-shot-indoor-studio-setting-tabletop-d-1BooMH.jpg",
+        "theme": "dark"
+      }
+    }
+  ]
+}

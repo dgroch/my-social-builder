@@ -1,0 +1,23 @@
+{
+  "postName": "BLOG 1 — How to Choose Flowers for the Occasion — Post 2 (interior, 3-up list)",
+  "design": "carousel-journal",
+  "ratio": "4:5",
+  "slides": [
+    {
+      "slide": "interior",
+      "tokens": {
+        "kicker": "On choosing",
+        "index": "02",
+        "voice": "name the job first",
+        "label_1": "Joy",
+        "quote_1": "Colour, movement, sense of lift.",
+        "label_2": "Comfort",
+        "quote_2": "Softness, warmth, restraint.",
+        "label_3": "Care",
+        "quote_3": "Gentle, not demanding.",
+        "cta": "Next →",
+        "photo": ""
+      }
+    }
+  ]
+}

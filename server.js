@@ -13,6 +13,140 @@ const PORT = process.env.PORT || 4321;
 const PUBLIC = path.join(__dirname, 'public');
 const MIME = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.json': 'application/json', '.png': 'image/png', '.svg': 'image/svg+xml' };
 
+// -----------------------------------------------------------------------------
+// Component library — pre-render every (design, slide) pair with sample data
+// so the UI can show them instantly. The cache is built on first request.
+// -----------------------------------------------------------------------------
+const SAMPLE_PHOTO = 'https://brand-cdn.figandbloom.workers.dev/figandbloom/asset-manifest/2026/06/floral-arrangement-product-shot-indoor-studio-setting-tabletop-d-1BooMH.jpg';
+const SAMPLE_PHOTO_ALT = 'https://brand-cdn.figandbloom.workers.dev/figandbloom/asset-manifest/2026/06/floral-arrangement-indoors-likely-a-home-or-studio-setting-pink-1oJNWF.jpg';
+
+// Realistic sample data for every component. One block per (design, slide).
+const SAMPLE_TOKENS = {
+  'carousel-journal/cover': {
+    kicker: 'The Journal', index: '01', voice: 'on choosing well',
+    headline: 'The flowers are the easy part.',
+    cta: 'Read the guide →', photo: SAMPLE_PHOTO, theme: 'light'
+  },
+  'carousel-journal/intro': {
+    kicker: 'The Journal', index: '02', voice: 'a small guide to borrowing words',
+    lede: 'The bouquet brings the colour. The card explains why it is there.',
+    body: 'Staring at the blank message box — wondering whether to be funny, formal, brief or heartfelt? Take the pressure off. A card does not need to sound like a poem.',
+    lead_in: 'A few to borrow, by moment —', cta: 'Next →', photo: SAMPLE_PHOTO
+  },
+  'carousel-journal/interior': {
+    kicker: 'The Journal', index: '03',
+    label_1: 'Just because', quote_1: 'Saw these and thought of you.',
+    label_2: 'For a birthday', quote_2: 'A little birthday colour for your home.',
+    label_3: 'To say thank you', quote_3: 'Thank you for the way you made a hard week feel lighter.',
+    cta: 'Next →'
+  },
+  'carousel-journal/closing': {
+    voice: 'For the moment they feel what you meant.',
+    cta: 'Read the guide →', url: 'figandbloom.com/journal', photo: SAMPLE_PHOTO
+  },
+  'story-studio/cover': {
+    kicker: 'In the studio', voice: 'a few minutes from the workshop',
+    headline: 'Hands at work, the morning quiet.',
+    body: 'A few minutes from the workshop — stem by stem, ribbon by ribbon. The kind of morning that ends with a delivery van, and a thank-you we never see.',
+    cta: 'See the journal →', photo: SAMPLE_PHOTO, theme: 'light'
+  },
+  'story-promo/cover': {
+    kicker: 'New in', voice: 'soft, contemporary white',
+    headline: 'Lucerne', subhead: 'Hand-tied the morning it is sent.',
+    from_price: 'from $105', cta: 'See the range →', photo: SAMPLE_PHOTO, theme: 'light'
+  },
+  'story-gift/intro': {
+    kicker: 'For the moment', voice: 'ribbon, paper, a hand-written card',
+    headline: 'A small thank-you, wrapped with care.',
+    body: 'Ribbon, paper, a hand-written card tucked in beside the stems. The wrapping is half the gift.',
+    cta: 'Next →', photo: SAMPLE_PHOTO, theme: 'light'
+  },
+  'story-gift/closing': {
+    kicker: 'Delivered with care', voice: 'for the moment they feel what you meant',
+    cta: 'Choose a moment →', url: 'figandbloom.com/gifting', photo: SAMPLE_PHOTO
+  },
+  'story-editorial/cover': {
+    kicker: 'From the journal', voice: 'on the morning run',
+    quote: 'We tie the stems before the morning is half done. We photograph them before the van goes.',
+    attribution: 'Fig & Bloom — on the morning run', photo: SAMPLE_PHOTO, theme: 'dark'
+  },
+  'story-quote-soft/cover': {
+    kicker: 'The studio', voice: 'a small, quiet room',
+    headline: 'A knot of ribbon, a hand on the stems.',
+    body: 'We work where the morning is. The rest of the day is mostly that.',
+    url: 'figandbloom.com/journal', cta: 'Visit the link in bio →', photo: SAMPLE_PHOTO_ALT
+  },
+  'story-tagline/cover': {
+    kicker: 'Gift edit', voice: 'for the people who keep a vase on the windowsill',
+    headline: 'For the quiet ones',
+    subhead: 'A small edit, hand-picked for the people who do not need a reason.',
+    cta: 'See the edit →', photo: SAMPLE_PHOTO
+  },
+  'story-overlay/cover': {
+    kicker: 'This week', word: 'HELD', cta: 'Read on →', photo: SAMPLE_PHOTO
+  }
+};
+
+let LIBRARY_CACHE = null;
+
+function buildLibrary() {
+  const schema = buildSchema();
+  const lib = [];
+  for (const [designId, d] of Object.entries(schema.designs)) {
+    for (const [slideId, meta] of Object.entries(d.slides)) {
+      const key = `${designId}/${slideId}`;
+      const sample = SAMPLE_TOKENS[key] || {};
+      lib.push({
+        design: designId,
+        designLabel: d.label,
+        slide: slideId,
+        lane: d.lane,
+        laneLabel: schema.lanes[d.lane] && schema.lanes[d.lane].label || d.lane,
+        primaryRatio: d.primaryRatio,
+        ratios: d.ratios,
+        tokens: meta.tokens.map(t => ({ name: t.name, type: t.type, optional: !!t.optional, markdown: !!t.markdown, help: t.help })),
+        levers: meta.levers.map(l => ({ name: l.name, type: 'enum', values: l.values, help: l.help })),
+        requiresPlate: meta.photo === 'required',
+        sample
+      });
+    }
+  }
+  return lib;
+}
+
+async function preRenderLibrary() {
+  if (LIBRARY_CACHE) return LIBRARY_CACHE;
+  const lib = buildLibrary();
+  console.log(`Pre-rendering ${lib.length} library components…`);
+  for (const comp of lib) {
+    const ratio = comp.primaryRatio;
+    const post = {
+      postName: `Library · ${comp.design}/${comp.slide}`,
+      design: comp.design,
+      ratio,
+      slides: [{ slide: comp.slide, tokens: comp.sample }]
+    };
+    try {
+      const { slices } = await render.renderPost(post, { scale: 1 });
+      comp.pngBase64 = slices[0] && slices[0].pngBase64;
+      comp.dimensions = slices[0] && { w: slices[0].w, h: slices[0].h };
+      comp.error = null;
+    } catch (e) {
+      console.error(`library render failed for ${comp.design}/${comp.slide}:`, e.message);
+      comp.pngBase64 = null;
+      comp.error = e.message;
+    }
+  }
+  LIBRARY_CACHE = lib;
+  console.log(`Library pre-rendered. ${lib.filter(c => c.pngBase64).length}/${lib.length} succeeded.`);
+  return lib;
+}
+
+function findLibraryComponent(design, slide) {
+  if (!LIBRARY_CACHE) return null;
+  return LIBRARY_CACHE.find(c => c.design === design && c.slide === slide);
+}
+
 function send(res, code, body, type) {
   res.writeHead(code, { 'Content-Type': type || 'application/json' });
   res.end(typeof body === 'string' || Buffer.isBuffer(body) ? body : JSON.stringify(body));
@@ -65,6 +199,52 @@ const server = http.createServer(async (req, res) => {
       if (req.method === 'GET') return send(res, 200, designs.get(id));
       if (req.method === 'PUT') return send(res, 200, designs.update(id, await readBody(req)));
       if (req.method === 'DELETE') return send(res, 200, designs.remove(id));
+    }
+    // Component library
+    if (p === '/api/library' && req.method === 'GET') {
+      const lib = await preRenderLibrary();
+      // Strip the heavy base64 from the catalog response; clients fetch the
+      // image separately per component (so the catalog stays small and the
+      // image responses are individually cacheable).
+      const catalog = lib.map(c => ({ ...c, pngBase64: undefined }));
+      return send(res, 200, { version: '1.0.0', count: catalog.length, components: catalog });
+    }
+    const lm = p.match(/^\/api\/library\/([^/]+)\/([^/]+)(\/image|\/starter)?$/);
+    if (lm) {
+      await preRenderLibrary();
+      const [, design, slide, action] = lm;
+      const comp = findLibraryComponent(design, slide);
+      if (!comp) return send(res, 404, { error: 'not found', design, slide });
+      if (action === '/image') {
+        if (!comp.pngBase64) return send(res, 500, { error: 'render failed', message: comp.error });
+        const buf = Buffer.from(comp.pngBase64, 'base64');
+        res.writeHead(200, { 'Content-Type': 'image/png', 'Cache-Control': 'public, max-age=86400' });
+        return res.end(buf);
+      }
+      if (action === '/starter') {
+        return send(res, 200, {
+          postName: `${comp.designLabel} — ${comp.slide} (from library)`,
+          design: comp.design,
+          ratio: comp.primaryRatio,
+          slides: [{ slide: comp.slide, tokens: comp.sample }]
+        });
+      }
+      return send(res, 200, comp);
+    }
+    if (p === '/api/library/feedback' && req.method === 'POST') {
+      const b = await readBody(req);
+      const dir = path.join(__dirname, '.feedback');
+      fs.mkdirSync(dir, { recursive: true });
+      const id = `${Date.now()}-${(b.design || 'unknown').replace(/[^a-z0-9-]/gi, '_')}-${(b.slide || 'unknown').replace(/[^a-z0-9-]/gi, '_')}`;
+      fs.writeFileSync(path.join(dir, id + '.json'), JSON.stringify({ ...b, savedAt: new Date().toISOString() }, null, 2));
+      return send(res, 200, { ok: true, id });
+    }
+    if (p === '/api/library/feedback' && req.method === 'GET') {
+      const dir = path.join(__dirname, '.feedback');
+      if (!fs.existsSync(dir)) return send(res, 200, { feedback: [] });
+      const files = fs.readdirSync(dir).filter(f => f.endsWith('.json')).sort().reverse();
+      const items = files.map(f => { try { return JSON.parse(fs.readFileSync(path.join(dir, f), 'utf8')); } catch { return null; } }).filter(Boolean);
+      return send(res, 200, { feedback: items });
     }
     // static
     let f = p === '/' ? '/index.html' : p;

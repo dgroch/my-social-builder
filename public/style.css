@@ -40,3 +40,23 @@ pre.json{background:#1c1a17;color:#e8e2da;padding:16px;border-radius:10px;overfl
 #validation .ok{background:#eaf3ec;color:#2c6b3f;padding:8px 12px;border-radius:8px;font-size:13px}
 .designList .item{display:flex;justify-content:space-between;align-items:center;border:1px solid var(--line);border-radius:8px;padding:8px 12px;margin-bottom:8px;background:#fff}
 .designList .item a{cursor:pointer;color:var(--accent);font-weight:600}
+.library-toolbar{display:flex;gap:8px;margin-bottom:14px;align-items:center;flex-wrap:wrap}
+.library-toolbar select{font-size:13px;padding:6px 8px}
+.library-toolbar .pill{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--char);background:#fff;border:1px solid var(--line);border-radius:999px;padding:4px 10px}
+.library-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}
+.lib-card{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#fff;display:flex;flex-direction:column}
+.lib-card .thumb{width:100%;aspect-ratio:4/5;background:#1a1714 center/cover no-repeat;display:block}
+.lib-card .meta{padding:10px 12px;display:flex;flex-direction:column;gap:6px}
+.lib-card .name{font-weight:600;font-size:13px;letter-spacing:.02em}
+.lib-card .sub{font-size:11px;color:var(--char);text-transform:uppercase;letter-spacing:.1em}
+.lib-card .actions{display:flex;gap:6px;margin-top:4px}
+.lib-card .actions button{font-size:11px;padding:5px 8px;flex:1}
+.lib-card textarea{width:100%;font-size:12px;min-height:54px;padding:6px 8px;border:1px solid var(--line);border-radius:6px;margin-top:6px;resize:vertical}
+.lib-card .savebtn{font-size:11px;padding:4px 8px;background:var(--accent);color:#fff;border:none;border-radius:6px;cursor:pointer}
+.lib-card .savebtn:disabled{opacity:.4;cursor:default}
+.lib-modal{position:fixed;inset:0;background:rgba(0,0,0,.78);display:flex;align-items:center;justify-content:center;z-index:50;padding:24px}
+.lib-modal img{max-width:96vw;max-height:92vh;border-radius:8px;box-shadow:0 8px 32px rgba(0,0,0,.4)}
+.lib-modal .x{position:absolute;top:14px;right:14px;background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.3);border-radius:8px;padding:6px 10px;cursor:pointer}
+.feedback-item{border:1px solid var(--line);border-radius:10px;padding:10px 14px;margin-bottom:8px;background:#fff}
+.feedback-item .head{display:flex;justify-content:space-between;font-size:12px;color:var(--char);margin-bottom:4px}
+.feedback-item .body{font-size:13px;white-space:pre-wrap}

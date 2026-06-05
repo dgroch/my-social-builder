@@ -98,7 +98,135 @@ async function zipAll() {
 
 function showTab(name) {
   document.querySelectorAll('.tab').forEach(t => t.classList.toggle('on', t.dataset.tab === name));
-  ['preview', 'json', 'designs'].forEach(n => $('#panel-' + n).classList.toggle('on', n === name));
+  ['preview', 'json', 'designs', 'library', 'feedback'].forEach(n => $('#panel-' + n).classList.toggle('on', n === name));
+  if (name === 'library' && !LIB_STATE.loaded) loadLibrary();
+  if (name === 'feedback') loadFeedback();
+}
+
+// ---------- Component library ----------
+let LIB_STATE = { loaded: false, components: [], laneFilter: '', ratioFilter: '' };
+
+async function loadLibrary() {
+  const box = $('#libraryGrid');
+  box.className = 'muted';
+  box.textContent = 'Loading the component library (one-time render of every slide)…';
+  try {
+    const res = await fetch('/api/library');
+    if (!res.ok) { box.textContent = 'Library failed to load: HTTP ' + res.status; return; }
+    const data = await res.json();
+    LIB_STATE.loaded = true;
+    LIB_STATE.components = data.components;
+    renderLibrary();
+  } catch (e) {
+    box.textContent = 'Library failed: ' + e.message;
+  }
+}
+
+function renderLibrary() {
+  const box = $('#libraryGrid');
+  box.className = 'library-grid';
+  box.innerHTML = '';
+
+  // Toolbar
+  const toolbar = el('div', { class: 'library-toolbar' });
+  toolbar.append(el('span', { class: 'pill' }, `${LIB_STATE.components.length} components`));
+  const lanes = [...new Set(LIB_STATE.components.map(c => c.laneLabel))].sort();
+  const laneSel = el('select');
+  laneSel.append(el('option', { value: '' }, 'All lanes'));
+  lanes.forEach(l => laneSel.append(el('option', { value: l }, l)));
+  laneSel.value = LIB_STATE.laneFilter;
+  laneSel.onchange = () => { LIB_STATE.laneFilter = laneSel.value; renderLibrary(); };
+  toolbar.append(laneSel);
+  const ratios = [...new Set(LIB_STATE.components.map(c => c.primaryRatio))].sort();
+  const ratioSel = el('select');
+  ratioSel.append(el('option', { value: '' }, 'All ratios'));
+  ratios.forEach(r => ratioSel.append(el('option', { value: r }, r)));
+  ratioSel.value = LIB_STATE.ratioFilter;
+  ratioSel.onchange = () => { LIB_STATE.ratioFilter = ratioSel.value; renderLibrary(); };
+  toolbar.append(ratioSel);
+  box.append(toolbar);
+
+  // Filter
+  const filtered = LIB_STATE.components.filter(c =>
+    (!LIB_STATE.laneFilter || c.laneLabel === LIB_STATE.laneFilter) &&
+    (!LIB_STATE.ratioFilter || c.primaryRatio === LIB_STATE.ratioFilter)
+  );
+
+  filtered.forEach(c => {
+    const card = el('div', { class: 'lib-card' });
+    const img = el('img', { class: 'thumb', src: `/api/library/${c.design}/${c.slide}/image`, alt: `${c.design}/${c.slide}`, loading: 'lazy' });
+    img.onclick = () => openLightbox(`/api/library/${c.design}/${c.slide}/image`, `${c.designLabel} — ${c.slide}`);
+    card.append(img);
+    const meta = el('div', { class: 'meta' });
+    meta.append(el('div', { class: 'name' }, c.designLabel));
+    meta.append(el('div', { class: 'sub' }, `${c.slide} · ${c.laneLabel} · ${c.primaryRatio}`));
+    const actions = el('div', { class: 'actions' });
+    const useBtn = el('button', {}, 'Use as starter');
+    useBtn.onclick = async () => {
+      const r = await fetch(`/api/library/${c.design}/${c.slide}/starter`);
+      const post = await r.json();
+      load(post);
+    };
+    const jsonBtn = el('button', {}, 'post.json');
+    jsonBtn.onclick = () => showTab('json') || ($('#panel-json').textContent = JSON.stringify({ postName: `${c.design}/${c.slide}`, design: c.design, ratio: c.primaryRatio, slides: [{ slide: c.slide, tokens: c.sample }] }, null, 2));
+    actions.append(useBtn, jsonBtn);
+    meta.append(actions);
+    const ta = el('textarea', { placeholder: 'Feedback for this component…' });
+    meta.append(ta);
+    const saveBtn = el('button', { class: 'savebtn' }, 'Save feedback');
+    saveBtn.onclick = async () => {
+      const text = ta.value.trim();
+      if (!text) return;
+      saveBtn.disabled = true;
+      try {
+        await fetch('/api/library/feedback', {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ design: c.design, slide: c.slide, ratio: c.primaryRatio, text })
+        });
+        saveBtn.textContent = '✓ saved';
+        setTimeout(() => { saveBtn.textContent = 'Save feedback'; saveBtn.disabled = false; }, 1200);
+      } catch (e) {
+        saveBtn.textContent = 'failed';
+        saveBtn.disabled = false;
+      }
+    };
+    meta.append(saveBtn);
+    card.append(meta);
+    box.append(card);
+  });
+}
+
+function openLightbox(src, caption) {
+  const modal = el('div', { class: 'lib-modal' });
+  modal.append(el('img', { src, alt: caption }));
+  const close = el('button', { class: 'x' }, '✕ close');
+  close.onclick = () => modal.remove();
+  modal.append(close);
+  modal.onclick = e => { if (e.target === modal) modal.remove(); };
+  document.body.append(modal);
+  document.addEventListener('keydown', function esc(e) { if (e.key === 'Escape') { modal.remove(); document.removeEventListener('keydown', esc); } });
+}
+
+async function loadFeedback() {
+  const box = $('#feedbackList');
+  box.className = 'muted';
+  box.textContent = 'Loading feedback…';
+  try {
+    const res = await fetch('/api/library/feedback');
+    const data = await res.json();
+    if (!data.feedback || !data.feedback.length) { box.textContent = 'No feedback submitted yet. Click any component in the Library tab, type a note, and hit "Save feedback".'; box.className = 'muted'; return; }
+    box.className = '';
+    box.innerHTML = '';
+    data.feedback.forEach(f => {
+      const item = el('div', { class: 'feedback-item' });
+      const head = el('div', { class: 'head' });
+      head.append(el('span', {}, `${f.design || '?'} / ${f.slide || '?'} · ${f.ratio || ''}`));
+      head.append(el('span', {}, f.savedAt || ''));
+      item.append(head);
+      item.append(el('div', { class: 'body' }, f.text || ''));
+      box.append(item);
+    });
+  } catch (e) { box.textContent = 'Failed to load feedback: ' + e.message; }
 }
 
 async function loadDesigns() {

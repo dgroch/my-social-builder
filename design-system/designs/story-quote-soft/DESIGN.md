@@ -42,7 +42,7 @@ The lane is a split composition: a **tan-1 left rail** carrying the type, a **so
 - The plate must be a **real, named Fig & Bloom asset** — workshop, garden, room, in-stillness. Never stock.
 - The plate is always **soft-focus**; do not use a sharp portrait here.
 - Pink-rose plates: the bouquet is the sole colour statement; the chrome stays in the four-token palette.
-- Fonts are Playfair / Work Sans **stand-ins**; swap to Cervanttis + Neuzeit Grotesk for production.
+- Real commercial fonts: Lust (display) + Cervanttis (italic) + Neuzeit Grotesk (Light body, Bold kicker/CTA).
 
 ## Palette
 

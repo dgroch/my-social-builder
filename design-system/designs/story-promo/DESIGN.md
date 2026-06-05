@@ -19,9 +19,9 @@ Single slide only. If the brief needs more than one beat, use the journal carous
 - Outer margin **88px**, equal on left and right.
 - Plate occupies the top **1200px** (62.5%) — full bleed, slightly larger than `story-studio` so the product can speak.
 - Warm cream panel fills **y=1200 → 1920** (37.5%, 720px). Type stacks inside it with these fixed rows:
-  - Kicker at y=1276 (76px below plate edge), small-caps Work Sans 24px, letter-spacing .30em.
-  - Headline at y=1336, Playfair 68px / 1.05. Wrap a word in `*asterisks*` for italic display accent. (Sized so a 2-line headline — e.g. "Lucerne —<br>*soft*, contemporary white." — clears the subhead at y=1528 without overlap.)
-  - Subhead at y=1528, Work Sans 26px / 1.5 (one descriptor line).
+  - Kicker at y=1276 (76px below plate edge), small-caps Neuzeit Bold 24px, letter-spacing .30em.
+  - Headline at y=1336, Lust 68px / 1.05. Wrap a word in `*asterisks*` for italic display accent. (Sized so a 2-line headline — e.g. "Lucerne —<br>*soft*, contemporary white." — clears the subhead at y=1528 without overlap.)
+  - Subhead at y=1528, Neuzeit Light 26px / 1.5 (one descriptor line).
   - From-price pill at y=1642, sans 22px, dark fill, rounded. Omit the pill for posts without a price (range-refresh teasers, general newness).
   - Hairline rule at y=1760.
   - Logo bottom-left at y=1820 (52px tall). CTA bottom-right at y=1826, sans 24px, letter-spacing .14em, all-caps.
@@ -52,4 +52,4 @@ The builder derives `THEME_CLASS` and `LOGO_FILE` from this lever — they are n
 
 - The plate must be a **real, named Fig & Bloom product** (Osaka, Lucerne, Lisbon, Florence, …) — never a generic bouquet or stock image.
 - Pink-rose plates: the bouquet is the sole colour statement — neutral room, no competing pinks.
-- Fonts are Playfair / Work Sans **stand-ins**; swap to Lust Display + Neuzeit Grotesk for production.
+- Real commercial fonts: Lust (display) + Cervanttis (italic) + Neuzeit Grotesk (Light body, Bold kicker/CTA).

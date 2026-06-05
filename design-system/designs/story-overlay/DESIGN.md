@@ -42,7 +42,7 @@ The `word` token is parsed for `*italic*` markers. Keep it to **one word** or a 
 - The word is **translucent** (55% opacity). It is a moment, not a billboard.
 - One word. If the brief needs more, escalate to `story-editorial`.
 - Pink-rose plates: the bouquet is the sole colour statement; the chrome stays in the four-token palette.
-- Fonts are Playfair / Work Sans **stand-ins**; swap to Cervanttis + Neuzeit Grotesk for production.
+- Real commercial fonts: Lust (display) + Cervanttis (italic) + Neuzeit Grotesk (Light body, Bold kicker/CTA).
 
 ## Palette
 

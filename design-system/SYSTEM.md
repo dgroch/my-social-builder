@@ -1,19 +1,20 @@
 # Fig & Bloom — Social Design System v2
 
-The visual system for the `my-social-builder` renderer. **One type pair. Two tan colours. White and black.** Everything else is restrained.
+The visual system for the `my-social-builder` renderer. **One type trio. Four tan/white/black surfaces. Everything else is restrained.**
 
 ---
 
-## The type pair
+## The type trio
 
-| Role | Target font | Bundled stand-in |
+| Role | Font | Source file |
 |---|---|---|
-| Display / headline (serif, italic accent) | **Cervanttis** (House Industries) | `pf_roman.ttf` (Playfair Roman) + `pf_italic.ttf` (Playfair Italic) |
-| Body / CTA / kicker (sans) | **Neuzeit Grotesk** (URW) | `ws_400.ttf` (Work Sans 400) + `ws_600.ttf` (Work Sans 600) |
+| Display / headline (serif) | **Lust** (Yellow Design Studio) | `Lust-Regular.otf` |
+| Italic accent / kicker-italic | **Cervanttis** (House Industries) | `cervanttis.ttf` |
+| Body / CTA / kicker (sans) | **Neuzeit Grotesk** (URW) | `NeuzeitGro-Lig.otf` (Light) · `NeuzeitGro-Bol.otf` (Bold) |
 
-Both target fonts are commercial. The Playfair + Work Sans stand-ins are visually adjacent and keep the system renderable today. **To go live with the real fonts**: drop `cervanttis_*.ttf` and `neuzeit_grotesk_*.ttf` into `design-system/fonts/`, update the `@font-face` declarations in each template's `<style>` block, and re-render. No other changes required.
+**Lust** is the serif display face — the hero headlines, the word on `story-overlay`, the quote on `story-editorial`. **Cervanttis** is the italic accent: a single cut used inside Lust lines for the `*emphasised*` word, and as a stand-alone italic on quieter lanes. **Neuzeit Grotesk** is the workhorse sans: Light for body copy, Bold for kicker, CTA, and price pills.
 
-**Rule:** No third font family. No script. No display sans. The Cervanttis italic accent is the only typographic gesture the system uses for emphasis.
+**Rule:** No third family. No script. No display sans. The Cervanttis italic accent is the only typographic gesture the system uses for emphasis.
 
 ---
 
@@ -51,7 +52,7 @@ The references are moody, dark, rustic, editorial. Not bright. Not pastel. Not a
 - **Editorial depth of field** — subject in focus, surface and edges falling off
 - **Warm undertones** in the shadows (no cold blue/grey shadows)
 
-The four-tan palette + Cervanttis is calibrated for this register. A bright pastel photo on this system will look wrong; the chrome will fight the picture.
+The four-tan palette + Lust is calibrated for this register. A bright pastel photo on this system will look wrong; the chrome will fight the picture.
 
 ---
 
@@ -59,8 +60,8 @@ The four-tan palette + Cervanttis is calibrated for this register. A bright past
 
 These are off the system. If a brief needs one of them, raise it before building.
 
-- No script fonts (no Lust Display, no Cervanttis Script)
-- No more than two type families in any single asset
+- No third font family beyond Lust + Cervanttis + Neuzeit Grotesk
+- No more than one italic cut (Cervanttis) in any single asset
 - No countdown timers, no urgency, no "last chance" — even on promo lanes
 - No "Save %" / discount framing — even on promo lanes
 - No bright pastels, no dusty miller green, no competing pinks

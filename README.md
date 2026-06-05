@@ -90,5 +90,5 @@ slide with zero unfilled tokens. (Render-path/Puppeteer is exercised by `npm sta
 
 ## Fonts
 
-Bundled fonts are **stand-ins** (Playfair Display → Lust Display; Work Sans → Neuzeit Grotesk).
+Real commercial fonts: Lust (display) + Cervanttis (italic) + Neuzeit Grotesk (Light body, Bold kicker/CTA).
 Swap the files in `design-system/fonts/` for the licensed brand fonts before production.

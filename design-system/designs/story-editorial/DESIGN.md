@@ -41,7 +41,7 @@ The lane is a single editorial statement. The dark plate is the room; the type i
 - The quote must be **Fig & Bloom voice** — calm, feeling-first, AU English. Never urgency-led.
 - The attribution is the **breath after the line**, not a sign-off. Keep it small and quiet.
 - The plate must be a **real, named Fig & Bloom asset**. Pink-rose plates: the bouquet is the sole colour statement; the chrome stays in the four-token palette.
-- Fonts are Playfair / Work Sans **stand-ins**; swap to Cervanttis + Neuzeit Grotesk for production.
+- Real commercial fonts: Lust (display) + Cervanttis (italic) + Neuzeit Grotesk (Light body, Bold kicker/CTA).
 
 ## Palette
 

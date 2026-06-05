@@ -43,7 +43,7 @@ The headline is **sans only** — the system does not wrap it in `*asterisks*` f
 - Sans only. No Cervanttis on this lane. The system enforces this by not parsing `*italic*` on the headline token.
 - The plate must be a **real, named Fig & Bloom asset** — dark, moody, hands, ingredients, surfaces. Never stock.
 - Pink-rose plates: the bouquet is the sole colour statement; the chrome stays in the four-token palette.
-- Fonts are Work Sans **stand-ins**; swap to Neuzeit Grotesk for production.
+- Real commercial font: Neuzeit Grotesk (Light + Bold). No Lust / Cervanttis on this lane.
 
 ## Palette
 

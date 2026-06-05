@@ -19,9 +19,9 @@ Single slide only. Story format is one beat — if the brief needs more, use the
 - Outer margin **88px**, equal on left and right.
 - Plate occupies the top **1056px** (55%) — full bleed, no safe-zone padding inside the plate.
 - Warm cream panel fills **y=1056 → 1920** (45%). Type stacks inside it with these fixed rows:
-  - Kicker at y=1132 (76px below plate edge), small-caps Work Sans 24px, letter-spacing .30em.
-  - Headline at y=1192, Playfair 84px / 1.05. Wrap a word in `*asterisks*` for italic display accent.
-  - Body at y=1472, Work Sans 26px / 1.55 (omit for a tighter post).
+  - Kicker at y=1132 (76px below plate edge), small-caps Neuzeit Bold 24px, letter-spacing .30em.
+  - Headline at y=1192, Lust 84px / 1.05. Wrap a word in `*asterisks*` for italic display accent.
+  - Body at y=1472, Neuzeit Light 26px / 1.55 (omit for a tighter post).
   - Hairline rule at y=1760.
   - Logo bottom-left at y=1820 (52px tall). CTA bottom-right at y=1826, sans 24px, letter-spacing .14em, all-caps.
 - Safe-zone respect: text stays inside y=1132 → 1760, well within the 9:16 `safeTop: 269 / safeBottom: 384` envelope.
@@ -45,4 +45,4 @@ The builder derives `THEME_CLASS` and `LOGO_FILE` from this lever — they are n
 - Pink-rose plates: the bouquet is the sole colour statement — neutral room, no competing pinks.
 - Restrained, feeling-first copy. If a line would work on a Whoosh asset, it is wrong here.
 - AU English; one label, one headline, one paragraph. If you need two paragraphs, use a carousel.
-- Fonts are Playfair / Work Sans **stand-ins**; swap to Lust Display + Neuzeit Grotesk for production.
+- Real commercial fonts: Lust (display) + Cervanttis (italic) + Neuzeit Grotesk (Light body, Bold kicker/CTA).

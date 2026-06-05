@@ -8,13 +8,13 @@
      LEVERS:
        theme    : enum light|dark  | light = ink type on a clean upper plate; dark = white type on a darkened plate
      PALETTE       : tan-1 #F0E5D0 lower panel · ink #1A1612 type · tan-2 #B89A75 rules
-     TYPE          : Cervanttis (stand-in Playfair) display + Neuzeit Grotesk (stand-in Work Sans) sans
+     TYPE          : Lust display + Cervanttis italic accent + Neuzeit Grotesk sans
 -->
 <!doctype html><html><head><meta charset="utf-8"><style>
-@font-face{font-family:Disp;src:url('{{ASSETS_BASE}}/fonts/pf_roman.ttf')}
-@font-face{font-family:DispI;src:url('{{ASSETS_BASE}}/fonts/pf_italic.ttf')}
-@font-face{font-family:Sans;src:url('{{ASSETS_BASE}}/fonts/ws_400.ttf')}
-@font-face{font-family:SansB;src:url('{{ASSETS_BASE}}/fonts/ws_600.ttf')}
+@font-face{font-family:Lust;src:url('{{ASSETS_BASE}}/fonts/Lust-Regular.otf')}
+@font-face{font-family:CervI;src:url('{{ASSETS_BASE}}/fonts/cervanttis.ttf')}
+@font-face{font-family:Sans;src:url('{{ASSETS_BASE}}/fonts/NeuzeitGro-Lig.otf')}
+@font-face{font-family:SansB;src:url('{{ASSETS_BASE}}/fonts/NeuzeitGro-Bol.otf')}
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{width:{{W}}px;height:{{H}}px;overflow:hidden}
 .stage{position:relative;width:{{W}}px;height:{{H}}px;background:#F0E5D0;
@@ -24,8 +24,8 @@ html,body{width:{{W}}px;height:{{H}}px;overflow:hidden}
 .plate::after{content:"";position:absolute;left:0;right:0;top:0;bottom:0;background:transparent}
 .stage.dark .plate::after{background:rgba(26,22,18,.55)}
 .kicker{position:absolute;left:88px;top:1132px;font-family:SansB;font-size:24px;letter-spacing:.30em;text-transform:uppercase;color:var(--char)}
-.h{position:absolute;left:88px;right:88px;top:1216px;font-family:Disp;font-size:76px;line-height:1.10;letter-spacing:-0.5px;color:var(--ink);text-align:center}
-.h i{font-family:DispI;font-style:normal}
+.h{position:absolute;left:88px;right:88px;top:1216px;font-family:Lust;font-size:76px;line-height:1.10;letter-spacing:-0.5px;color:var(--ink);text-align:center}
+.h i{font-family:CervI;font-style:normal}
 .url{position:absolute;left:88px;right:88px;top:1500px;font-family:Sans;font-size:24px;letter-spacing:.10em;text-align:center;color:var(--char);text-transform:lowercase}
 .rule{position:absolute;left:88px;right:88px;bottom:160px;height:1px;background:var(--rule)}
 .logo{position:absolute;left:88px;bottom:72px;height:52px}

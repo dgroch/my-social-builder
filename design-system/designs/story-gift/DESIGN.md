@@ -20,8 +20,8 @@ Recommended sequence: `intro → closing`. Two slides only. If the brief needs m
 - Outer margin **88px**, equal on left and right.
 - Plate occupies the top **1056px** (55%) — full bleed.
 - Warm cream panel fills **y=1056 → 1920** (45%, 864px). Type stacks inside it:
-  - **intro** — kicker at y=1132, headline at y=1192 (Playfair 84px), body at y=1472 (Work Sans 26px, optional), hairline at y=1760, logo at y=1820, soft "next →" hint at y=1826.
-  - **closing** — kicker at y=1132, end-line at y=1216 (Playfair 76px, centred, italic display), url at y=1500 (centred, lowercase, optional), hairline at y=1760, logo at y=1820, CTA at y=1826.
+  - **intro** — kicker at y=1132, headline at y=1192 (Lust 84px), body at y=1472 (Neuzeit Light 26px, optional), hairline at y=1760, logo at y=1820, soft "next →" hint at y=1826.
+  - **closing** — kicker at y=1132, end-line at y=1216 (Lust 76px, centred, with italic display accent on the emphasised word), url at y=1500 (centred, lowercase, optional), hairline at y=1760, logo at y=1820, CTA at y=1826.
 
 ## Tokens
 
@@ -49,4 +49,4 @@ The builder derives `THEME_CLASS` and `LOGO_FILE` from this lever — they are n
 
 - The plates must be **real, named Fig & Bloom assets** — wrapping paper, ribbon, finished gifts in real homes. Never stock wrapping photography.
 - Pink-rose plates: the bouquet is the sole colour statement — neutral room, no competing pinks.
-- Fonts are Playfair / Work Sans **stand-ins**; swap to Lust Display + Neuzeit Grotesk for production.
+- Real commercial fonts: Lust (display) + Cervanttis (italic) + Neuzeit Grotesk (Light body, Bold kicker/CTA).

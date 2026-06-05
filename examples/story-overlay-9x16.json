@@ -1,0 +1,16 @@
+{
+  "postName": "Overlay — HELD (story-overlay)",
+  "design": "story-overlay",
+  "ratio": "9:16",
+  "slides": [
+    {
+      "slide": "cover",
+      "tokens": {
+        "kicker": "This week",
+        "word": "HELD",
+        "cta": "Read on →",
+        "photo": "https://brand-cdn.figandbloom.workers.dev/figandbloom/manifest/previews/2026-06-01/1W4V2u3eBePoPLTqCW1LFI2vYYxbO36MO_bts"
+      }
+    }
+  ]
+}

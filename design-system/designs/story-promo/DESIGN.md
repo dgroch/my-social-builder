@@ -20,7 +20,7 @@ Single slide only. If the brief needs more than one beat, use the journal carous
 - Plate occupies the top **1200px** (62.5%) — full bleed, slightly larger than `story-studio` so the product can speak.
 - Warm cream panel fills **y=1200 → 1920** (37.5%, 720px). Type stacks inside it with these fixed rows:
   - Kicker at y=1276 (76px below plate edge), small-caps Work Sans 24px, letter-spacing .30em.
-  - Headline at y=1336, Playfair 80px / 1.05. Wrap a word in `*asterisks*` for italic display accent.
+  - Headline at y=1336, Playfair 68px / 1.05. Wrap a word in `*asterisks*` for italic display accent. (Sized so a 2-line headline — e.g. "Lucerne —<br>*soft*, contemporary white." — clears the subhead at y=1528 without overlap.)
   - Subhead at y=1528, Work Sans 26px / 1.5 (one descriptor line).
   - From-price pill at y=1642, sans 22px, dark fill, rounded. Omit the pill for posts without a price (range-refresh teasers, general newness).
   - Hairline rule at y=1760.

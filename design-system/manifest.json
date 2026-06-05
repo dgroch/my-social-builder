@@ -1,6 +1,7 @@
 {
   "brand": "fig-and-bloom",
-  "version": "1.1.0",
+  "version": "2.0.0",
+  "system": "Cervanttis + Neuzeit Grotesk on white / black / tan-1 #F0E5D0 / tan-2 #B89A75. See design-system/SYSTEM.md for the full palette and type contract.",
   "ratios": {
     "4:5": {
       "w": 1080,
@@ -56,6 +57,38 @@
       "designs": [
         "story-gift"
       ]
+    },
+    "editorial": {
+      "label": "Editorial",
+      "intent": "Manifesto, value-statement, dark-plate pull-quote. One editorial line, no CTA.",
+      "voice": "Fig & Bloom voice \u2014 calm, feeling-first, AU English. A single line worth standing behind.",
+      "designs": [
+        "story-editorial"
+      ]
+    },
+    "quote-soft": {
+      "label": "Quote / soft",
+      "intent": "A poetic statement on a quiet scene. Tan-1 left rail, soft-focus photo on the right.",
+      "voice": "A short statement, not a paragraph. The rail speaks; the photo listens.",
+      "designs": [
+        "story-quote-soft"
+      ]
+    },
+    "tagline": {
+      "label": "Tagline",
+      "intent": "A single sans-only label on a dark plate. A micro-format, not a statement.",
+      "voice": "A tag, not a manifesto. Sans only \u2014 no Cervanttis on this lane.",
+      "designs": [
+        "story-tagline"
+      ]
+    },
+    "overlay": {
+      "label": "Overlay",
+      "intent": "One large translucent word over a hand-held or in-stillness plate. A moment, not a message.",
+      "voice": "One word. If you need a sentence, use story-editorial.",
+      "designs": [
+        "story-overlay"
+      ]
     }
   },
   "designs": {
@@ -64,57 +97,16 @@
       "label": "Journal Carousel",
       "format": "carousel",
       "primaryRatio": "4:5",
-      "ratios": [
-        "4:5",
-        "1:1",
-        "9:16"
-      ],
-      "bestFor": [
-        "blog_promo",
-        "editorial_guide",
-        "occasion_explainer"
-      ],
-      "avoidFor": [
-        "product_drop",
-        "urgency_offer",
-        "flash_sale"
-      ],
+      "ratios": ["4:5", "1:1", "9:16"],
+      "bestFor": ["blog_promo", "editorial_guide", "occasion_explainer"],
+      "avoidFor": ["product_drop", "urgency_offer", "flash_sale"],
       "requiresPlate": true,
-      "recommendedSequence": [
-        "cover",
-        "intro",
-        "interior",
-        "interior",
-        "closing"
-      ],
+      "recommendedSequence": ["cover", "intro", "interior", "interior", "closing"],
       "slides": {
-        "cover": {
-          "template": "cover.html",
-          "photo": "required",
-          "role": "opener",
-          "levers": {
-            "theme": [
-              "light",
-              "dark"
-            ]
-          }
-        },
-        "intro": {
-          "template": "intro.html",
-          "photo": "optional",
-          "role": "lede"
-        },
-        "interior": {
-          "template": "interior.html",
-          "photo": "none",
-          "role": "body",
-          "repeatable": true
-        },
-        "closing": {
-          "template": "closing.html",
-          "photo": "required",
-          "role": "closer"
-        }
+        "cover":   { "template": "cover.html",   "photo": "required", "role": "opener",       "levers": { "theme": ["light", "dark"] } },
+        "intro":   { "template": "intro.html",   "photo": "optional", "role": "lede" },
+        "interior":{ "template": "interior.html","photo": "none",     "role": "body",         "repeatable": true },
+        "closing": { "template": "closing.html", "photo": "required", "role": "closer" }
       }
     },
     "story-studio": {
@@ -122,37 +114,13 @@
       "label": "Story Studio",
       "format": "story",
       "primaryRatio": "9:16",
-      "ratios": [
-        "9:16",
-        "4:5",
-        "1:1"
-      ],
-      "bestFor": [
-        "behind_the_scenes",
-        "studio_moment",
-        "process_vignette"
-      ],
-      "avoidFor": [
-        "product_drop",
-        "multi_beat",
-        "urgency_offer"
-      ],
+      "ratios": ["9:16", "4:5", "1:1"],
+      "bestFor": ["behind_the_scenes", "studio_moment", "process_vignette"],
+      "avoidFor": ["product_drop", "multi_beat", "urgency_offer"],
       "requiresPlate": true,
-      "recommendedSequence": [
-        "cover"
-      ],
+      "recommendedSequence": ["cover"],
       "slides": {
-        "cover": {
-          "template": "cover.html",
-          "photo": "required",
-          "role": "studio_moment",
-          "levers": {
-            "theme": [
-              "light",
-              "dark"
-            ]
-          }
-        }
+        "cover": { "template": "cover.html", "photo": "required", "role": "studio_moment", "levers": { "theme": ["light", "dark"] } }
       }
     },
     "story-promo": {
@@ -160,39 +128,13 @@
       "label": "Story Promo",
       "format": "story",
       "primaryRatio": "9:16",
-      "ratios": [
-        "9:16",
-        "4:5",
-        "1:1"
-      ],
-      "bestFor": [
-        "product_announcement",
-        "new_in",
-        "range_refresh",
-        "fresh_studio_delivery"
-      ],
-      "avoidFor": [
-        "flash_sale",
-        "urgency_offer",
-        "countdown",
-        "discount_framing"
-      ],
+      "ratios": ["9:16", "4:5", "1:1"],
+      "bestFor": ["product_announcement", "new_in", "range_refresh", "fresh_studio_delivery"],
+      "avoidFor": ["flash_sale", "urgency_offer", "countdown", "discount_framing"],
       "requiresPlate": true,
-      "recommendedSequence": [
-        "cover"
-      ],
+      "recommendedSequence": ["cover"],
       "slides": {
-        "cover": {
-          "template": "cover.html",
-          "photo": "required",
-          "role": "product_announcement",
-          "levers": {
-            "theme": [
-              "light",
-              "dark"
-            ]
-          }
-        }
+        "cover": { "template": "cover.html", "photo": "required", "role": "product_announcement", "levers": { "theme": ["light", "dark"] } }
       }
     },
     "story-gift": {
@@ -200,50 +142,70 @@
       "label": "Story Gift",
       "format": "story",
       "primaryRatio": "9:16",
-      "ratios": [
-        "9:16",
-        "4:5",
-        "1:1"
-      ],
-      "bestFor": [
-        "gifting_moment",
-        "corporate_gifting",
-        "the_act_of_giving"
-      ],
-      "avoidFor": [
-        "flash_sale",
-        "urgency_offer",
-        "discount_framing",
-        "single_beat_announcement"
-      ],
+      "ratios": ["9:16", "4:5", "1:1"],
+      "bestFor": ["gifting_moment", "corporate_gifting", "the_act_of_giving"],
+      "avoidFor": ["flash_sale", "urgency_offer", "discount_framing", "single_beat_announcement"],
       "requiresPlate": true,
-      "recommendedSequence": [
-        "intro",
-        "closing"
-      ],
+      "recommendedSequence": ["intro", "closing"],
       "slides": {
-        "intro": {
-          "template": "intro.html",
-          "photo": "required",
-          "role": "scene_setter",
-          "levers": {
-            "theme": [
-              "light",
-              "dark"
-            ]
-          }
-        },
-        "closing": {
-          "template": "closing.html",
-          "photo": "required",
-          "role": "moment_received",
-          "levers": {
-            "theme": [
-              "light",
-              "dark"
-            ]
-          }
-        }
+        "intro":   { "template": "intro.html",   "photo": "required", "role": "scene_setter",     "levers": { "theme": ["light", "dark"] } },
+        "closing": { "template": "closing.html", "photo": "required", "role": "moment_received",  "levers": { "theme": ["light", "dark"] } }
+      }
+    },
+    "story-editorial": {
+      "lane": "editorial",
+      "label": "Story Editorial",
+      "format": "story",
+      "primaryRatio": "9:16",
+      "ratios": ["9:16", "4:5", "1:1"],
+      "bestFor": ["manifesto", "value_statement", "pull_quote", "journal_line"],
+      "avoidFor": ["product_drop", "multi_beat", "needs_cta"],
+      "requiresPlate": true,
+      "recommendedSequence": ["cover"],
+      "slides": {
+        "cover": { "template": "cover.html", "photo": "required", "role": "manifesto", "levers": { "theme": ["light", "dark"] } }
+      }
+    },
+    "story-quote-soft": {
+      "lane": "quote-soft",
+      "label": "Story Quote-Soft",
+      "format": "story",
+      "primaryRatio": "9:16",
+      "ratios": ["9:16", "4:5", "1:1"],
+      "bestFor": ["poetic_statement", "host_moment", "journal_line_soft"],
+      "avoidFor": ["product_drop", "hard_announcement", "needs_manifesto"],
+      "requiresPlate": true,
+      "recommendedSequence": ["cover"],
+      "slides": {
+        "cover": { "template": "cover.html", "photo": "required", "role": "quiet_statement" }
+      }
+    },
+    "story-tagline": {
+      "lane": "tagline",
+      "label": "Story Tagline",
+      "format": "story",
+      "primaryRatio": "9:16",
+      "ratios": ["9:16", "4:5", "1:1"],
+      "bestFor": ["gift_edit", "studio_notes", "for_the_host", "label_only"],
+      "avoidFor": ["needs_serif", "long_statement", "manifesto"],
+      "requiresPlate": true,
+      "recommendedSequence": ["cover"],
+      "slides": {
+        "cover": { "template": "cover.html", "photo": "required", "role": "label" }
+      }
+    },
+    "story-overlay": {
+      "lane": "overlay",
+      "label": "Story Overlay",
+      "format": "story",
+      "primaryRatio": "9:16",
+      "ratios": ["9:16", "4:5", "1:1"],
+      "bestFor": ["one_word_moment", "translucent_emphasis", "micro_moment"],
+      "avoidFor": ["needs_sentence", "product_drop", "giveaway"],
+      "requiresPlate": true,
+      "recommendedSequence": ["cover"],
+      "slides": {
+        "cover": { "template": "cover.html", "photo": "required", "role": "one_word_moment" }
       }
     }
   }

@@ -1,0 +1,40 @@
+<!-- SLIDE cover | LANE editorial | PHOTO required
+     TOKENS:
+       kicker     : text             | small-caps section label, e.g. "The journal" or "From the studio"
+       quote      : text, markdown   | the editorial line, set large in Cervanttis; wrap a word in *asterisks* for italic accent; <br> for line breaks
+       attribution: text             | small sans attribution under the quote, e.g. "Fig & Bloom — on hand-tied mornings"
+       photo      : image            | real dark-plate photo from the Fig & Bloom asset library (rustic, hands, studio, in-stillness)
+     LEVERS:
+       theme      : enum light|dark  | dark = white type on a dark photo (default); light = ink type on a tan-1 plate with the photo as a darker inset
+     PALETTE       : ink #1A1612 ground · white #FFFFFF type · tan-1 #F0E5D0 attribution
+     TYPE          : Cervanttis (stand-in Playfair) display + Neuzeit Grotesk (stand-in Work Sans) sans
+     LANE RULE     : No CTA on this lane. The quote is the message. If you need a CTA, use story-promo or story-overlay.
+-->
+<!doctype html><html><head><meta charset="utf-8"><style>
+@font-face{font-family:Disp;src:url('{{ASSETS_BASE}}/fonts/pf_roman.ttf')}
+@font-face{font-family:DispI;src:url('{{ASSETS_BASE}}/fonts/pf_italic.ttf')}
+@font-face{font-family:Sans;src:url('{{ASSETS_BASE}}/fonts/ws_400.ttf')}
+@font-face{font-family:SansB;src:url('{{ASSETS_BASE}}/fonts/ws_600.ttf')}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:{{W}}px;height:{{H}}px;overflow:hidden}
+.stage{position:relative;width:{{W}}px;height:{{H}}px;background:#1A1612 url('{{photo}}') center/cover no-repeat;
+       --ink:#1A1612;--white:#FFFFFF;--tan-1:#F0E5D0;--tan-2:#B89A75;--rule:#B89A75}
+.stage.light{background:#F0E5D0 url('{{photo}}') center/cover no-repeat}
+.ov{position:absolute;left:0;right:0;top:0;bottom:0;background:rgba(26,22,18,.55)}
+.stage.light .ov{background:rgba(240,229,208,.80)}
+.kicker{position:absolute;left:88px;top:560px;font-family:SansB;font-size:22px;letter-spacing:.32em;text-transform:uppercase;color:var(--tan-1)}
+.quote{position:absolute;left:88px;right:88px;top:610px;font-family:Disp;font-size:64px;line-height:1.18;letter-spacing:-.5px;color:var(--white)}
+.stage.light .quote{color:var(--ink)}
+.quote i{font-family:DispI;font-style:normal}
+.attr{position:absolute;left:88px;right:88px;top:1300px;font-family:Sans;font-size:22px;letter-spacing:.18em;text-transform:uppercase;color:var(--tan-1)}
+.mark{position:absolute;left:88px;right:88px;bottom:200px;height:1px;background:var(--rule);opacity:.6}
+.logo{position:absolute;left:88px;bottom:96px;height:48px}
+</style></head><body>
+<div class="stage {{THEME_CLASS}}">
+  <div class="ov"></div>
+  <div class="kicker">{{kicker}}</div>
+  <div class="quote">{{quote}}</div>
+  <div class="attr">{{attribution}}</div>
+  <div class="mark"></div>
+  <img class="logo" src="{{ASSETS_BASE}}/assets/logo_h_white.png">
+</div></body></html>

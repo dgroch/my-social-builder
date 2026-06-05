@@ -9,10 +9,10 @@
        label_3 : text  | section 3 pill label
        quote_3 : text  | section 3 sample message
        cta     : text  | footer CTA — "Next →" mid-deck, "Read the guide →" on the last interior
-       photo   : image, optional | faint ground plate; omit for flat cream
-     VISUAL_ROLE : body / proof
-     FOCAL       : the three sample messages (copy leads; any photo stays a faint ghost)
+       photo   : image, optional | faint ground plate; omit for flat tan-1
      NOTE        : exactly three sections by design — keeps the rhythm even. Do not add a fourth.
+     PALETTE       : tan-1 #F0E5D0 surface · ink #1A1612 type · tan-2 #B89A75 pill stroke
+     TYPE          : Cervanttis (stand-in Playfair) display + Neuzeit Grotesk (stand-in Work Sans) sans
 -->
 <!doctype html><html><head><meta charset="utf-8"><style>
 @font-face{font-family:Disp;src:url('{{ASSETS_BASE}}/fonts/pf_roman.ttf')}
@@ -20,18 +20,18 @@
 @font-face{font-family:Sans;src:url('{{ASSETS_BASE}}/fonts/ws_600.ttf')}
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{width:{{W}}px;height:{{H}}px;overflow:hidden}
-.stage{position:relative;width:{{W}}px;height:{{H}}px;background:#fbf8f3 url('{{photo}}') center/cover no-repeat}
-.ov{position:absolute;top:0;right:0;bottom:0;left:0;background:rgba(249,245,239,.93)}
-.kicker{position:absolute;left:88px;top:88px;font-family:Sans;font-size:26px;letter-spacing:.30em;text-transform:uppercase;color:#332f2a}
-.idx{position:absolute;right:88px;top:88px;font-family:Sans;font-size:26px;letter-spacing:.10em;color:#332f2a}
-.mrule{position:absolute;left:88px;right:88px;top:142px;height:2px;background:#2a2622}
-.frule{position:absolute;left:88px;right:88px;bottom:170px;height:2px;background:#2a2622}
+.stage{position:relative;width:{{W}}px;height:{{H}}px;background:#F0E5D0 url('{{photo}}') center/cover no-repeat}
+.ov{position:absolute;top:0;right:0;bottom:0;left:0;background:rgba(240,229,208,.93)}
+.kicker{position:absolute;left:88px;top:88px;font-family:Sans;font-size:26px;letter-spacing:.30em;text-transform:uppercase;color:#1A1612}
+.idx{position:absolute;right:88px;top:88px;font-family:Sans;font-size:26px;letter-spacing:.10em;color:#1A1612}
+.mrule{position:absolute;left:88px;right:88px;top:142px;height:2px;background:#1A1612}
+.frule{position:absolute;left:88px;right:88px;bottom:170px;height:2px;background:#1A1612}
 .logo{position:absolute;left:88px;bottom:88px;height:58px}
-.read{position:absolute;right:88px;bottom:96px;font-family:Sans;font-size:25px;letter-spacing:.14em;text-transform:uppercase;color:#000}
+.read{position:absolute;right:88px;bottom:96px;font-family:Sans;font-size:25px;letter-spacing:.14em;text-transform:uppercase;color:#1A1612}
 .sec{position:absolute;left:88px;right:88px;text-align:center}
-.pill{display:inline-block;border:2px solid #332f2a;border-radius:999px;padding:13px 30px;font-family:Sans;font-size:23px;letter-spacing:.20em;text-transform:uppercase;color:#332f2a;background:rgba(251,248,243,.85)}
-.q{margin-top:28px;font-family:DispI;font-size:42px;line-height:1.30;color:#1a1714}
-.div{position:absolute;left:88px;right:88px;height:1px;background:#cdc5bd}
+.pill{display:inline-block;border:2px solid #B89A75;border-radius:999px;padding:13px 30px;font-family:Sans;font-size:23px;letter-spacing:.20em;text-transform:uppercase;color:#1A1612;background:rgba(240,229,208,.85)}
+.q{margin-top:28px;font-family:DispI;font-size:42px;line-height:1.30;color:#1A1612}
+.div{position:absolute;left:88px;right:88px;height:1px;background:#B89A75}
 </style></head><body>
 <div class="stage">
   <div class="ov"></div>

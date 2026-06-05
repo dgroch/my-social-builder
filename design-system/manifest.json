@@ -1,6 +1,6 @@
 {
   "brand": "fig-and-bloom",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "ratios": {
     "4:5": {
       "w": 1080,
@@ -31,6 +31,30 @@
       "voice": "Considered, plain-spoken, feeling-first. Never urgency-led.",
       "designs": [
         "carousel-journal"
+      ]
+    },
+    "studio": {
+      "label": "The Studio",
+      "intent": "Behind-the-scenes from the workshop. Documentary, single-beat, plate-led.",
+      "voice": "Quiet, observational. Lets the room speak. AU English.",
+      "designs": [
+        "story-studio"
+      ]
+    },
+    "promo": {
+      "label": "Promo",
+      "intent": "Genuine newness \u2014 a single product, a fresh delivery, a range refresh. Newness, not push.",
+      "voice": "Plain-spoken about what just arrived. Never urgency-led. No countdown, no discount framing.",
+      "designs": [
+        "story-promo"
+      ]
+    },
+    "gift": {
+      "label": "Gift",
+      "intent": "The act of giving and the moment received. Two-beat Story \u2014 the preparation, the arrival.",
+      "voice": "Warm, ceremonial without being formal. The gift is the gesture, not the price.",
+      "designs": [
+        "story-gift"
       ]
     }
   },
@@ -90,6 +114,135 @@
           "template": "closing.html",
           "photo": "required",
           "role": "closer"
+        }
+      }
+    },
+    "story-studio": {
+      "lane": "studio",
+      "label": "Story Studio",
+      "format": "story",
+      "primaryRatio": "9:16",
+      "ratios": [
+        "9:16",
+        "4:5",
+        "1:1"
+      ],
+      "bestFor": [
+        "behind_the_scenes",
+        "studio_moment",
+        "process_vignette"
+      ],
+      "avoidFor": [
+        "product_drop",
+        "multi_beat",
+        "urgency_offer"
+      ],
+      "requiresPlate": true,
+      "recommendedSequence": [
+        "cover"
+      ],
+      "slides": {
+        "cover": {
+          "template": "cover.html",
+          "photo": "required",
+          "role": "studio_moment",
+          "levers": {
+            "theme": [
+              "light",
+              "dark"
+            ]
+          }
+        }
+      }
+    },
+    "story-promo": {
+      "lane": "promo",
+      "label": "Story Promo",
+      "format": "story",
+      "primaryRatio": "9:16",
+      "ratios": [
+        "9:16",
+        "4:5",
+        "1:1"
+      ],
+      "bestFor": [
+        "product_announcement",
+        "new_in",
+        "range_refresh",
+        "fresh_studio_delivery"
+      ],
+      "avoidFor": [
+        "flash_sale",
+        "urgency_offer",
+        "countdown",
+        "discount_framing"
+      ],
+      "requiresPlate": true,
+      "recommendedSequence": [
+        "cover"
+      ],
+      "slides": {
+        "cover": {
+          "template": "cover.html",
+          "photo": "required",
+          "role": "product_announcement",
+          "levers": {
+            "theme": [
+              "light",
+              "dark"
+            ]
+          }
+        }
+      }
+    },
+    "story-gift": {
+      "lane": "gift",
+      "label": "Story Gift",
+      "format": "story",
+      "primaryRatio": "9:16",
+      "ratios": [
+        "9:16",
+        "4:5",
+        "1:1"
+      ],
+      "bestFor": [
+        "gifting_moment",
+        "corporate_gifting",
+        "the_act_of_giving"
+      ],
+      "avoidFor": [
+        "flash_sale",
+        "urgency_offer",
+        "discount_framing",
+        "single_beat_announcement"
+      ],
+      "requiresPlate": true,
+      "recommendedSequence": [
+        "intro",
+        "closing"
+      ],
+      "slides": {
+        "intro": {
+          "template": "intro.html",
+          "photo": "required",
+          "role": "scene_setter",
+          "levers": {
+            "theme": [
+              "light",
+              "dark"
+            ]
+          }
+        },
+        "closing": {
+          "template": "closing.html",
+          "photo": "required",
+          "role": "moment_received",
+          "levers": {
+            "theme": [
+              "light",
+              "dark"
+            ]
+          }
         }
       }
     }

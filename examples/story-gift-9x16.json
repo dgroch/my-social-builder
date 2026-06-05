@@ -1,0 +1,29 @@
+{
+  "postName": "For the moment — a small thank-you (story-gift)",
+  "design": "story-gift",
+  "ratio": "9:16",
+  "slides": [
+    {
+      "slide": "intro",
+      "tokens": {
+        "kicker": "For the moment",
+        "headline": "A small *thank-you*,<br>wrapped with care.",
+        "body": "Ribbon, paper, a hand-written card tucked in beside the stems. The wrapping is half the gift.",
+        "cta": "Next →",
+        "photo": "https://brand-cdn.figandbloom.workers.dev/figandbloom/manifest/previews/2026-06-01/1cNtxGTbT0wICNCp2n0h-mJy5oNon3nKN_26a",
+        "theme": "light"
+      }
+    },
+    {
+      "slide": "closing",
+      "tokens": {
+        "kicker": "Delivered with care",
+        "end_line": "For the moment they *feel* what you meant.",
+        "cta": "Choose a moment →",
+        "url": "figandbloom.com/gifting",
+        "photo": "https://brand-cdn.figandbloom.workers.dev/figandbloom/manifest/previews/2026-06-01/1Hg72GA53hPpcAckI-IN97SSiY6XfK75r_26a",
+        "theme": "light"
+      }
+    }
+  ]
+}

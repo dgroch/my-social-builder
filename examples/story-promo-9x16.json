@@ -1,0 +1,19 @@
+{
+  "postName": "New in — Lucerne (story-promo)",
+  "design": "story-promo",
+  "ratio": "9:16",
+  "slides": [
+    {
+      "slide": "cover",
+      "tokens": {
+        "kicker": "New in",
+        "headline": "Lucerne —<br>*soft*, contemporary white.",
+        "subhead": "Hand-tied the morning it's sent. Photographed in the studio before it leaves.",
+        "from_price": "from $105",
+        "cta": "See the range →",
+        "photo": "https://brand-cdn.figandbloom.workers.dev/figandbloom/asset-manifest/2026/06/floral-product-shot-studio-setting-with-a-p",
+        "theme": "light"
+      }
+    }
+  ]
+}

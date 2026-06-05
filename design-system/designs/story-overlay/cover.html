@@ -1,0 +1,34 @@
+<!-- SLIDE cover | LANE overlay | PHOTO required (hand-held or in-stillness)
+     TOKENS:
+       kicker   : text             | small-caps section label at the very top, e.g. "This week"
+       word     : text             | one single word (or short phrase) set in Cervanttis, centred, translucent over the photo
+       word_i   : text, optional   | an inline italic-accent within the word; supports *one* *word* fragment
+       cta      : text             | lower-right link, e.g. "Read on →"
+       photo    : image            | real hand-held or in-stillness plate from the Fig & Bloom asset library
+     PALETTE       : ink #1A1612 ground · white #FFFFFF translucent word · tan-1 #F0E5D0 chrome
+     TYPE          : Cervanttis (stand-in Playfair) word + Neuzeit Grotesk (stand-in Work Sans) kicker/CTA
+     LANE RULE     : One word. If you need a sentence, use story-editorial. The lane is a moment, not a message.
+-->
+<!doctype html><html><head><meta charset="utf-8"><style>
+@font-face{font-family:Disp;src:url('{{ASSETS_BASE}}/fonts/pf_roman.ttf')}
+@font-face{font-family:DispI;src:url('{{ASSETS_BASE}}/fonts/pf_italic.ttf')}
+@font-face{font-family:Sans;src:url('{{ASSETS_BASE}}/fonts/ws_400.ttf')}
+@font-face{font-family:SansB;src:url('{{ASSETS_BASE}}/fonts/ws_600.ttf')}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:{{W}}px;height:{{H}}px;overflow:hidden}
+.stage{position:relative;width:{{W}}px;height:{{H}}px;background:#1A1612 url('{{photo}}') center/cover no-repeat;
+       --ink:#1A1612;--white:#FFFFFF;--tan-1:#F0E5D0;--tan-2:#B89A75}
+.kicker{position:absolute;left:88px;right:88px;top:120px;font-family:SansB;font-size:22px;letter-spacing:.32em;text-transform:uppercase;color:var(--white);text-align:center;opacity:.85}
+.word{position:absolute;left:0;right:0;top:0;bottom:0;display:flex;align-items:center;justify-content:center;font-family:Disp;font-size:340px;line-height:1;letter-spacing:-2px;color:var(--white);opacity:.55;text-align:center;padding:0 88px}
+.word i{font-family:DispI;font-style:normal}
+.rule{position:absolute;left:88px;right:88px;bottom:200px;height:1px;background:var(--white);opacity:.35}
+.logo{position:absolute;left:88px;bottom:96px;height:48px}
+.cta{position:absolute;right:88px;bottom:104px;font-family:SansB;font-size:22px;letter-spacing:.14em;text-transform:uppercase;color:var(--white)}
+</style></head><body>
+<div class="stage">
+  <div class="kicker">{{kicker}}</div>
+  <div class="word">{{word}}</div>
+  <div class="rule"></div>
+  <img class="logo" src="{{ASSETS_BASE}}/assets/logo_h_white.png">
+  <div class="cta">{{cta}}</div>
+</div></body></html>

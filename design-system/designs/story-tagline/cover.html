@@ -1,0 +1,35 @@
+<!-- SLIDE cover | LANE tagline | PHOTO required (dark, moody)
+     TOKENS:
+       kicker   : text             | small-caps section label, e.g. "Gift edit" or "Studio notes"
+       headline : text, sans       | the label line, set in Neuzeit Grotesk, all-caps; no italic accent
+       subhead  : text, sans, optional | one short sans descriptor below the headline
+       cta      : text             | lower-right link, e.g. "See the edit →"
+       photo    : image            | real dark/moody plate from the Fig & Bloom asset library (hands, ingredients, surfaces)
+     PALETTE       : ink #1A1612 ground · white #FFFFFF type · tan-1 #F0E5D0 secondary
+     TYPE          : Neuzeit Grotesk (stand-in Work Sans) ONLY — no Cervanttis on this lane
+     LANE RULE     : Sans-only. No serif. The lane is a label, not a statement. If you need a serif, use story-editorial.
+-->
+<!doctype html><html><head><meta charset="utf-8"><style>
+@font-face{font-family:Sans;src:url('{{ASSETS_BASE}}/fonts/ws_400.ttf')}
+@font-face{font-family:SansB;src:url('{{ASSETS_BASE}}/fonts/ws_600.ttf')}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:{{W}}px;height:{{H}}px;overflow:hidden}
+.stage{position:relative;width:{{W}}px;height:{{H}}px;background:#1A1612 url('{{photo}}') center/cover no-repeat;
+       --ink:#1A1612;--white:#FFFFFF;--tan-1:#F0E5D0;--tan-2:#B89A75;--rule:#FFFFFF}
+.ov{position:absolute;left:0;right:0;top:0;bottom:0;background:rgba(26,22,18,.55)}
+.kicker{position:absolute;left:88px;top:1200px;font-family:SansB;font-size:22px;letter-spacing:.32em;text-transform:uppercase;color:var(--tan-1)}
+.h{position:absolute;left:88px;right:88px;top:1276px;font-family:SansB;font-size:78px;line-height:1.05;letter-spacing:-.5px;color:var(--white);text-transform:uppercase}
+.sub{position:absolute;left:88px;right:88px;top:1500px;font-family:Sans;font-size:24px;line-height:1.5;color:var(--tan-1)}
+.rule{position:absolute;left:88px;right:88px;bottom:200px;height:1px;background:var(--rule);opacity:.5}
+.logo{position:absolute;left:88px;bottom:96px;height:48px}
+.cta{position:absolute;right:88px;bottom:104px;font-family:SansB;font-size:22px;letter-spacing:.14em;text-transform:uppercase;color:var(--white)}
+</style></head><body>
+<div class="stage">
+  <div class="ov"></div>
+  <div class="kicker">{{kicker}}</div>
+  <div class="h">{{headline}}</div>
+  <div class="sub">{{subhead}}</div>
+  <div class="rule"></div>
+  <img class="logo" src="{{ASSETS_BASE}}/assets/logo_h_white.png">
+  <div class="cta">{{cta}}</div>
+</div></body></html>

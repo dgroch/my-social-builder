@@ -9,6 +9,8 @@
        theme    : enum light|dark  | light = ink type on the plate; dark = white type on a darkened plate
      VISUAL_ROLE  : opener / hook
      FOCAL        : headline (owns the upper third); plate is supporting
+     PALETTE       : ink #1A1612 · tan-1 #F0E5D0 · tan-2 #B89A75 · white #FFFFFF
+     TYPE          : Cervanttis (stand-in Playfair) display + Neuzeit Grotesk (stand-in Work Sans) sans
 -->
 <!doctype html><html><head><meta charset="utf-8"><style>
 @font-face{font-family:Disp;src:url('{{ASSETS_BASE}}/fonts/pf_roman.ttf')}
@@ -16,11 +18,11 @@
 @font-face{font-family:Sans;src:url('{{ASSETS_BASE}}/fonts/ws_600.ttf')}
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{width:{{W}}px;height:{{H}}px;overflow:hidden}
-.stage{position:relative;width:{{W}}px;height:{{H}}px;background:#000 url('{{photo}}') center/cover no-repeat;
-       --ink:#000;--char:#332f2a;--rule:#2a2622}
-.stage.dark{--ink:#faf7f3;--char:#e8e2da;--rule:#8a8078}
+.stage{position:relative;width:{{W}}px;height:{{H}}px;background:#1A1612 url('{{photo}}') center/cover no-repeat;
+       --ink:#1A1612;--char:#1A1612;--rule:#1A1612;--tan-1:#F0E5D0;--tan-2:#B89A75;--white:#FFFFFF}
+.stage.dark{--ink:#FFFFFF;--char:#F0E5D0;--rule:#B89A75}
 .ov{position:absolute;top:0;right:0;bottom:0;left:0;background:transparent}
-.stage.dark .ov{background:rgba(18,15,12,.60)}
+.stage.dark .ov{background:rgba(26,22,18,.60)}
 .kicker{position:absolute;left:88px;top:88px;font-family:Sans;font-size:26px;letter-spacing:.30em;text-transform:uppercase;color:var(--char)}
 .idx{position:absolute;right:88px;top:88px;font-family:Sans;font-size:26px;letter-spacing:.10em;color:var(--char)}
 .mrule{position:absolute;left:88px;right:88px;top:142px;height:2px;background:var(--rule)}

@@ -1,0 +1,17 @@
+{
+  "postName": "Editorial — on the morning run (story-editorial)",
+  "design": "story-editorial",
+  "ratio": "9:16",
+  "slides": [
+    {
+      "slide": "cover",
+      "tokens": {
+        "kicker": "From the journal",
+        "quote": "We tie the stems before the morning is half done.<br>We *photograph* them before the van goes.",
+        "attribution": "Fig & Bloom — on the morning run",
+        "photo": "https://brand-cdn.figandbloom.workers.dev/figandbloom/manifest/previews/2026-06-01/1W4V2u3eBePoPLTqCW1LFI2vYYxbO36MO_bts",
+        "theme": "dark"
+      }
+    }
+  ]
+}

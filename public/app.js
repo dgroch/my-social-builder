@@ -155,11 +155,18 @@ function renderLibrary() {
   filtered.forEach(c => {
     const card = el('div', { class: 'lib-card' });
     const img = el('img', { class: 'thumb', src: `/api/library/${c.design}/${c.slide}/image`, alt: `${c.design}/${c.slide}`, loading: 'lazy' });
+    img.onload = () => { card.querySelector('.sub').textContent = `${c.slide} · ${c.laneLabel} · ${c.primaryRatio}`; };
+    img.onerror = () => {
+      card.querySelector('.thumb').style.background = '#3a1f1f';
+      const err = el('div', { class: 'sub', style: 'color:#d77' }, `${c.slide} · render failed`);
+      card.querySelector('.sub').replaceWith(err);
+    };
     img.onclick = () => openLightbox(`/api/library/${c.design}/${c.slide}/image`, `${c.designLabel} — ${c.slide}`);
     card.append(img);
     const meta = el('div', { class: 'meta' });
     meta.append(el('div', { class: 'name' }, c.designLabel));
-    meta.append(el('div', { class: 'sub' }, `${c.slide} · ${c.laneLabel} · ${c.primaryRatio}`));
+    const sub = el('div', { class: 'sub' }, `${c.slide} · ${c.laneLabel} · ${c.primaryRatio} · rendering…`);
+    meta.append(sub);
     const actions = el('div', { class: 'actions' });
     const useBtn = el('button', {}, 'Use as starter');
     useBtn.onclick = async () => {

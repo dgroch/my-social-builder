@@ -87,7 +87,8 @@ const SAMPLE_TOKENS = {
   }
 };
 
-let LIBRARY_CACHE = null;
+let LIBRARY_CACHE = null;   // the catalog (always populated lazily)
+const LIBRARY_RENDERED = new Map();  // design/slide -> base64 PNG cache
 
 function buildLibrary() {
   const schema = buildSchema();
@@ -114,37 +115,32 @@ function buildLibrary() {
   return lib;
 }
 
-async function preRenderLibrary() {
-  if (LIBRARY_CACHE) return LIBRARY_CACHE;
-  const lib = buildLibrary();
-  console.log(`Pre-rendering ${lib.length} library components…`);
-  for (const comp of lib) {
-    const ratio = comp.primaryRatio;
-    const post = {
-      postName: `Library · ${comp.design}/${comp.slide}`,
-      design: comp.design,
-      ratio,
-      slides: [{ slide: comp.slide, tokens: comp.sample }]
-    };
-    try {
-      const { slices } = await render.renderPost(post, { scale: 1 });
-      comp.pngBase64 = slices[0] && slices[0].pngBase64;
-      comp.dimensions = slices[0] && { w: slices[0].w, h: slices[0].h };
-      comp.error = null;
-    } catch (e) {
-      console.error(`library render failed for ${comp.design}/${comp.slide}:`, e.message);
-      comp.pngBase64 = null;
-      comp.error = e.message;
-    }
-  }
-  LIBRARY_CACHE = lib;
-  console.log(`Library pre-rendered. ${lib.filter(c => c.pngBase64).length}/${lib.length} succeeded.`);
-  return lib;
+function ensureLibrary() {
+  if (!LIBRARY_CACHE) LIBRARY_CACHE = buildLibrary();
+  return LIBRARY_CACHE;
 }
 
-function findLibraryComponent(design, slide) {
-  if (!LIBRARY_CACHE) return null;
-  return LIBRARY_CACHE.find(c => c.design === design && c.slide === slide);
+async function renderComponent(design, slide) {
+  const cacheKey = `${design}/${slide}`;
+  if (LIBRARY_RENDERED.has(cacheKey)) return LIBRARY_RENDERED.get(cacheKey);
+  const lib = ensureLibrary();
+  const comp = lib.find(c => c.design === design && c.slide === slide);
+  if (!comp) return null;
+  const post = {
+    postName: `Library · ${comp.design}/${comp.slide}`,
+    design: comp.design,
+    ratio: comp.primaryRatio,
+    slides: [{ slide: comp.slide, tokens: comp.sample }]
+  };
+  try {
+    const { slices } = await render.renderPost(post, { scale: 1 });
+    const pngBase64 = slices[0] && slices[0].pngBase64;
+    LIBRARY_RENDERED.set(cacheKey, { pngBase64, dimensions: slices[0] && { w: slices[0].w, h: slices[0].h }, error: null });
+    return LIBRARY_RENDERED.get(cacheKey);
+  } catch (e) {
+    LIBRARY_RENDERED.set(cacheKey, { pngBase64: null, error: e.message });
+    return LIBRARY_RENDERED.get(cacheKey);
+  }
 }
 
 function send(res, code, body, type) {
@@ -202,22 +198,20 @@ const server = http.createServer(async (req, res) => {
     }
     // Component library
     if (p === '/api/library' && req.method === 'GET') {
-      const lib = await preRenderLibrary();
-      // Strip the heavy base64 from the catalog response; clients fetch the
-      // image separately per component (so the catalog stays small and the
-      // image responses are individually cacheable).
-      const catalog = lib.map(c => ({ ...c, pngBase64: undefined }));
-      return send(res, 200, { version: '1.0.0', count: catalog.length, components: catalog });
+      const lib = ensureLibrary();
+      // Catalog is fast (no rendering); clients fetch each image separately.
+      return send(res, 200, { version: '1.0.0', count: lib.length, components: lib });
     }
     const lm = p.match(/^\/api\/library\/([^/]+)\/([^/]+)(\/image|\/starter)?$/);
     if (lm) {
-      await preRenderLibrary();
       const [, design, slide, action] = lm;
-      const comp = findLibraryComponent(design, slide);
+      const lib = ensureLibrary();
+      const comp = lib.find(c => c.design === design && c.slide === slide);
       if (!comp) return send(res, 404, { error: 'not found', design, slide });
       if (action === '/image') {
-        if (!comp.pngBase64) return send(res, 500, { error: 'render failed', message: comp.error });
-        const buf = Buffer.from(comp.pngBase64, 'base64');
+        const r = await renderComponent(design, slide);
+        if (!r || !r.pngBase64) return send(res, 500, { error: 'render failed', message: r && r.error });
+        const buf = Buffer.from(r.pngBase64, 'base64');
         res.writeHead(200, { 'Content-Type': 'image/png', 'Cache-Control': 'public, max-age=86400' });
         return res.end(buf);
       }

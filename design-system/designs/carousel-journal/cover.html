@@ -1,0 +1,42 @@
+<!-- SLIDE cover | LANE journal | PHOTO required
+     TOKENS:
+       kicker   : text             | masthead label, e.g. "The Journal"
+       index    : text             | issue/index marker, e.g. "01"
+       headline : text, markdown   | main headline; wrap a word in *asterisks* for an italic-serif accent
+       cta      : text             | footer call-to-action, e.g. "Read the guide →"
+       photo    : image            | hero plate URL — a real named Fig & Bloom design (Osaka, Marseille, …)
+     LEVERS:
+       theme    : enum light|dark  | light = ink type on the plate; dark = white type on a darkened plate
+     VISUAL_ROLE  : opener / hook
+     FOCAL        : headline (owns the upper third); plate is supporting
+-->
+<!doctype html><html><head><meta charset="utf-8"><style>
+@font-face{font-family:Disp;src:url('{{ASSETS_BASE}}/fonts/pf_roman.ttf')}
+@font-face{font-family:DispI;src:url('{{ASSETS_BASE}}/fonts/pf_italic.ttf')}
+@font-face{font-family:Sans;src:url('{{ASSETS_BASE}}/fonts/ws_600.ttf')}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:{{W}}px;height:{{H}}px;overflow:hidden}
+.stage{position:relative;width:{{W}}px;height:{{H}}px;background:#000 url('{{photo}}') center/cover no-repeat;
+       --ink:#000;--char:#332f2a;--rule:#2a2622}
+.stage.dark{--ink:#faf7f3;--char:#e8e2da;--rule:#8a8078}
+.ov{position:absolute;top:0;right:0;bottom:0;left:0;background:transparent}
+.stage.dark .ov{background:rgba(18,15,12,.60)}
+.kicker{position:absolute;left:88px;top:88px;font-family:Sans;font-size:26px;letter-spacing:.30em;text-transform:uppercase;color:var(--char)}
+.idx{position:absolute;right:88px;top:88px;font-family:Sans;font-size:26px;letter-spacing:.10em;color:var(--char)}
+.mrule{position:absolute;left:88px;right:88px;top:142px;height:2px;background:var(--rule)}
+.h{position:absolute;left:88px;top:206px;width:904px;font-family:Disp;font-size:120px;line-height:1.03;letter-spacing:-1px;color:var(--ink)}
+.h i{font-family:DispI;font-style:normal}
+.frule{position:absolute;left:88px;right:88px;bottom:170px;height:2px;background:var(--rule)}
+.logo{position:absolute;left:88px;bottom:88px;height:58px}
+.read{position:absolute;right:88px;bottom:96px;font-family:Sans;font-size:25px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink)}
+</style></head><body>
+<div class="stage {{THEME_CLASS}}">
+  <div class="ov"></div>
+  <div class="kicker">{{kicker}}</div>
+  <div class="idx">{{index}}</div>
+  <div class="mrule"></div>
+  <div class="h">{{headline}}</div>
+  <div class="frule"></div>
+  <img class="logo" src="{{ASSETS_BASE}}/assets/{{LOGO_FILE}}">
+  <div class="read">{{cta}}</div>
+</div></body></html>

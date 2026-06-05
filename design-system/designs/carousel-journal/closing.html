@@ -1,0 +1,31 @@
+<!-- SLIDE closing | LANE journal | PHOTO required (darkened)
+     TOKENS:
+       end_line : text, markdown | brand sign-off line (rotation: "For the moment they feel what you meant." / "Fig & Bloom — For the message after.")
+       cta      : text           | pill CTA, e.g. "Read the guide →"
+       url      : text           | display URL, e.g. "figandbloom.com/journal"
+       photo    : image          | hero plate URL — same plate as the cover for continuity
+     VISUAL_ROLE : closer / brand sign-off
+     FOCAL       : the brand mark + sign-off line; plate recedes to a moody ground
+-->
+<!doctype html><html><head><meta charset="utf-8"><style>
+@font-face{font-family:Disp;src:url('{{ASSETS_BASE}}/fonts/pf_roman.ttf')}
+@font-face{font-family:DispI;src:url('{{ASSETS_BASE}}/fonts/pf_italic.ttf')}
+@font-face{font-family:Sans;src:url('{{ASSETS_BASE}}/fonts/ws_600.ttf')}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:{{W}}px;height:{{H}}px;overflow:hidden}
+.stage{position:relative;width:{{W}}px;height:{{H}}px;background:#000 url('{{photo}}') center/cover no-repeat}
+.ov{position:absolute;top:0;right:0;bottom:0;left:0;background:rgba(18,15,12,.72)}
+.logo-wrap{position:absolute;top:0;left:0;right:0;text-align:center}
+.logo-wrap img{margin-top:130px;height:110px}
+.end{position:absolute;top:296px;left:140px;right:140px;text-align:center;font-family:DispI;font-size:50px;line-height:1.26;color:#faf7f3}
+.cta-wrap{position:absolute;top:984px;left:0;right:0;text-align:center}
+.cpill{display:inline-block;border:2px solid #faf7f3;border-radius:999px;padding:22px 52px;font-family:Sans;font-size:25px;letter-spacing:.16em;text-transform:uppercase;color:#faf7f3}
+.url{position:absolute;top:1130px;left:0;right:0;text-align:center;font-family:Sans;font-size:22px;letter-spacing:.22em;text-transform:uppercase;color:#a89f96}
+</style></head><body>
+<div class="stage">
+  <div class="ov"></div>
+  <div class="logo-wrap"><img src="{{ASSETS_BASE}}/assets/logo_h_white.png"></div>
+  <div class="end">{{end_line}}</div>
+  <div class="cta-wrap"><span class="cpill">{{cta}}</span></div>
+  <div class="url">{{url}}</div>
+</div></body></html>

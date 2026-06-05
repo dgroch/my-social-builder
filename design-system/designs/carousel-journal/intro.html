@@ -1,0 +1,44 @@
+<!-- SLIDE intro | LANE journal | PHOTO optional (faint ground)
+     TOKENS:
+       kicker  : text            | masthead label, e.g. "New Post"
+       index   : text            | slide index, e.g. "01"
+       lede    : text, markdown  | opening serif statement; *word* = italic accent; <br> for line breaks
+       body    : text            | the story paragraph (sans body); <br><br> for a paragraph break
+       lead_in : text            | italic-serif bridge into the examples, e.g. "A few to borrow, by moment —"
+       cta     : text            | footer CTA, e.g. "Next →"
+       photo   : image, optional | faint ground plate; omit for flat cream
+     VISUAL_ROLE : lede / story — sets up the example slides that follow
+     FOCAL       : the opening serif lede; body carries the story into the bullets
+-->
+<!doctype html><html><head><meta charset="utf-8"><style>
+@font-face{font-family:Disp;src:url('{{ASSETS_BASE}}/fonts/pf_roman.ttf')}
+@font-face{font-family:DispI;src:url('{{ASSETS_BASE}}/fonts/pf_italic.ttf')}
+@font-face{font-family:Sans;src:url('{{ASSETS_BASE}}/fonts/ws_600.ttf')}
+@font-face{font-family:Body;src:url('{{ASSETS_BASE}}/fonts/ws_400.ttf')}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:{{W}}px;height:{{H}}px;overflow:hidden}
+.stage{position:relative;width:{{W}}px;height:{{H}}px;background:#fbf8f3 url('{{photo}}') center/cover no-repeat}
+.ov{position:absolute;top:0;right:0;bottom:0;left:0;background:rgba(249,245,239,.93)}
+.kicker{position:absolute;left:88px;top:88px;font-family:Sans;font-size:26px;letter-spacing:.30em;text-transform:uppercase;color:#332f2a}
+.idx{position:absolute;right:88px;top:88px;font-family:Sans;font-size:26px;letter-spacing:.10em;color:#332f2a}
+.mrule{position:absolute;left:88px;right:88px;top:142px;height:2px;background:#2a2622}
+.lede{position:absolute;left:88px;top:212px;width:872px;font-family:Disp;font-size:60px;line-height:1.13;letter-spacing:-.5px;color:#1a1714}
+.lede i{font-family:DispI;font-style:normal}
+.body{position:absolute;left:88px;top:506px;width:792px;font-family:Body;font-size:30px;line-height:1.56;color:#3a342f}
+.lead{position:absolute;left:88px;bottom:236px;font-family:DispI;font-size:34px;color:#1a1714}
+.frule{position:absolute;left:88px;right:88px;bottom:170px;height:2px;background:#2a2622}
+.logo{position:absolute;left:88px;bottom:88px;height:58px}
+.read{position:absolute;right:88px;bottom:96px;font-family:Sans;font-size:25px;letter-spacing:.14em;text-transform:uppercase;color:#000}
+</style></head><body>
+<div class="stage">
+  <div class="ov"></div>
+  <div class="kicker">{{kicker}}</div>
+  <div class="idx">{{index}}</div>
+  <div class="mrule"></div>
+  <div class="lede">{{lede}}</div>
+  <div class="body">{{body}}</div>
+  <div class="lead">{{lead_in}}</div>
+  <div class="frule"></div>
+  <img class="logo" src="{{ASSETS_BASE}}/assets/logo_h_black.png">
+  <div class="read">{{cta}}</div>
+</div></body></html>

@@ -1,0 +1,97 @@
+{
+  "brand": "fig-and-bloom",
+  "version": "1.0.0",
+  "ratios": {
+    "4:5": {
+      "w": 1080,
+      "h": 1350,
+      "label": "Feed (portrait)",
+      "safeTop": 108,
+      "safeBottom": 108
+    },
+    "1:1": {
+      "w": 1080,
+      "h": 1080,
+      "label": "Feed (square)",
+      "safeTop": 86,
+      "safeBottom": 86
+    },
+    "9:16": {
+      "w": 1080,
+      "h": 1920,
+      "label": "Story / Reel",
+      "safeTop": 269,
+      "safeBottom": 384
+    }
+  },
+  "lanes": {
+    "journal": {
+      "label": "The Journal",
+      "intent": "Editorial \u2014 blog, guide and explainer promotion. Restrained, type-led, warm.",
+      "voice": "Considered, plain-spoken, feeling-first. Never urgency-led.",
+      "designs": [
+        "carousel-journal"
+      ]
+    }
+  },
+  "designs": {
+    "carousel-journal": {
+      "lane": "journal",
+      "label": "Journal Carousel",
+      "format": "carousel",
+      "primaryRatio": "4:5",
+      "ratios": [
+        "4:5",
+        "1:1",
+        "9:16"
+      ],
+      "bestFor": [
+        "blog_promo",
+        "editorial_guide",
+        "occasion_explainer"
+      ],
+      "avoidFor": [
+        "product_drop",
+        "urgency_offer",
+        "flash_sale"
+      ],
+      "requiresPlate": true,
+      "recommendedSequence": [
+        "cover",
+        "intro",
+        "interior",
+        "interior",
+        "closing"
+      ],
+      "slides": {
+        "cover": {
+          "template": "cover.html",
+          "photo": "required",
+          "role": "opener",
+          "levers": {
+            "theme": [
+              "light",
+              "dark"
+            ]
+          }
+        },
+        "intro": {
+          "template": "intro.html",
+          "photo": "optional",
+          "role": "lede"
+        },
+        "interior": {
+          "template": "interior.html",
+          "photo": "none",
+          "role": "body",
+          "repeatable": true
+        },
+        "closing": {
+          "template": "closing.html",
+          "photo": "required",
+          "role": "closer"
+        }
+      }
+    }
+  }
+}

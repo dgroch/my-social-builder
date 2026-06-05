@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Fig &amp; Bloom — Social Post Builder</title>
+  <link rel="stylesheet" href="/style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+</head>
+<body>
+  <header>
+    <div class="brand">Fig &amp; Bloom · <span>Social Post Builder</span></div>
+    <div class="actions">
+      <button id="btnSample" class="ghost">Sample</button>
+      <button id="btnImport" class="ghost">Import JSON</button>
+      <button id="btnExport" class="ghost">Export JSON</button>
+      <button id="btnSave" class="ghost">Save</button>
+      <button id="btnValidate" class="ghost">Validate</button>
+      <button id="btnRender" class="primary">Render</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="left">
+      <div class="row">
+        <label>Design
+          <select id="design"></select>
+        </label>
+        <label>Ratio
+          <select id="ratio"></select>
+        </label>
+        <div class="lane" id="laneNote"></div>
+      </div>
+      <div id="slides"></div>
+      <div class="addrow"><button id="addInterior" class="ghost">+ Add interior</button></div>
+    </section>
+
+    <section class="right">
+      <div class="tabs">
+        <button data-tab="preview" class="tab on">Output</button>
+        <button data-tab="json" class="tab">post.json</button>
+        <button data-tab="designs" class="tab">My posts</button>
+      </div>
+      <div id="panel-preview" class="panel on">
+        <div id="validation"></div>
+        <div id="results" class="results"><p class="muted">Render to produce the PNG set, then download all or individually.</p></div>
+        <button id="btnZip" class="primary wide" style="display:none">Download all (.zip)</button>
+      </div>
+      <pre id="panel-json" class="panel json"></pre>
+      <div id="panel-designs" class="panel"><div id="designList" class="muted">No saved posts yet.</div></div>
+    </section>
+  </main>
+
+  <input type="file" id="fileInput" accept="application/json" style="display:none">
+  <script src="/app.js"></script>
+</body>
+</html>

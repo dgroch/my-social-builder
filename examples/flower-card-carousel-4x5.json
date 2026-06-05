@@ -1,0 +1,69 @@
+{
+  "postName": "What to Write on a Flower Card — carousel",
+  "design": "carousel-journal",
+  "ratio": "4:5",
+  "slides": [
+    {
+      "slide": "cover",
+      "tokens": {
+        "kicker": "New Post",
+        "index": "June 2026",
+        "headline": "The flowers are<br>the *easy* part.",
+        "cta": "Read the guide →",
+        "photo": "samples/osaka_45.png",
+        "theme": "light"
+      }
+    },
+    {
+      "slide": "intro",
+      "tokens": {
+        "kicker": "New Post",
+        "index": "01",
+        "photo": "samples/osaka_45.png",
+        "lede": "The bouquet brings the colour.<br>The card explains *why* it’s there.",
+        "body": "Staring at the blank message box — wondering whether to be funny, formal, brief or heartfelt? Take the pressure off. A card doesn’t need to sound like a poem. It just needs to sound like you paused, thought of them, and chose your words with care.",
+        "lead_in": "A few to borrow, by moment —",
+        "cta": "Next →"
+      }
+    },
+    {
+      "slide": "interior",
+      "tokens": {
+        "kicker": "New Post",
+        "index": "02",
+        "photo": "samples/osaka_45.png",
+        "label_1": "Just because",
+        "quote_1": "“Saw these and thought of you.”",
+        "label_2": "For a birthday",
+        "quote_2": "“A little birthday colour for your home — because you deserve to feel celebrated.”",
+        "label_3": "To say thank you",
+        "quote_3": "“Thank you for the way you made a hard week feel lighter.”",
+        "cta": "Next →"
+      }
+    },
+    {
+      "slide": "interior",
+      "tokens": {
+        "kicker": "New Post",
+        "index": "03",
+        "photo": "samples/osaka_45.png",
+        "label_1": "When you’re sorry",
+        "quote_1": "“I know flowers don’t fix this, but I hope they bring a little softness today.”",
+        "label_2": "Just to say I love you",
+        "quote_2": "“No reason — except that I love you and wanted something beautiful nearby.”",
+        "label_3": "For grief",
+        "quote_3": "“No words feel enough, but please know I’m here.”",
+        "cta": "Read the guide →"
+      }
+    },
+    {
+      "slide": "closing",
+      "tokens": {
+        "end_line": "For the moment they feel what you meant.",
+        "cta": "Read the guide →",
+        "url": "figandbloom.com/blog",
+        "photo": "samples/osaka_45.png"
+      }
+    }
+  ]
+}

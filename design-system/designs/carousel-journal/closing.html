@@ -1,11 +1,11 @@
 <!-- SLIDE closing | LANE journal | PHOTO required (darkened)
      TOKENS:
-       end_line : text, markdown | brand sign-off line (rotation: "For the moment they feel what you meant." / "Fig & Bloom — For the message after.")
+       voice    : text, markdown | brand sign-off line (Cervanttis voice line) (e.g. "For the moment they feel what you meant.")
        cta      : text           | pill CTA, e.g. "Read the guide →"
        url      : text           | display URL, e.g. "figandbloom.com/journal"
        photo    : image          | hero plate URL — same plate as the cover for continuity
      PALETTE       : ink #1A1612 ground · white #FFFFFF type · tan-1 #F0E5D0 secondary
-     TYPE          : Lust display + Cervanttis italic accent + Neuzeit Grotesk sans
+     TYPE          : Lust display + Cervanttis voice line + Neuzeit Grotesk sans
 -->
 <!doctype html><html><head><meta charset="utf-8"><style>
 @font-face{font-family:Lust;src:url('{{ASSETS_BASE}}/fonts/Lust-Regular.otf')}
@@ -17,15 +17,15 @@ html,body{width:{{W}}px;height:{{H}}px;overflow:hidden}
 .ov{position:absolute;top:0;right:0;bottom:0;left:0;background:rgba(26,22,18,.72)}
 .logo-wrap{position:absolute;top:0;left:0;right:0;text-align:center}
 .logo-wrap img{margin-top:130px;height:110px}
-.end{position:absolute;top:296px;left:140px;right:140px;text-align:center;font-family:CervI;font-size:50px;line-height:1.26;color:#FFFFFF}
+.voice{position:absolute;top:296px;left:140px;right:140px;text-align:center;font-family:CervI;font-size:22px;line-height:1.26;color:#FFFFFF}
 .cta-wrap{position:absolute;top:984px;left:0;right:0;text-align:center}
-.cpill{display:inline-block;border:2px solid #F0E5D0;border-radius:999px;padding:22px 52px;font-family:Sans;font-size:25px;letter-spacing:.16em;text-transform:uppercase;color:#F0E5D0}
-.url{position:absolute;top:1130px;left:0;right:0;text-align:center;font-family:Sans;font-size:22px;letter-spacing:.22em;text-transform:uppercase;color:#F0E5D0}
+.cpill{display:inline-block;border:2px solid #F0E5D0;border-radius:999px;padding:22px 52px;font-family:Sans;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#F0E5D0}
+.url{position:absolute;top:1130px;left:0;right:0;text-align:center;font-family:Sans;font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:#F0E5D0}
 </style></head><body>
 <div class="stage">
   <div class="ov"></div>
   <div class="logo-wrap"><img src="{{ASSETS_BASE}}/assets/logo_h_white.png"></div>
-  <div class="end">{{end_line}}</div>
+  <div class="voice">{{voice}}</div>
   <div class="cta-wrap"><span class="cpill">{{cta}}</span></div>
   <div class="url">{{url}}</div>
 </div></body></html>

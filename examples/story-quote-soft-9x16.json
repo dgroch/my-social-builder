@@ -1,5 +1,5 @@
 {
-  "postName": "Quote-soft — the morning room (story-quote-soft)",
+  "postName": "Quote-soft \u2014 the morning room (story-quote-soft)",
   "design": "story-quote-soft",
   "ratio": "9:16",
   "slides": [
@@ -7,11 +7,12 @@
       "slide": "cover",
       "tokens": {
         "kicker": "The studio",
-        "headline": "A small, quiet room.<br>A *knot* of ribbon,<br>a hand on the stems.",
+        "headline": "A small, quiet room.<br>A knot of ribbon,<br>a hand on the stems.",
         "body": "We work where the morning is. The rest of the day is mostly that.",
         "url": "figandbloom.com/journal",
-        "cta": "Visit the link in bio →",
-        "photo": "https://brand-cdn.figandbloom.workers.dev/figandbloom/manifest/previews/2026-06-01/1kHACHU-9Wlk4m7aNLPbeVfGj-xgZDYu__fig-bloom_wkshp---328.jpg"
+        "cta": "Visit the link in bio \u2192",
+        "photo": "https://brand-cdn.figandbloom.workers.dev/figandbloom/manifest/previews/2026-06-01/1kHACHU-9Wlk4m7aNLPbeVfGj-xgZDYu__fig-bloom_wkshp---328.jpg",
+        "voice": "a small, quiet room"
       }
     }
   ]

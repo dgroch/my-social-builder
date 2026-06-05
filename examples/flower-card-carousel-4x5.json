@@ -1,5 +1,5 @@
 {
-  "postName": "What to Write on a Flower Card — carousel",
+  "postName": "What to Write on a Flower Card \u2014 carousel",
   "design": "carousel-journal",
   "ratio": "4:5",
   "slides": [
@@ -8,10 +8,11 @@
       "tokens": {
         "kicker": "New Post",
         "index": "June 2026",
-        "headline": "The flowers are<br>the *easy* part.",
-        "cta": "Read the guide →",
+        "headline": "The flowers are<br>the easy part.",
+        "cta": "Read the guide \u2192",
         "photo": "samples/osaka_45.png",
-        "theme": "light"
+        "theme": "light",
+        "voice": "the flowers are the easy part"
       }
     },
     {
@@ -20,10 +21,11 @@
         "kicker": "New Post",
         "index": "01",
         "photo": "samples/osaka_45.png",
-        "lede": "The bouquet brings the colour.<br>The card explains *why* it’s there.",
-        "body": "Staring at the blank message box — wondering whether to be funny, formal, brief or heartfelt? Take the pressure off. A card doesn’t need to sound like a poem. It just needs to sound like you paused, thought of them, and chose your words with care.",
-        "lead_in": "A few to borrow, by moment —",
-        "cta": "Next →"
+        "lede": "The bouquet brings the colour.<br>The card explains why it\u2019s there.",
+        "body": "Staring at the blank message box \u2014 wondering whether to be funny, formal, brief or heartfelt? Take the pressure off. A card doesn\u2019t need to sound like a poem. It just needs to sound like you paused, thought of them, and chose your words with care.",
+        "lead_in": "A few to borrow, by moment \u2014",
+        "cta": "Next \u2192",
+        "voice": "a few words to borrow, by moment \u2014"
       }
     },
     {
@@ -33,12 +35,13 @@
         "index": "02",
         "photo": "samples/osaka_45.png",
         "label_1": "Just because",
-        "quote_1": "“Saw these and thought of you.”",
+        "quote_1": "\u201cSaw these and thought of you.\u201d",
         "label_2": "For a birthday",
-        "quote_2": "“A little birthday colour for your home — because you deserve to feel celebrated.”",
+        "quote_2": "\u201cA little birthday colour for your home \u2014 because you deserve to feel celebrated.\u201d",
         "label_3": "To say thank you",
-        "quote_3": "“Thank you for the way you made a hard week feel lighter.”",
-        "cta": "Next →"
+        "quote_3": "\u201cThank you for the way you made a hard week feel lighter.\u201d",
+        "cta": "Next \u2192",
+        "voice": "for just because, for a birthday, for the thank-yous"
       }
     },
     {
@@ -47,22 +50,24 @@
         "kicker": "New Post",
         "index": "03",
         "photo": "samples/osaka_45.png",
-        "label_1": "When you’re sorry",
-        "quote_1": "“I know flowers don’t fix this, but I hope they bring a little softness today.”",
+        "label_1": "When you\u2019re sorry",
+        "quote_1": "\u201cI know flowers don\u2019t fix this, but I hope they bring a little softness today.\u201d",
         "label_2": "Just to say I love you",
-        "quote_2": "“No reason — except that I love you and wanted something beautiful nearby.”",
+        "quote_2": "\u201cNo reason \u2014 except that I love you and wanted something beautiful nearby.\u201d",
         "label_3": "For grief",
-        "quote_3": "“No words feel enough, but please know I’m here.”",
-        "cta": "Read the guide →"
+        "quote_3": "\u201cNo words feel enough, but please know I\u2019m here.\u201d",
+        "cta": "Read the guide \u2192",
+        "voice": "for just because, for a birthday, for the thank-yous"
       }
     },
     {
       "slide": "closing",
       "tokens": {
         "end_line": "For the moment they feel what you meant.",
-        "cta": "Read the guide →",
+        "cta": "Read the guide \u2192",
         "url": "figandbloom.com/blog",
-        "photo": "samples/osaka_45.png"
+        "photo": "samples/osaka_45.png",
+        "voice": "for the moment they feel what you meant"
       }
     }
   ]

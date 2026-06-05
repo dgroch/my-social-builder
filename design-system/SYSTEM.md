@@ -1,20 +1,24 @@
 # Fig & Bloom — Social Design System v2
 
-The visual system for the `my-social-builder` renderer. **One type trio. Four tan/white/black surfaces. Everything else is restrained.**
+The visual system for the `my-social-builder` renderer. **One type trio. Four tokens. Generous, editorial spacing. Every element earns its place.**
+
+This is a *craft layer*. It sits on top of a brand's own guide. The brand guide supplies the *what* (fonts, palette, logo, voice); this system supplies the *how* — the grid, the type scale, the spacing rhythm, the critique loop. The two are non-conflicting. The Fig & Bloom email design (see `references/fig-bloom-newsletter-2024.png`) is the canonical reference for tone and scale.
 
 ---
 
 ## The type trio
 
-| Role | Font | Source file |
-|---|---|---|
-| Display / headline (serif) | **Lust** (Yellow Design Studio) | `Lust-Regular.otf` |
-| Italic accent / kicker-italic | **Cervanttis** (House Industries) | `cervanttis.ttf` |
-| Body / CTA / kicker (sans) | **Neuzeit Grotesk** (URW) | `NeuzeitGro-Lig.otf` (Light) · `NeuzeitGro-Bol.otf` (Bold) |
+| Role | Font | Source file | When to use |
+|---|---|---|---|
+| **Display / headline (serif)** | **Lust** (Yellow Design Studio) | `Lust-Regular.otf` | The hero headline. The "X is the moment." declaration. The word on overlay lanes. Set large, set alone, set confidently. |
+| **Voice / comment (script italic)** | **Cervanttis** (House Industries) | `cervanttis.ttf` | A small "voice" line that sits **separately** to the Lust line — never as inline italic within a sentence. Used as: a kicker-voice above the headline, a product tagline under the name, a sign-off, a "soft" pull-quote on its own, an attribution. Think "handwritten margin note" — *not* italicised word mid-sentence. |
+| **Body / UI / kicker (sans)** | **Neuzeit Grotesk** (URW) | `NeuzeitGro-Lig.otf` (Light) · `NeuzeitGro-Bol.otf` (Bold) | Body copy. CTA text. Kicker. Price. Caption. Button label. Caption stack. Light for prose, Bold for the action moment. |
 
-**Lust** is the serif display face — the hero headlines, the word on `story-overlay`, the quote on `story-editorial`. **Cervanttis** is the italic accent: a single cut used inside Lust lines for the `*emphasised*` word, and as a stand-alone italic on quieter lanes. **Neuzeit Grotesk** is the workhorse sans: Light for body copy, Bold for kicker, CTA, and price pills.
+**The Cervanttis rule (this is the one that gets broken most):**
 
-**Rule:** No third family. No script. No display sans. The Cervanttis italic accent is the only typographic gesture the system uses for emphasis.
+> Cervanttis is **never** used as inline italic *within* a Lust sentence. It is its own line, with breathing room above and below. It speaks. Lust declares. They don't share a sentence.
+
+When the brief has a word that wants italic emphasis inside a Lust headline, the answer is **not** to italicise that word in Cervanttis. The answer is to lift it out — either drop the italic (the word stays upright in Lust), or move the emphasised thought to its own Cervanttis voice line.
 
 ---
 
@@ -33,12 +37,67 @@ Four colours only. The two tans are the workhorses; the white and black are the 
 
 ### Where each colour sits
 
-- **`--white`** → full-bleed backgrounds for minimal/story-cta-minimal lanes; type when the plate is moody/dark
-- **`--ink`** → serif headline type on tan panels; sans body on tan panels; logo in the light theme
-- **`--tan-1`** → the warm lower-third panel (story-studio, story-promo, story-gift); the white-block on a dark photo (story-editorial)
+- **`--white`** → full-bleed backgrounds for the airy lanes; type on a dark/moody plate
+- **`--ink`** → Lust headlines on light plates; sans body; logo in the light theme
+- **`--tan-1`** → the warm lower-third panel (story-studio, story-promo, story-gift); the cream block on a dark photo (story-editorial)
 - **`--tan-2`** → deep accent: from-price pill, hairline rules on tan-1 panels, badge fills, secondary CTA backgrounds on light themes
 
 **Hairlines** are always `--ink` at 1px (subtle, structural) — never grey.
+
+---
+
+## Type scale — editorial, restrained, Fig & Bloom
+
+Derived from the 2024 Fig & Bloom email design. Three sizes per view, no more. The headline owns the frame; the body is small; the kicker is a whisper.
+
+| Token | Size (1080 wide) | Weight | Role |
+|---|---|---|---|
+| `display` | **48–56** | Lust Regular | The headline. The single line that says "this is the moment." |
+| `title` | **32–36** | Lust Regular | Sub-headlines, product names on hero lanes, "section" lines |
+| `body` | **16** | Neuzeit Light | Body copy, supporting lines |
+| `caption` | **14** | Neuzeit Light | Captions, secondary descriptions |
+| `kicker` | **11–12** | Neuzeit Bold, tracked, all caps | The kicker label. The CTA. The price. The button. |
+| `voice` | **18–24** | Cervanttis | A separate "voice" line. The Fig & Bloom "with love", "for the most magical what-you-want", the product tagline. **Always on its own line.** |
+
+**The hard rule from the design-discipline skill holds:** max 2–3 sizes per view, and the display may take a deliberate jump above the scale. Default is 48–56; on a true hero (e.g. `story-overlay`'s single word "HELD") the display may climb to 96–160.
+
+**The 5-beat rhythm** (one beat per section, repeated):
+
+1. **Kicker** (Neuzeit Bold, all-caps, tracked) — sets the category
+2. **Voice** (Cervanttis) — *optional* — sets the tone, the human aside
+3. **Display** (Lust) — declares the moment
+4. **Body** (Neuzeit Light) — one or two short lines
+5. **CTA** (Neuzeit Bold, all-caps, tracked) — the action, in a black bar
+
+A section may use 1, 2, 3, 4 or 5 of these. The minimum is kicker + display + CTA. Voice is a softener, not a requirement.
+
+---
+
+## Spacing rhythm — 8px scale
+
+All spacing on an 8px scale: **8 / 16 / 24 / 40 / 64 / 96**. No magic numbers. No 7px, 11px, 13px, 22px.
+
+| Token | Value | When |
+|---|---|---|
+| `space-1` | 8 | Tight (caption under image) |
+| `space-2` | 16 | Related (kicker → headline) |
+| `space-3` | 24 | Grouped (body → CTA) |
+| `space-4` | 40 | Section internal padding |
+| `space-5` | 64 | Between major blocks within a slide |
+| `space-6` | 96 | Hero breathing room, top of headline |
+
+**Proximity = relationship.** Related items sit close (`space-1` to `space-3`); unrelated items get real space (`space-5` to `space-6`). Vertical rhythm should feel intentional top-to-bottom — no orphan gaps.
+
+---
+
+## Grid & margins (1080 base)
+
+- **Outer margin:** **88px** (~8% of short edge) on all four sides, equal.
+- **Columns:** 6 with 24px gutter, for content. Full-bleed imagery may cross the margin; *type and logos never do.*
+- **Story / Reel (9:16):** keep critical content and CTAs out of the **top ~14%** and **bottom ~20%** (UI overlays).
+- **Feed (4:5, 1:1):** keep a **~8%** top/bottom buffer.
+
+The Fig & Bloom email uses a single 600–680px reading column on a 1080px viewport, with two-up product blocks breaking the symmetry. We follow the same discipline at social scale: one main column, with alternating left/right when a product card sits beside a description.
 
 ---
 
@@ -52,7 +111,32 @@ The references are moody, dark, rustic, editorial. Not bright. Not pastel. Not a
 - **Editorial depth of field** — subject in focus, surface and edges falling off
 - **Warm undertones** in the shadows (no cold blue/grey shadows)
 
-The four-tan palette + Lust is calibrated for this register. A bright pastel photo on this system will look wrong; the chrome will fight the picture.
+The four-token palette + Lust is calibrated for this register. A bright pastel photo on this system will look wrong; the chrome will fight the picture.
+
+---
+
+## The critique loop
+
+This is the anti-regression mechanism. Producing the file is step one, not the finish. Before showing anyone:
+
+1. **Render at 100%** (full resolution). Never approve from a thumbnail.
+2. **Zoom into each region** — corners, edges, the footer, where type meets image.
+3. **Run the pre-ship QA checklist** (below).
+4. **Iterate at least twice.** First render is a draft. Fix, re-render, re-check.
+
+### Pre-ship QA checklist
+
+- [ ] Outer margins equal on all four sides (measure — don't eyeball).
+- [ ] Exactly one clear focal point; secondary elements quieter.
+- [ ] Logo within its size cap and clearance; not cropped, not bleeding; black/white only; correct lockup.
+- [ ] All type sits on the grid; shared left/right margins.
+- [ ] ≤ 3 type sizes, all from the scale.
+- [ ] Cervanttis is **never** used as inline italic within a Lust sentence. It is its own line, with breathing room.
+- [ ] Spacing uses the rhythm tokens (`8/16/24/40/64/96`); gaps look intentional.
+- [ ] Negative space is composed — no accidental dead zones.
+- [ ] Critical content and CTA clear of platform safe zones (top 14% / bottom 20% on stories).
+- [ ] Nothing clipped at the edges.
+- [ ] Checked at full size, not a thumbnail.
 
 ---
 
@@ -61,13 +145,15 @@ The four-tan palette + Lust is calibrated for this register. A bright pastel pho
 These are off the system. If a brief needs one of them, raise it before building.
 
 - No third font family beyond Lust + Cervanttis + Neuzeit Grotesk
-- No more than one italic cut (Cervanttis) in any single asset
+- No inline Cervanttis italic *inside* a Lust sentence (it is a voice line, full stop)
+- No more than three type sizes per view
 - No countdown timers, no urgency, no "last chance" — even on promo lanes
 - No "Save %" / discount framing — even on promo lanes
 - No bright pastels, no dusty miller green, no competing pinks
-- No J.Crew-style white-block-on-bloom pastels (the *J.Crew* reference was structural; the pastels were never the system)
-- No two-flower comparison posts (the *this or that* reference was structural; Fig & Bloom is editorial, not "pick your favourite")
-- No giveaway framing (the *WIN* reference was structural; Fig & Bloom does not run giveaways)
+- No J.Crew-style white-block-on-bloom pastels
+- No two-flower comparison posts
+- No giveaway framing
+- No "magic numbers" — every coordinate derived from the 8px scale or the % / em system
 
 ---
 
@@ -86,4 +172,13 @@ The system ships **8 lanes**. Each lives at `design-system/designs/<id>/` with a
 | `story-tagline` | Tagline | Story | 1 | Sans-only label on a dark plate |
 | `story-overlay` | Overlay | Story | 1 | One large word over a hand/photo |
 
-Lanes are a closed set. Add a new lane only when a recurring brief shape demands it (per the `social-post-builder` skill's lane discipline).
+Lanes are a closed set. Add a new lane only when a recurring brief shape demands it.
+
+---
+
+## Token contract additions (v2.1)
+
+The v1 token contract had `kicker / headline / body / cta` (and a `*italic*` markdown for inline emphasis). v2.1 **adds a `voice` token** and **removes the `*italic*` inline substitution**.
+
+- `voice` (string, optional) — a Cervanttis "voice line" that sits in its own block, with breathing room above and below. Never substituted into another token.
+- `*italic*` markdown — **removed**. The italic emphasis path no longer exists. If a word wants emphasis, drop it from the sentence, give it a `voice` line of its own.

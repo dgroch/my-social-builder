@@ -5,12 +5,13 @@
        headline : text, markdown   | main headline; wrap a word in *asterisks* for an italic-serif accent
        cta      : text             | footer call-to-action, e.g. "Read the guide →"
        photo    : image            | hero plate URL — a real named Fig & Bloom design (Osaka, Marseille, …)
+     voice     : text, optional   | Cervanttis voice line — its own block, never inline
      LEVERS:
        theme    : enum light|dark  | light = ink type on the plate; dark = white type on a darkened plate
      VISUAL_ROLE  : opener / hook
      FOCAL        : headline (owns the upper third); plate is supporting
      PALETTE       : ink #1A1612 · tan-1 #F0E5D0 · tan-2 #B89A75 · white #FFFFFF
-     TYPE          : Lust display + Cervanttis italic accent + Neuzeit Grotesk sans
+     TYPE          : Lust display + Cervanttis voice line + Neuzeit Grotesk sans
 -->
 <!doctype html><html><head><meta charset="utf-8"><style>
 @font-face{font-family:Lust;src:url('{{ASSETS_BASE}}/fonts/Lust-Regular.otf')}
@@ -23,18 +24,19 @@ html,body{width:{{W}}px;height:{{H}}px;overflow:hidden}
 .stage.dark{--ink:#FFFFFF;--char:#F0E5D0;--rule:#B89A75}
 .ov{position:absolute;top:0;right:0;bottom:0;left:0;background:transparent}
 .stage.dark .ov{background:rgba(26,22,18,.60)}
-.kicker{position:absolute;left:88px;top:88px;font-family:Sans;font-size:26px;letter-spacing:.30em;text-transform:uppercase;color:var(--char)}
-.idx{position:absolute;right:88px;top:88px;font-family:Sans;font-size:26px;letter-spacing:.10em;color:var(--char)}
+.kicker{position:absolute;left:88px;top:88px;font-family:Sans;font-size:12px;letter-spacing:.30em;text-transform:uppercase;color:var(--char)}
+.idx{position:absolute;right:88px;top:88px;font-family:Sans;font-size:12px;letter-spacing:.10em;color:var(--char)}
 .mrule{position:absolute;left:88px;right:88px;top:142px;height:2px;background:var(--rule)}
-.h{position:absolute;left:88px;top:206px;width:904px;font-family:Lust;font-size:120px;line-height:1.03;letter-spacing:-1px;color:var(--ink)}
-.h i{font-family:CervI;font-style:normal}
+.h{position:absolute;left:88px;top:200px;width:904px;font-family:Lust;font-size:56px;line-height:1.03;letter-spacing:-1px;color:var(--ink)}
+.h i{font-style:normal}
 .frule{position:absolute;left:88px;right:88px;bottom:170px;height:2px;background:var(--rule)}
 .logo{position:absolute;left:88px;bottom:88px;height:58px}
-.read{position:absolute;right:88px;bottom:96px;font-family:Sans;font-size:25px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink)}
-</style></head><body>
+.read{position:absolute;right:88px;bottom:96px;font-family:Sans;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink)}
+.voice{position:absolute;left:88px;right:88px;top:124px;font-family:CervI;font-style:normal;font-size:24px;line-height:1.3}</style></head><body>
 <div class="stage {{THEME_CLASS}}">
   <div class="ov"></div>
   <div class="kicker">{{kicker}}</div>
+  <div class="voice">{{voice}}</div>
   <div class="idx">{{index}}</div>
   <div class="mrule"></div>
   <div class="h">{{headline}}</div>

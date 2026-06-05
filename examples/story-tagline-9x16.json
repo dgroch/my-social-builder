@@ -1,5 +1,5 @@
 {
-  "postName": "Tagline — for the quiet ones (story-tagline)",
+  "postName": "Tagline \u2014 for the quiet ones (story-tagline)",
   "design": "story-tagline",
   "ratio": "9:16",
   "slides": [
@@ -9,8 +9,9 @@
         "kicker": "Gift edit",
         "headline": "For the<br>quiet ones",
         "subhead": "For the people who keep a vase on the windowsill.",
-        "cta": "See the edit →",
-        "photo": "https://brand-cdn.figandbloom.workers.dev/figandbloom/manifest/previews/2026-06-01/1Hg72GA53hPpcAckI-IN97SSiY6XfK75r_26a"
+        "cta": "See the edit \u2192",
+        "photo": "https://brand-cdn.figandbloom.workers.dev/figandbloom/manifest/previews/2026-06-01/1Hg72GA53hPpcAckI-IN97SSiY6XfK75r_26a",
+        "voice": "for the people who keep a vase on the windowsill"
       }
     }
   ]

@@ -1,5 +1,5 @@
 {
-  "postName": "New in — Lucerne (story-promo)",
+  "postName": "New in \u2014 Lucerne (story-promo)",
   "design": "story-promo",
   "ratio": "9:16",
   "slides": [
@@ -7,12 +7,13 @@
       "slide": "cover",
       "tokens": {
         "kicker": "New in",
-        "headline": "Lucerne —<br>*soft*, contemporary white.",
+        "headline": "Lucerne \u2014<br>soft, contemporary white.",
         "subhead": "Hand-tied the morning it's sent.",
         "from_price": "from $105",
-        "cta": "See the range →",
+        "cta": "See the range \u2192",
         "photo": "https://brand-cdn.figandbloom.workers.dev/figandbloom/manifest/previews/2026-06-01/11kMxP7NmADQ_6cwk0CtOptexNovT-qn-_lucerne--large-1.jpg",
-        "theme": "light"
+        "theme": "light",
+        "voice": "soft, contemporary white"
       }
     }
   ]

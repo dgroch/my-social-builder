@@ -1,5 +1,5 @@
 {
-  "postName": "Studio — hands at work (story-studio)",
+  "postName": "Studio \u2014 hands at work (story-studio)",
   "design": "story-studio",
   "ratio": "9:16",
   "slides": [
@@ -7,11 +7,12 @@
       "slide": "cover",
       "tokens": {
         "kicker": "In the studio",
-        "headline": "Hands at work,<br>the morning *quiet*.",
-        "body": "A few minutes from the workshop — stem by stem, ribbon by ribbon. The kind of morning that ends with a delivery van, and a thank-you we never see.",
-        "cta": "See the journal →",
+        "headline": "Hands at work,<br>the morning quiet.",
+        "body": "A few minutes from the workshop \u2014 stem by stem, ribbon by ribbon. The kind of morning that ends with a delivery van, and a thank-you we never see.",
+        "cta": "See the journal \u2192",
         "photo": "https://brand-cdn.figandbloom.workers.dev/figandbloom/manifest/previews/2026-06-01/15wbAv0udzOYkcSIl5WjArw9hqHtYAt5o_fig-bloom_wkshp---059.jpg",
-        "theme": "light"
+        "theme": "light",
+        "voice": "hands at work, the morning quiet"
       }
     }
   ]

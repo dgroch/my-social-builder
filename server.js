@@ -133,7 +133,11 @@ async function renderComponent(design, slide) {
     slides: [{ slide: comp.slide, tokens: comp.sample }]
   };
   try {
-    const { slices } = await render.renderPost(post, { scale: 1 });
+    // Library components are thumbnails for inspection — render at half
+    // scale so the server returns within Render's request timeout.
+    // Full-resolution renders are still available via the main /api/render
+    // endpoint when the user opens a component in the editor.
+    const { slices } = await render.renderPost(post, { scale: 0.5 });
     const pngBase64 = slices[0] && slices[0].pngBase64;
     LIBRARY_RENDERED.set(cacheKey, { pngBase64, dimensions: slices[0] && { w: slices[0].w, h: slices[0].h }, error: null });
     return LIBRARY_RENDERED.get(cacheKey);

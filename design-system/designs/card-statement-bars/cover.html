@@ -4,15 +4,15 @@
        headline : text  | the declaration in stacked caps. Break lines yourself with newlines — each line gets its own ink bar. 2–5 short lines.
      VISUAL_ROLE  : stacked Lust caps on ink bars, ragged-right, crossing the plate's edge (seed: Design 2; the seed's magenta block is this photo slot)
      FOCAL        : the bars; the plate is the field they interrupt
-     PALETTE       : ink #1A1612 bars · white #FFFFFF type + right field
+     PALETTE       : ink #000000 bars · white #FFFFFF type + right field
      TYPE          : Lust caps on bars. Chrome-free lane (no logo, no CTA).
 -->
 <!doctype html><html><head><meta charset="utf-8"><style>
 @font-face{font-family:Lust;src:url('{{ASSETS_BASE}}/fonts/Lust-Regular.otf')}
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{width:{{W}}px;height:{{H}}px;overflow:hidden}
-.stage{position:relative;width:{{W}}px;height:{{H}}px;background:#FFFFFF;--ink:#1A1612}
-.plate{position:absolute;left:0;top:0;width:74%;height:100%;background:#1A1612 url('{{photo}}') center/cover no-repeat}
+.stage{position:relative;width:{{W}}px;height:{{H}}px;background:#FFFFFF;--ink:#000000}
+.plate{position:absolute;left:0;top:0;width:74%;height:100%;background:#000000 url('{{photo}}') center/cover no-repeat}
 .bars{position:absolute;right:24px;bottom:96px;max-width:88%;text-align:right;
       font-family:Lust;font-size:72px;line-height:1.62;text-transform:uppercase;letter-spacing:1px;
       white-space:pre-line}

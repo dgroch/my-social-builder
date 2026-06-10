@@ -1,7 +1,7 @@
 {
   "brand": "fig-and-bloom",
   "version": "3.0.0",
-  "system": "Lust + Cervanttis + Neuzeit Grotesk on white / ink / tan-1 #F0E5D0 / tan-2 #B89A75. v3 adds the seed lanes (from the 2023 PSD kit, reconciled to this palette) and asset-library photo queries. See design-system/SYSTEM.md.",
+  "system": "Lust + Cervanttis + Neuzeit Grotesk on white / ink / clay-tint #ECE6DF / clay #D8CCBE. v3 adds the seed lanes (from the 2023 PSD kit, reconciled to this palette) and asset-library photo queries. See design-system/SYSTEM.md.",
   "ratios": {
     "4:5": {
       "w": 1080,
@@ -75,7 +75,7 @@
     },
     "quote-soft": {
       "label": "Quote / soft",
-      "intent": "A poetic statement on a quiet scene. Tan-1 left rail, soft-focus photo on the right.",
+      "intent": "A poetic statement on a quiet scene. Clay-tint left rail, soft-focus photo on the right.",
       "voice": "A short statement, not a paragraph. The rail speaks; the photo listens.",
       "designs": [
         "story-quote-soft"
@@ -345,7 +345,7 @@
       "requiresPlate": false,
       "recommendedSequence": ["cover"],
       "slides": {
-        "cover": { "template": "cover.html", "photo": "optional", "role": "script_line", "levers": { "surface": ["tan-1", "tan-2", "ink", "photo"] } }
+        "cover": { "template": "cover.html", "photo": "optional", "role": "script_line", "levers": { "surface": ["clay-tint", "clay", "noir", "photo"] } }
       }
     },
     "card-note": {

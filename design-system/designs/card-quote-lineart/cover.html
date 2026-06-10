@@ -15,10 +15,10 @@
 @font-face{font-family:CervI;src:url('{{ASSETS_BASE}}/fonts/cervanttis.ttf')}
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{width:{{W}}px;height:{{H}}px;overflow:hidden}
-.stage{position:relative;width:{{W}}px;height:{{H}}px;background:#FFFFFF;--ink:#1A1612;--type:#1A1612;
-       --la:rgba(26,22,18,.16);overflow:hidden;display:flex;flex-direction:column;
+.stage{position:relative;width:{{W}}px;height:{{H}}px;background:#FFFFFF;--ink:#000000;--type:#000000;
+       --la:rgba(0,0,0,.16);overflow:hidden;display:flex;flex-direction:column;
        align-items:center;justify-content:center;text-align:center}
-.stage.dark{background:#1A1612;--type:#FFFFFF;--la:rgba(255,255,255,.22)}
+.stage.dark{background:#000000;--type:#FFFFFF;--la:rgba(255,255,255,.22)}
 /* the motif is a black-stroke SVG used as a stencil: the mask carries the drawing,
    the background-color carries the colourway */
 .la{position:absolute;top:-4%;bottom:-6%;right:-14%;width:82%;background:var(--la);

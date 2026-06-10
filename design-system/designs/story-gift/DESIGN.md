@@ -33,7 +33,7 @@ Recommended sequence: `intro → closing`. Two slides only. If the brief needs m
 ## Theme lever
 
 - `light` → ink type, no plate overlay. Logo: `logo_h_black.png`. Use on bright, well-lit preparation/finished plates.
-- `dark`  → white type on a `rgba(18,15,12,.50..55)` plate overlay. Logo: `logo_h_white.png`. Use on moodier plates (low-light wrapping, soft-window-light delivery).
+- `dark`  → white type on a `rgba(0,0,0,.50..55)` plate overlay. Logo: `logo_h_white.png`. Use on moodier plates (low-light wrapping, soft-window-light delivery).
 
 The builder derives `THEME_CLASS` and `LOGO_FILE` from this lever — they are not separate tokens.
 

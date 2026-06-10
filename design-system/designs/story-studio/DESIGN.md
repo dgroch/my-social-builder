@@ -35,7 +35,7 @@ Single slide only. Story format is one beat — if the brief needs more, use the
 ## Theme lever
 
 - `light` → ink type, no plate overlay. Logo: `logo_h_black.png`. Use on plates with a clean upper wall (workshop scenes with bright backdrops).
-- `dark`  → white type on a `rgba(18,15,12,.50)` plate overlay. Logo: `logo_h_white.png`. Use on moodier plates (hand at work, low-light studio, dim florals).
+- `dark`  → white type on a `rgba(0,0,0,.50)` plate overlay. Logo: `logo_h_white.png`. Use on moodier plates (hand at work, low-light studio, dim florals).
 
 The builder derives `THEME_CLASS` and `LOGO_FILE` from this lever — they are not separate tokens.
 

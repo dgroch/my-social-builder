@@ -1,7 +1,7 @@
 # Design — Testimonial Card (`card-testimonial`)
 
 **Lane:** Testimonial. **Format:** single static. **Primary ratio:** 1:1 (1080×1080). Also 4:5, 9:16, 1.91:1.
-**Seed:** Design 3 of the 2023 PSD kit. The seed's grey line-art on black becomes tan-1 line-art on ink.
+**Seed:** Design 3 of the 2023 PSD kit. The seed's grey line-art on black becomes clay-tint line-art on ink.
 **Best for:** customer reviews, social proof, short press quotes.
 **Avoid for:** product drops, posts that need a photo (the lane is deliberately photo-free), reviews longer than ~3 sentences.
 
@@ -11,7 +11,7 @@ A white card floating on an ink field, one large line-art figure behind it — t
 
 | Slide | Photo | Role | Notes |
 |---|---|---|---|
-| `cover` | none | review card | Optional tan-2 kicker above the quote ("Kind words"). |
+| `cover` | none | review card | Optional clay kicker above the quote ("Kind words"). |
 
 ## Grid
 

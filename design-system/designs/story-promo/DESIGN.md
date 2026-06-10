@@ -35,7 +35,7 @@ Single slide only. If the brief needs more than one beat, use the journal carous
 ## Theme lever
 
 - `light` → ink type, no plate overlay. Logo: `logo_h_black.png`. Use on plates with a clean upper wall (most named products on warm studio backdrops).
-- `dark`  → white type on a `rgba(18,15,12,.45)` plate overlay. Logo: `logo_h_white.png`. Use on moodier plates (dim florals, low-light studio).
+- `dark`  → white type on a `rgba(0,0,0,.45)` plate overlay. Logo: `logo_h_white.png`. Use on moodier plates (dim florals, low-light studio).
 
 The builder derives `THEME_CLASS` and `LOGO_FILE` from this lever — they are not separate tokens.
 

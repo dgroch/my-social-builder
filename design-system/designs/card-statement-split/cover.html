@@ -6,7 +6,7 @@
        kicker      : text, optional | whisper label above the stack, e.g. "From the journal"
      VISUAL_ROLE  : editorial split — stacked caps breathe on the left, the plate stands on the right (seed: Design 7; the seed's magenta panel is this photo slot)
      FOCAL        : the stacked headline
-     PALETTE       : white field · ink #1A1612 type · tan-2 #B89A75 kicker
+     PALETTE       : white field · ink #000000 type · clay #D8CCBE kicker
      TYPE          : Lust caps + Neuzeit kicker/attribution. Chrome-free lane.
 -->
 <!doctype html><html><head><meta charset="utf-8"><style>
@@ -15,11 +15,11 @@
 @font-face{font-family:SansB;src:url('{{ASSETS_BASE}}/fonts/NeuzeitGro-Bol.otf')}
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{width:{{W}}px;height:{{H}}px;overflow:hidden}
-.stage{position:relative;width:{{W}}px;height:{{H}}px;background:#FFFFFF;--ink:#1A1612;--tan2:#B89A75;--m:88px}
+.stage{position:relative;width:{{W}}px;height:{{H}}px;background:#FFFFFF;--ink:#000000;--clay:#D8CCBE;--m:88px}
 .stage.land{--m:56px}
-.plate{position:absolute;right:0;top:15%;bottom:15%;width:50%;background:#1A1612 url('{{photo}}') center/cover no-repeat}
+.plate{position:absolute;right:0;top:15%;bottom:15%;width:50%;background:#000000 url('{{photo}}') center/cover no-repeat}
 .copy{position:absolute;left:var(--m);top:50%;transform:translateY(-50%);width:42%}
-.kicker{font-family:SansB;font-size:12px;letter-spacing:.30em;text-transform:uppercase;color:var(--tan2);margin-bottom:24px}
+.kicker{font-family:SansB;font-size:12px;letter-spacing:.30em;text-transform:uppercase;color:var(--clay);margin-bottom:24px}
 .h{font-family:Lust;font-size:54px;line-height:1.22;text-transform:uppercase;letter-spacing:1px;color:var(--ink);white-space:pre-line}
 .attr{font-family:SansB;font-size:15px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink);margin-top:40px}
 /* portrait 4:5 */

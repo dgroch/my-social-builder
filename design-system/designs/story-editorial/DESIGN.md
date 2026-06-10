@@ -16,12 +16,12 @@ The lane is a single editorial statement. The dark plate is the room; the type i
 
 - Outer margin **88px**, equal on left and right.
 - Plate fills the full canvas as the background (`background: cover`).
-- Dark overlay `rgba(26,22,18,.55)` (light overlay `rgba(240,229,208,.80)` on the light lever).
+- Dark overlay `rgba(0,0,0,.55)` (light overlay `rgba(236,230,223,.80)` on the light lever).
 - Type stacks centred vertically with these fixed rows:
-  - Kicker at y=560, sans 22px, all-caps, letter-spacing .32em, tan-1 (`#F0E5D0`).
+  - Kicker at y=560, sans 22px, all-caps, letter-spacing .32em, clay-tint (`#ECE6DF`).
   - Quote at y=610, Cervanttis 64px / 1.18, white (or ink on light lever). Italic accent via `*word*`.
-  - Hairline mark at y=(1920-200), 1px, tan-2 at 60% opacity.
-  - Attribution at y=1300, sans 22px, all-caps, letter-spacing .18em, tan-1.
+  - Hairline mark at y=(1920-200), 1px, clay at 60% opacity.
+  - Attribution at y=1300, sans 22px, all-caps, letter-spacing .18em, clay-tint.
   - Logo bottom-left at y=1820, white wordmark.
 
 ## Tokens
@@ -32,8 +32,8 @@ The lane is a single editorial statement. The dark plate is the room; the type i
 
 ## Theme lever
 
-- `dark` (default) → white type on a `rgba(26,22,18,.55)` overlay. Logo: `logo_h_white.png`. Use on dark plates (rustic, hands, ingredients).
-- `light` → ink type on a `rgba(240,229,208,.80)` overlay. Logo: `logo_h_black.png`. Use on bright plates (white wall, daylight).
+- `dark` (default) → white type on a `rgba(0,0,0,.55)` overlay. Logo: `logo_h_white.png`. Use on dark plates (rustic, hands, ingredients).
+- `light` → ink type on a `rgba(236,230,223,.80)` overlay. Logo: `logo_h_black.png`. Use on bright plates (white wall, daylight).
 
 ## Non-negotiables
 
@@ -45,4 +45,4 @@ The lane is a single editorial statement. The dark plate is the room; the type i
 
 ## Palette
 
-`--ink #1A1612` · `--white #FFFFFF` · `--tan-1 #F0E5D0` · `--tan-2 #B89A75` — see `design-system/SYSTEM.md` for the full token contract.
+`--ink #000000` · `--white #FFFFFF` · `--clay-tint #ECE6DF` · `--clay #D8CCBE` — see `design-system/SYSTEM.md` for the full token contract.

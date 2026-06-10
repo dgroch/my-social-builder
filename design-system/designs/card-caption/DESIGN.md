@@ -5,7 +5,7 @@
 **Best for:** a named bunch, a weekly favourite, a customer's table, anything that reads like a print someone labelled by hand.
 **Avoid for:** anything needing body copy, CTAs, prices or urgency.
 
-A single photograph presented like a print pinned to a split field — tan-1 on the left, white on the right — with a Cervanttis label beneath. The seed used a light-grey split; reconciled to the locked palette the field is tan-1/white. **Chrome-free lane:** no logo, no kicker, no CTA. The photo and four or five lowercase words are the whole post.
+A single photograph presented like a print pinned to a split field — clay-tint on the left, white on the right — with a Cervanttis label beneath. The seed used a light-grey split; reconciled to the locked palette the field is clay-tint/white. **Chrome-free lane:** no logo, no kicker, no CTA. The photo and four or five lowercase words are the whole post.
 
 ## Slides
 

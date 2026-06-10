@@ -7,7 +7,7 @@
        motif       : enum body-flower|face-1|face-2|hand-flower|hand-rose|front-face | the line-art figure behind the card — it emerges above and below (assets/lineart/*.svg, rendered as a CSS mask)
      VISUAL_ROLE  : a white card floating on an ink field with line-art figures (seed: Design 3)
      FOCAL        : the quote
-     PALETTE       : ink #1A1612 field · white card · tan-1 line-art · tan-2 kicker
+     PALETTE       : ink #000000 field · white card · clay-tint line-art · clay kicker
      TYPE          : Lust quote + Neuzeit attribution/kicker. Chrome-free lane.
 -->
 <!doctype html><html><head><meta charset="utf-8"><style>
@@ -15,16 +15,16 @@
 @font-face{font-family:SansB;src:url('{{ASSETS_BASE}}/fonts/NeuzeitGro-Bol.otf')}
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{width:{{W}}px;height:{{H}}px;overflow:hidden}
-.stage{position:relative;width:{{W}}px;height:{{H}}px;background:#1A1612;--ink:#1A1612;--tan2:#B89A75;overflow:hidden}
+.stage{position:relative;width:{{W}}px;height:{{H}}px;background:#000000;--ink:#000000;--clay:#D8CCBE;overflow:hidden}
 /* black-stroke SVG as a stencil: mask = drawing, background-color = colourway.
    One large figure behind the card — it emerges in the bands above and below,
    the card owns the middle (seed 3's composition). */
-.la{position:absolute;background:rgba(240,229,208,.42);top:-6%;bottom:-8%;right:-10%;width:80%;
+.la{position:absolute;background:rgba(236,230,223,.42);top:-6%;bottom:-8%;right:-10%;width:80%;
     -webkit-mask:url('{{ASSETS_BASE}}/assets/lineart/{{motif}}.svg') center/contain no-repeat;
     mask:url('{{ASSETS_BASE}}/assets/lineart/{{motif}}.svg') center/contain no-repeat}
 .card{position:absolute;left:10%;right:13%;top:17%;bottom:17%;background:#FFFFFF;
       padding:72px 64px;display:flex;flex-direction:column;justify-content:center}
-.kicker{font-family:SansB;font-size:12px;letter-spacing:.30em;text-transform:uppercase;color:var(--tan2);margin-bottom:24px}
+.kicker{font-family:SansB;font-size:12px;letter-spacing:.30em;text-transform:uppercase;color:var(--clay);margin-bottom:24px}
 .q{font-family:Lust;font-size:40px;line-height:1.32;color:var(--ink)}
 .attr{font-family:SansB;font-size:14px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink);margin-top:40px}
 /* story 9:16 — card sits inside the UI-safe band */

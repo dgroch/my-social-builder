@@ -4,7 +4,7 @@
        word     : text             | one single word (or short phrase) set in Cervanttis, centred, translucent over the photo
        cta      : text             | lower-right link, e.g. "Read on →"
        photo    : image            | real hand-held or in-stillness plate from the Fig & Bloom asset library
-     PALETTE       : ink #1A1612 ground · white #FFFFFF translucent word · tan-1 #F0E5D0 chrome
+     PALETTE       : ink #000000 ground · white #FFFFFF translucent word · clay-tint #ECE6DF chrome
      TYPE          : Lust word + Neuzeit Grotesk kicker/CTA
      LANE RULE     : One word. If you need a sentence, use story-editorial. The lane is a moment, not a message.
 -->
@@ -15,8 +15,8 @@
 @font-face{font-family:SansB;src:url('{{ASSETS_BASE}}/fonts/NeuzeitGro-Bol.otf')}
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{width:{{W}}px;height:{{H}}px;overflow:hidden}
-.stage{position:relative;width:{{W}}px;height:{{H}}px;background:#1A1612 url('{{photo}}') center/cover no-repeat;
-       --ink:#1A1612;--white:#FFFFFF;--tan-1:#F0E5D0;--tan-2:#B89A75}
+.stage{position:relative;width:{{W}}px;height:{{H}}px;background:#000000 url('{{photo}}') center/cover no-repeat;
+       --ink:#000000;--white:#FFFFFF;--clay-tint:#ECE6DF;--clay:#D8CCBE}
 .kicker{position:absolute;left:88px;right:88px;top:120px;font-family:SansB;font-size:12px;letter-spacing:.32em;text-transform:uppercase;color:var(--white);text-align:center;opacity:.85}
 .word{position:absolute;left:0;right:0;top:0;bottom:0;display:flex;align-items:center;justify-content:center;font-family:Lust;font-size:220px;line-height:1;letter-spacing:-2px;color:var(--white);opacity:.55;text-align:center;padding:0 88px}
 

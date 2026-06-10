@@ -9,7 +9,7 @@
      voice     : text, optional   | Cervanttis voice line — its own block, never inline
      LEVERS:
        theme      : enum light|dark | light = ink type on a clean upper plate; dark = white type on a darkened plate
-     PALETTE       : tan-1 #F0E5D0 lower panel · ink #1A1612 type · tan-2 #B89A75 price pill
+     PALETTE       : clay-tint #ECE6DF lower panel · ink #000000 type · clay #D8CCBE price pill
      TYPE          : Lust display + Cervanttis voice line + Neuzeit Grotesk sans
 -->
 <!doctype html><html><head><meta charset="utf-8"><style>
@@ -19,12 +19,12 @@
 @font-face{font-family:SansB;src:url('{{ASSETS_BASE}}/fonts/NeuzeitGro-Bol.otf')}
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{width:{{W}}px;height:{{H}}px;overflow:hidden}
-.stage{position:relative;width:{{W}}px;height:{{H}}px;background:#F0E5D0;
-       --ink:#1A1612;--char:#1A1612;--rule:#B89A75;--pill:#1A1612;--pill-ink:#F0E5D0}
-.stage.dark{--ink:#FFFFFF;--char:#F0E5D0;--rule:#B89A75;--pill:#F0E5D0;--pill-ink:#1A1612}
-.plate{position:absolute;left:0;right:0;top:0;height:1200px;background:#1A1612 url('{{photo}}') center/cover no-repeat}
+.stage{position:relative;width:{{W}}px;height:{{H}}px;background:#ECE6DF;
+       --ink:#000000;--char:#000000;--rule:#D8CCBE;--pill:#000000;--pill-ink:#ECE6DF}
+.stage.dark{--ink:#FFFFFF;--char:#ECE6DF;--rule:#D8CCBE;--pill:#ECE6DF;--pill-ink:#000000}
+.plate{position:absolute;left:0;right:0;top:0;height:1200px;background:#000000 url('{{photo}}') center/cover no-repeat}
 .plate::after{content:"";position:absolute;left:0;right:0;top:0;bottom:0;background:transparent}
-.stage.dark .plate::after{background:rgba(26,22,18,.45)}
+.stage.dark .plate::after{background:rgba(0,0,0,.45)}
 .kicker{position:absolute;left:88px;top:1276px;font-family:SansB;font-size:12px;letter-spacing:.30em;text-transform:uppercase;color:var(--char)}
 .h{position:absolute;left:88px;right:88px;top:1376px;font-family:Lust;font-size:48px;line-height:1.05;letter-spacing:-0.5px;color:var(--ink)}
 .h i{font-style:normal}

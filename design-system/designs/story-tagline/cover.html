@@ -5,7 +5,7 @@
        subhead  : text, sans, optional | one short sans descriptor below the headline
        cta      : text             | lower-right link, e.g. "See the edit →"
        photo    : image            | real dark/moody plate from the Fig & Bloom asset library (hands, ingredients, surfaces)
-     PALETTE       : ink #1A1612 ground · white #FFFFFF type · tan-1 #F0E5D0 secondary
+     PALETTE       : ink #000000 ground · white #FFFFFF type · clay-tint #ECE6DF secondary
      TYPE          : Neuzeit Grotesk ONLY — no Lust / Cervanttis on this lane
      LANE RULE     : Sans-only. No serif. The lane is a label, not a statement. If you need a serif, use story-editorial.
 -->
@@ -14,12 +14,12 @@
 @font-face{font-family:SansB;src:url('{{ASSETS_BASE}}/fonts/NeuzeitGro-Bol.otf')}
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{width:{{W}}px;height:{{H}}px;overflow:hidden}
-.stage{position:relative;width:{{W}}px;height:{{H}}px;background:#1A1612 url('{{photo}}') center/cover no-repeat;
-       --ink:#1A1612;--white:#FFFFFF;--tan-1:#F0E5D0;--tan-2:#B89A75;--rule:#FFFFFF}
-.ov{position:absolute;left:0;right:0;top:0;bottom:0;background:rgba(26,22,18,.55)}
-.kicker{position:absolute;left:88px;top:1200px;font-family:SansB;font-size:12px;letter-spacing:.32em;text-transform:uppercase;color:var(--tan-1)}
+.stage{position:relative;width:{{W}}px;height:{{H}}px;background:#000000 url('{{photo}}') center/cover no-repeat;
+       --ink:#000000;--white:#FFFFFF;--clay-tint:#ECE6DF;--clay:#D8CCBE;--rule:#FFFFFF}
+.ov{position:absolute;left:0;right:0;top:0;bottom:0;background:rgba(0,0,0,.55)}
+.kicker{position:absolute;left:88px;top:1200px;font-family:SansB;font-size:12px;letter-spacing:.32em;text-transform:uppercase;color:var(--clay-tint)}
 .h{position:absolute;left:88px;right:88px;top:1276px;font-family:SansB;font-size:56px;line-height:1.05;letter-spacing:-.5px;color:var(--white);text-transform:uppercase}
-.sub{position:absolute;left:88px;right:88px;top:1500px;font-family:Sans;font-size:16px;line-height:1.5;color:var(--tan-1)}
+.sub{position:absolute;left:88px;right:88px;top:1500px;font-family:Sans;font-size:16px;line-height:1.5;color:var(--clay-tint)}
 .rule{position:absolute;left:88px;right:88px;bottom:200px;height:1px;background:var(--rule);opacity:.5}
 .logo{position:absolute;left:88px;bottom:96px;height:48px}
 .cta{position:absolute;right:88px;bottom:104px;font-family:SansB;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--white)}

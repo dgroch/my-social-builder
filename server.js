@@ -106,7 +106,7 @@ const SAMPLE_TOKENS = {
     attribution: 'Jean Houston', theme: 'light', motif: 'body-flower'
   },
   'card-script-moment/cover': {
-    line: 'celebrate love', surface: 'tan-2', photo: ''
+    line: 'celebrate love', surface: 'clay', photo: ''
   },
   'card-note/cover': {
     line: "we're hiring", sub: 'florists & drivers — melbourne studio', motif: 'hand-plant'

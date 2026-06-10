@@ -16,11 +16,11 @@ The lane is a **sans-only** label on a dark photo. No Cervanttis. The lane is a 
 
 - Outer margin **88px**, equal on left and right.
 - Plate fills the canvas (`background: cover`).
-- Dark overlay `rgba(26,22,18,.55)` to ensure the sans type sits cleanly on any plate.
+- Dark overlay `rgba(0,0,0,.55)` to ensure the sans type sits cleanly on any plate.
 - Type stacks in the lower 60% with these fixed rows:
-  - Kicker at y=1200, sans 22px, all-caps, letter-spacing .32em, tan-1.
+  - Kicker at y=1200, sans 22px, all-caps, letter-spacing .32em, clay-tint.
   - Headline at y=1276, sans 78px / 1.05, **all-caps**, white. (Sized so 2 lines clear the subhead and the rule.)
-  - Subhead at y=1500, sans 24px / 1.5, tan-1 (optional).
+  - Subhead at y=1500, sans 24px / 1.5, clay-tint (optional).
   - Hairline rule at y=1720, 1px, white at 50% opacity.
   - Logo bottom-left at y=1820, white wordmark.
   - CTA bottom-right at y=1826, sans 22px, all-caps, white.
@@ -47,4 +47,4 @@ The headline is **sans only** — the system does not wrap it in `*asterisks*` f
 
 ## Palette
 
-`--ink #1A1612` · `--white #FFFFFF` · `--tan-1 #F0E5D0` · `--tan-2 #B89A75` — see `design-system/SYSTEM.md` for the full token contract.
+`--ink #000000` · `--white #FFFFFF` · `--clay-tint #ECE6DF` · `--clay #D8CCBE` — see `design-system/SYSTEM.md` for the full token contract.

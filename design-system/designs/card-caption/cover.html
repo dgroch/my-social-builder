@@ -4,7 +4,7 @@
        caption : text  | the handwritten label beneath the print — lowercase, affectionate, e.g. "the saturday slow bunch"
      VISUAL_ROLE  : a photograph presented like a print, named in script (seed: Design 1; the seed's magenta block is this photo slot)
      FOCAL        : the photo; the caption speaks quietly beneath it
-     PALETTE       : tan-1 #F0E5D0 left field · white right field · ink #1A1612 caption
+     PALETTE       : clay-tint #ECE6DF left field · white right field · ink #000000 caption
      TYPE          : Cervanttis caption only — no Lust, no sans. Chrome-free lane (no logo).
 -->
 <!doctype html><html><head><meta charset="utf-8"><style>
@@ -12,10 +12,10 @@
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{width:{{W}}px;height:{{H}}px;overflow:hidden}
 .stage{position:relative;width:{{W}}px;height:{{H}}px;
-       --ink:#1A1612;--tan1:#F0E5D0;
-       background:linear-gradient(90deg,var(--tan1) 0 57%,#FFFFFF 57%);
+       --ink:#000000;--clay-tint:#ECE6DF;
+       background:linear-gradient(90deg,var(--clay-tint) 0 57%,#FFFFFF 57%);
        display:flex;flex-direction:column;align-items:center}
-.photo{width:66%;margin-top:10%;height:60%;background:#1A1612 url('{{photo}}') center/cover no-repeat}
+.photo{width:66%;margin-top:10%;height:60%;background:#000000 url('{{photo}}') center/cover no-repeat}
 .caption{flex:1;display:flex;align-items:center;font-family:CervI;font-size:64px;color:var(--ink);
          max-width:86%;text-align:center;line-height:1.15}
 /* portrait 4:5 — taller print, same rhythm */
@@ -24,7 +24,7 @@ html,body{width:{{W}}px;height:{{H}}px;overflow:hidden}
 .stage.r9x16 .photo{width:76%;margin-top:12%;height:60%}
 .stage.r9x16 .caption{flex:0 0 auto;margin-top:64px}
 /* landscape — wide print, smaller script */
-.stage.land{background:linear-gradient(90deg,var(--tan1) 0 76%,#FFFFFF 76%)}
+.stage.land{background:linear-gradient(90deg,var(--clay-tint) 0 76%,#FFFFFF 76%)}
 .stage.land .photo{width:70%;margin-top:9%;height:64%}
 .stage.land .caption{font-size:44px}
 </style></head><body>

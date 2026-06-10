@@ -46,4 +46,4 @@ The `word` token is parsed for `*italic*` markers. Keep it to **one word** or a 
 
 ## Palette
 
-`--ink #1A1612` · `--white #FFFFFF` · `--tan-1 #F0E5D0` · `--tan-2 #B89A75` — see `design-system/SYSTEM.md` for the full token contract.
+`--ink #000000` · `--white #FFFFFF` · `--clay-tint #ECE6DF` · `--clay #D8CCBE` — see `design-system/SYSTEM.md` for the full token contract.

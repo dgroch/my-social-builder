@@ -1,11 +1,11 @@
 # Design — Studio Note (`card-note`)
 
 **Lane:** Studio note. **Format:** single static. **Primary ratio:** 1:1 (1080×1080). Also 4:5, 9:16, 1.91:1.
-**Seed:** Design 8 of the 2023 PSD kit — paper texture, line-art bloom, a small script line. The seed's paper becomes tan-1 with a fine fractal grain.
+**Seed:** Design 8 of the 2023 PSD kit — paper texture, line-art bloom, a small script line. The seed's paper becomes clay-tint with a fine fractal grain.
 **Best for:** hiring, hours changes, small announcements, a public thank-you.
 **Avoid for:** product drops, long copy, anything urgent.
 
-A note pinned to the studio door: textured tan-1 paper, a single ink line-art bloom, one lowercase Cervanttis line, and (optionally) one quiet sans line of detail beneath. Humble by design — the smallness is the charm.
+A note pinned to the studio door: textured clay-tint paper, a single ink line-art bloom, one lowercase Cervanttis line, and (optionally) one quiet sans line of detail beneath. Humble by design — the smallness is the charm.
 
 ## Slides
 

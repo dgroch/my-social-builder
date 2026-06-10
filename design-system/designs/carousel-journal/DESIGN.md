@@ -36,7 +36,7 @@ Recommended sequence: `cover → intro → interior → interior → closing`. T
 ## Theme lever (cover)
 
 - `light` → ink type directly on the plate (needs a plate with a clean upper wall). Logo: `logo_h_black.png`. No overlay.
-- `dark` → white type on a darkened plate (works on any plate). Logo: `logo_h_white.png`. Overlay `rgba(18,15,12,.60)`.
+- `dark` → white type on a darkened plate (works on any plate). Logo: `logo_h_white.png`. Overlay `rgba(0,0,0,.60)`.
 
 The builder derives `THEME_CLASS` and `LOGO_FILE` from this lever — they are not separate tokens.
 

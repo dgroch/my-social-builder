@@ -24,14 +24,19 @@ When the brief has a word that wants italic emphasis inside a Lust headline, the
 
 ## The palette
 
-Four colours only. The two tans are the workhorses; the white and black are the polar ends.
+The official Fig & Bloom brand palette — four colours only. Clay and its tint are the workhorses;
+Silk White and Noir are the polar ends.
 
-| Token | Hex | Role |
-|---|---|---|
-| `--white` | `#FFFFFF` | Full backgrounds, type on dark plates |
-| `--ink` | `#1A1612` | Type on light/cream plates (warm black, never pure `#000`) |
-| `--tan-1` | `#F0E5D0` | Light tan / cream — primary surface for text panels, lower thirds |
-| `--tan-2` | `#B89A75` | Deep tan / clay — secondary surface, photo overlays, accent fills |
+| Token | Brand name | Hex | Role |
+|---|---|---|---|
+| `--white` | Silk White | `#FFFFFF` | Full backgrounds, type on dark plates |
+| `--ink` | Noir | `#000000` | Type on light/cream plates, dark fields, bars |
+| `--clay-tint` | Clay 50% tint | `#ECE6DF` | Light surface — text panels, lower thirds, paper |
+| `--clay` | Clay | `#D8CCBE` | Secondary surface, photo overlays, accent fills |
+
+(The CSS var names `--ink` / `--clay-tint` / `--clay` are the system's working names for the brand
+swatches; pre-v3.1 builds used a warmer reconstruction — `#1A1612` / `#F0E5D0` / `#B89A75` — which
+is retired.)
 
 **Rule:** No other colour enters the system. No pink, no sage, no dusty miller grey, no blue, no orange. Fig & Bloom's floral photography already brings the colour; the chrome stays in the four-token palette.
 
@@ -39,8 +44,8 @@ Four colours only. The two tans are the workhorses; the white and black are the 
 
 - **`--white`** → full-bleed backgrounds for the airy lanes; type on a dark/moody plate
 - **`--ink`** → Lust headlines on light plates; sans body; logo in the light theme
-- **`--tan-1`** → the warm lower-third panel (story-studio, story-promo, story-gift); the cream block on a dark photo (story-editorial)
-- **`--tan-2`** → deep accent: from-price pill, hairline rules on tan-1 panels, badge fills, secondary CTA backgrounds on light themes
+- **`--clay-tint`** → the warm lower-third panel (story-studio, story-promo, story-gift); the cream block on a dark photo (story-editorial)
+- **`--clay`** → deep accent: from-price pill, hairline rules on clay-tint panels, badge fills, secondary CTA backgrounds on light themes
 
 **Hairlines** are always `--ink` at 1px (subtle, structural) — never grey.
 
@@ -192,12 +197,12 @@ reconciliation rules, locked:
   photo slot (or, on flat fields, maps to the locked palette via a lever). No pink enters the chrome.
 - **The seed didone caps map to Lust caps**; the seed handwriting maps to **Cervanttis**; the seed
   sans maps to **Neuzeit Grotesk**. No fonts were adopted from the seeds.
-- **The seed grey split fields map to tan-1 / white.** The seed black stays ink `#1A1612`.
+- **The seed grey split fields map to clay-tint / white.** The seed black stays ink `#000000`.
 - **Line-art figures** are the brand's own illustrations — eight single-line drawings in
   `design-system/assets/lineart/` (`body-flower`, `body`, `face-1`, `face-2`, `front-face`,
   `hand-flower`, `hand-plant`, `hand-rose`). Templates render them as **CSS masks**: the black
   SVG is the stencil, the `background-color` is the colourway — one file drives every
-  combination (tan-1 42% on ink, ink 16% on white, white 22% on ink, ink 88% on paper). A
+  combination (clay-tint 42% on ink, ink 16% on white, white 22% on ink, ink 88% on paper). A
   `motif` lever on `card-testimonial`, `card-quote-lineart` and `card-note` picks the figure.
   Line-art never appears on the v2 story/carousel lanes.
 - **The `card-*` lanes are chrome-free** — no logo, no CTA, no kicker-bar furniture (the seeds carry

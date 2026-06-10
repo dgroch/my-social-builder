@@ -10,7 +10,7 @@
        theme    : enum light|dark  | light = ink type on the plate; dark = white type on a darkened plate
      VISUAL_ROLE  : opener / hook
      FOCAL        : headline (owns the upper third); plate is supporting
-     PALETTE       : ink #1A1612 · tan-1 #F0E5D0 · tan-2 #B89A75 · white #FFFFFF
+     PALETTE       : ink #000000 · clay-tint #ECE6DF · clay #D8CCBE · white #FFFFFF
      TYPE          : Lust display + Cervanttis voice line + Neuzeit Grotesk sans
 -->
 <!doctype html><html><head><meta charset="utf-8"><style>
@@ -19,11 +19,11 @@
 @font-face{font-family:Sans;src:url('{{ASSETS_BASE}}/fonts/NeuzeitGro-Lig.otf')}
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{width:{{W}}px;height:{{H}}px;overflow:hidden}
-.stage{position:relative;width:{{W}}px;height:{{H}}px;background:#1A1612 url('{{photo}}') center/cover no-repeat;
-       --ink:#1A1612;--char:#1A1612;--rule:#1A1612;--tan-1:#F0E5D0;--tan-2:#B89A75;--white:#FFFFFF}
-.stage.dark{--ink:#FFFFFF;--char:#F0E5D0;--rule:#B89A75}
+.stage{position:relative;width:{{W}}px;height:{{H}}px;background:#000000 url('{{photo}}') center/cover no-repeat;
+       --ink:#000000;--char:#000000;--rule:#000000;--clay-tint:#ECE6DF;--clay:#D8CCBE;--white:#FFFFFF}
+.stage.dark{--ink:#FFFFFF;--char:#ECE6DF;--rule:#D8CCBE}
 .ov{position:absolute;top:0;right:0;bottom:0;left:0;background:transparent}
-.stage.dark .ov{background:rgba(26,22,18,.60)}
+.stage.dark .ov{background:rgba(0,0,0,.60)}
 .kicker{position:absolute;left:88px;top:88px;font-family:Sans;font-size:12px;letter-spacing:.30em;text-transform:uppercase;color:var(--char)}
 .idx{position:absolute;right:88px;top:88px;font-family:Sans;font-size:12px;letter-spacing:.10em;color:var(--char)}
 .mrule{position:absolute;left:88px;right:88px;top:142px;height:2px;background:var(--rule)}

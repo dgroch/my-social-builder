@@ -5,7 +5,7 @@
 **Best for:** an editorial pull, a press quote, a campaign line that deserves air.
 **Avoid for:** long copy, urgency offers.
 
-The quieter sibling of `card-statement-bars`: stacked Lust caps breathe on a white left column (no bars), the plate stands on the right. An optional tan-2 kicker whispers above; an optional small-caps attribution sits beneath the stack.
+The quieter sibling of `card-statement-bars`: stacked Lust caps breathe on a white left column (no bars), the plate stands on the right. An optional clay kicker whispers above; an optional small-caps attribution sits beneath the stack.
 
 ## Slides
 

@@ -1,0 +1,14 @@
+{
+  "postName": "Statement — flowers first",
+  "design": "card-statement-bars",
+  "ratio": "1:1",
+  "slides": [
+    {
+      "slide": "cover",
+      "tokens": {
+        "photo": "query: vibrant hand-tied bouquet wrapped in white paper, studio light",
+        "headline": "flowers\nfirst.\neverything else\ncan wait"
+      }
+    }
+  ]
+}

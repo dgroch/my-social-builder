@@ -1,0 +1,62 @@
+<!-- SLIDE cover | LANE quote-lineart | PHOTO none
+     TOKENS:
+       quote       : text           | the line worth keeping — sentence case, 1–2 sentences
+       attribution : text, optional | who said it, set in Cervanttis beneath, e.g. "Jean Houston"
+     LEVERS:
+       theme       : enum light|dark | light = ink type on white; dark = white type on ink (seeds: Designs 5 & 4)
+     VISUAL_ROLE  : a centred quote breathing on an oversized line-art floral field
+     FOCAL        : the quote
+     PALETTE       : white or ink field · type in the opposite pole · line-art at low opacity
+     TYPE          : Lust quote + Cervanttis attribution (its own block, never inline). Chrome-free lane.
+-->
+<!doctype html><html><head><meta charset="utf-8"><style>
+@font-face{font-family:Lust;src:url('{{ASSETS_BASE}}/fonts/Lust-Regular.otf')}
+@font-face{font-family:CervI;src:url('{{ASSETS_BASE}}/fonts/cervanttis.ttf')}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:{{W}}px;height:{{H}}px;overflow:hidden}
+.stage{position:relative;width:{{W}}px;height:{{H}}px;background:#FFFFFF;--ink:#1A1612;--type:#1A1612;
+       --la:rgba(26,22,18,.15);overflow:hidden;display:flex;flex-direction:column;
+       align-items:center;justify-content:center;text-align:center}
+.stage.dark{background:#1A1612;--type:#FFFFFF;--la:rgba(255,255,255,.20)}
+.la{position:absolute;color:var(--la)}
+.la path{vector-effect:non-scaling-stroke}
+.la1{width:980px;top:-180px;left:-260px}
+.la2{width:900px;bottom:-240px;right:-250px;transform:rotate(150deg)}
+.q{position:relative;font-family:Lust;font-size:52px;line-height:1.35;color:var(--type);max-width:76%}
+.attr{position:relative;font-family:CervI;font-size:36px;color:var(--type);margin-top:40px}
+/* story 9:16 */
+.stage.r9x16 .q{font-size:56px;max-width:78%}
+.stage.r9x16 .la1{width:1100px}
+.stage.r9x16 .la2{width:1000px}
+/* landscape */
+.stage.land .q{font-size:38px;max-width:60%}
+.stage.land .attr{font-size:30px;margin-top:24px}
+.stage.land .la1{width:620px;top:-140px;left:-160px}
+.stage.land .la2{width:560px;bottom:-160px;right:-150px}
+</style></head><body>
+<div class="stage {{THEME_CLASS}} {{ORIENT}} {{RATIO_CLASS}}">
+  <svg class="la la1" viewBox="0 0 400 520" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+    <path d="M200 510 C 195 430, 215 380, 205 300 C 198 245, 175 215, 178 150"/>
+    <path d="M178 150 C 120 155, 90 110, 115 70 C 135 40, 180 38, 192 70"/>
+    <path d="M192 70 C 200 30, 255 28, 268 65 C 278 95, 255 120, 230 128"/>
+    <path d="M230 128 C 268 120, 295 140, 285 170 C 276 196, 235 200, 210 185"/>
+    <path d="M178 150 C 168 120, 175 90, 192 70"/>
+    <path d="M210 185 C 195 178, 182 165, 178 150"/>
+    <path d="M205 300 C 260 280, 300 240, 310 195 C 262 215, 222 255, 205 300 Z"/>
+    <path d="M205 300 C 250 255, 285 225, 310 195"/>
+    <path d="M198 245 C 150 235, 120 205, 112 170 C 152 182, 185 210, 198 245 Z"/>
+  </svg>
+  <svg class="la la2" viewBox="0 0 400 520" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+    <path d="M200 510 C 195 430, 215 380, 205 300 C 198 245, 175 215, 178 150"/>
+    <path d="M178 150 C 120 155, 90 110, 115 70 C 135 40, 180 38, 192 70"/>
+    <path d="M192 70 C 200 30, 255 28, 268 65 C 278 95, 255 120, 230 128"/>
+    <path d="M230 128 C 268 120, 295 140, 285 170 C 276 196, 235 200, 210 185"/>
+    <path d="M178 150 C 168 120, 175 90, 192 70"/>
+    <path d="M210 185 C 195 178, 182 165, 178 150"/>
+    <path d="M205 300 C 260 280, 300 240, 310 195 C 262 215, 222 255, 205 300 Z"/>
+    <path d="M205 300 C 250 255, 285 225, 310 195"/>
+    <path d="M198 245 C 150 235, 120 205, 112 170 C 152 182, 185 210, 198 245 Z"/>
+  </svg>
+  <div class="q">{{quote}}</div>
+  <div class="attr">{{attribution}}</div>
+</div></body></html>

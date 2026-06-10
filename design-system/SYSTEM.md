@@ -1,4 +1,4 @@
-# Fig & Bloom — Social Design System v2
+# Fig & Bloom — Social Design System v3
 
 The visual system for the `my-social-builder` renderer. **One type trio. Four tokens. Generous, editorial spacing. Every element earns its place.**
 
@@ -159,7 +159,7 @@ These are off the system. If a brief needs one of them, raise it before building
 
 ## Lane taxonomy (locked)
 
-The system ships **8 lanes**. Each lives at `design-system/designs/<id>/` with a `cover.html` (and `intro.html` / `closing.html` where applicable) plus a `DESIGN.md` token contract.
+The system ships **14 lanes**. Each lives at `design-system/designs/<id>/` with a `cover.html` (and `intro.html` / `closing.html` where applicable) plus a `DESIGN.md` token contract.
 
 | ID | Lane | Format | Slides | Use case |
 |---|---|---|---|---|
@@ -171,8 +171,59 @@ The system ships **8 lanes**. Each lives at `design-system/designs/<id>/` with a
 | `story-quote-soft` | Quote / soft | Story | 1 | Left-rail text on a soft-focus plate |
 | `story-tagline` | Tagline | Story | 1 | Sans-only label on a dark plate |
 | `story-overlay` | Overlay | Story | 1 | One large word over a hand/photo |
+| `card-caption` | Caption card | Static | 1 | A print with a handwritten label (seed: Design 1) |
+| `card-statement-bars` | Statement | Static | 1 | Stacked caps on ink bars across a plate (seed: Design 2) |
+| `card-statement-split` | Statement | Static | 1 | Stacked caps beside a plate (seed: Design 7) |
+| `card-testimonial` | Testimonial | Static | 1 | Review card on ink + line-art (seed: Design 3) |
+| `card-quote-lineart` | Quote / line-art | Static | 1 | Centred quote on line-art field, light/dark (seeds: Designs 4–5) |
+| `card-script-moment` | Script moment | Static | 1 | One Cervanttis line on a flat field (seed: Design 6) |
+| `card-note` | Studio note | Static | 1 | Paper-texture note with a line-art bloom (seed: Design 8) |
 
 Lanes are a closed set. Add a new lane only when a recurring brief shape demands it.
+
+---
+
+## v3 — the seed lanes (reconciling the 2023 PSD kit)
+
+The seven `card-*` lanes translate the eight-design 2023 PSD kit (`/seeds`) into this system. The
+reconciliation rules, locked:
+
+- **The seed magenta is a placeholder, not a colour.** Every magenta block/field in the PSDs is a
+  photo slot (or, on flat fields, maps to the locked palette via a lever). No pink enters the chrome.
+- **The seed didone caps map to Lust caps**; the seed handwriting maps to **Cervanttis**; the seed
+  sans maps to **Neuzeit Grotesk**. No fonts were adopted from the seeds.
+- **The seed grey split fields map to tan-1 / white.** The seed black stays ink `#1A1612`.
+- **Line-art florals** are an inline SVG motif (thin strokes, `vector-effect: non-scaling-stroke`),
+  used **only on the seeded lanes** (`card-testimonial`, `card-quote-lineart`, `card-note`) — at
+  tan-1 38% on ink, ink 15% on white, white 20% on ink. Never on the v2 story/carousel lanes.
+- **The `card-*` lanes are chrome-free** — no logo, no CTA, no kicker-bar furniture (the seeds carry
+  none). The type is the brand. Story/carousel lanes keep their logo lockups.
+- **Statics are multi-ratio**: every `card-*` lane renders 1:1 (primary), 4:5, 9:16 and **1.91:1**
+  (1200×630 — the link-card/OG ratio the seed kit shipped in). Templates adapt via the
+  `{{ORIENT}}` (`land|square|port`) and `{{RATIO_CLASS}}` (`r1x1`, `r4x5`, `r9x16`, `r1_91x1`)
+  stage classes the renderer injects.
+
+---
+
+## Photo sourcing — the asset library contract
+
+Every `photo` token accepts three forms:
+
+1. **A URL** — used as-is (the brand CDN, `https://brand-cdn.figandbloom.workers.dev/…`).
+2. **`samples/<file>`** — a plate bundled in `design-system/assets/samples/`.
+3. **`query: <natural language>`** — resolved **at render time** against the Fig & Bloom Asset
+   Library's semantic search (`https://asset-library-u70t.onrender.com`, override with
+   `ASSET_LIBRARY_URL`). The top-ranked image hit wins; the render response reports what was chosen
+   in `resolutions`.
+
+This is what makes the framework programmatic end-to-end: an agent writes a `post.json` that
+*describes* the plate it needs ("moody hand-tied bouquet on dark wood, side light") and the
+pipeline finds the on-brand asset.
+
+**When the library has no match**, the render fails with a `NO_ASSET` error and explicit guidance:
+generate the plate with the **brand-photographer skill** (which produces photography in the
+register below), upload it to the asset library, then re-render. The builder never falls back to
+stock or placeholder imagery — every plate is a real Fig & Bloom asset.
 
 ---
 

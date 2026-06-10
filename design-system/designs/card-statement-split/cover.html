@@ -1,0 +1,43 @@
+<!-- SLIDE cover | LANE statement | PHOTO required
+     TOKENS:
+       photo       : image          | the plate on the right panel — URL, samples/…, or "query: <describe the shot>"
+       headline    : text           | stacked caps, left column. Break lines yourself with newlines — 3–6 short lines.
+       attribution : text, optional | small caps line under the stack, e.g. the speaker or source
+       kicker      : text, optional | whisper label above the stack, e.g. "From the journal"
+     VISUAL_ROLE  : editorial split — stacked caps breathe on the left, the plate stands on the right (seed: Design 7; the seed's magenta panel is this photo slot)
+     FOCAL        : the stacked headline
+     PALETTE       : white field · ink #1A1612 type · tan-2 #B89A75 kicker
+     TYPE          : Lust caps + Neuzeit kicker/attribution. Chrome-free lane.
+-->
+<!doctype html><html><head><meta charset="utf-8"><style>
+@font-face{font-family:Lust;src:url('{{ASSETS_BASE}}/fonts/Lust-Regular.otf')}
+@font-face{font-family:Sans;src:url('{{ASSETS_BASE}}/fonts/NeuzeitGro-Lig.otf')}
+@font-face{font-family:SansB;src:url('{{ASSETS_BASE}}/fonts/NeuzeitGro-Bol.otf')}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:{{W}}px;height:{{H}}px;overflow:hidden}
+.stage{position:relative;width:{{W}}px;height:{{H}}px;background:#FFFFFF;--ink:#1A1612;--tan2:#B89A75;--m:88px}
+.stage.land{--m:56px}
+.plate{position:absolute;right:0;top:15%;bottom:15%;width:50%;background:#1A1612 url('{{photo}}') center/cover no-repeat}
+.copy{position:absolute;left:var(--m);top:50%;transform:translateY(-50%);width:42%}
+.kicker{font-family:SansB;font-size:12px;letter-spacing:.30em;text-transform:uppercase;color:var(--tan2);margin-bottom:24px}
+.h{font-family:Lust;font-size:54px;line-height:1.22;text-transform:uppercase;letter-spacing:1px;color:var(--ink);white-space:pre-line}
+.attr{font-family:SansB;font-size:15px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink);margin-top:40px}
+/* portrait 4:5 */
+.stage.r4x5 .plate{top:12%;bottom:12%}
+/* story 9:16 — plate on top, copy beneath, clear of UI zones */
+.stage.r9x16 .plate{left:auto;right:0;top:9%;bottom:auto;height:55%;width:71%}
+.stage.r9x16 .copy{top:auto;transform:none;bottom:440px;width:72%}
+.stage.r9x16 .h{font-size:62px}
+/* landscape — full-height right panel */
+.stage.land .plate{top:0;bottom:0;width:50%}
+.stage.land .h{font-size:38px}
+.stage.land .copy{width:38%}
+</style></head><body>
+<div class="stage {{ORIENT}} {{RATIO_CLASS}}">
+  <div class="plate"></div>
+  <div class="copy">
+    <div class="kicker">{{kicker}}</div>
+    <div class="h">{{headline}}</div>
+    <div class="attr">{{attribution}}</div>
+  </div>
+</div></body></html>

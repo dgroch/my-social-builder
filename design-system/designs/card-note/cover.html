@@ -1,0 +1,42 @@
+<!-- SLIDE cover | LANE note | PHOTO none
+     TOKENS:
+       line : text           | the note, lowercase script, e.g. "we're hiring"
+       sub  : text, optional | one quiet sans line beneath, e.g. "florists & drivers — melbourne studio"
+     VISUAL_ROLE  : a note pinned to the studio door — textured paper, a line-art bloom, a handwritten line (seed: Design 8)
+     FOCAL        : the script line; the bloom decorates, the paper carries
+     PALETTE       : tan-1 #F0E5D0 paper · ink #1A1612 line + bloom
+     TYPE          : Cervanttis line + Neuzeit sub. Chrome-free lane.
+-->
+<!doctype html><html><head><meta charset="utf-8"><style>
+@font-face{font-family:CervI;src:url('{{ASSETS_BASE}}/fonts/cervanttis.ttf')}
+@font-face{font-family:Sans;src:url('{{ASSETS_BASE}}/fonts/NeuzeitGro-Lig.otf')}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:{{W}}px;height:{{H}}px;overflow:hidden}
+.stage{position:relative;width:{{W}}px;height:{{H}}px;--ink:#1A1612;background:#F0E5D0;
+       display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.stage::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/><feColorMatrix type='saturate' values='0'/></filter><rect width='240' height='240' filter='url(%23n)' opacity='0.06'/></svg>")}
+.la{color:rgba(26,22,18,.85);width:240px;margin-bottom:48px}
+.la path{vector-effect:non-scaling-stroke}
+.line{font-family:CervI;font-size:68px;color:var(--ink);max-width:82%;line-height:1.2}
+.sub{font-family:Sans;font-size:20px;letter-spacing:.06em;color:var(--ink);margin-top:24px;opacity:.85}
+.stage.r9x16 .la{width:300px;margin-bottom:64px}
+.stage.r9x16 .line{font-size:76px}
+.stage.land .la{width:170px;margin-bottom:32px}
+.stage.land .line{font-size:52px}
+</style></head><body>
+<div class="stage {{ORIENT}} {{RATIO_CLASS}}">
+  <svg class="la" viewBox="0 0 400 520" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+    <path d="M200 510 C 195 430, 215 380, 205 300 C 198 245, 175 215, 178 150"/>
+    <path d="M178 150 C 120 155, 90 110, 115 70 C 135 40, 180 38, 192 70"/>
+    <path d="M192 70 C 200 30, 255 28, 268 65 C 278 95, 255 120, 230 128"/>
+    <path d="M230 128 C 268 120, 295 140, 285 170 C 276 196, 235 200, 210 185"/>
+    <path d="M178 150 C 168 120, 175 90, 192 70"/>
+    <path d="M210 185 C 195 178, 182 165, 178 150"/>
+    <path d="M205 300 C 260 280, 300 240, 310 195 C 262 215, 222 255, 205 300 Z"/>
+    <path d="M205 300 C 250 255, 285 225, 310 195"/>
+    <path d="M198 245 C 150 235, 120 205, 112 170 C 152 182, 185 210, 198 245 Z"/>
+  </svg>
+  <div class="line">{{line}}</div>
+  <div class="sub">{{sub}}</div>
+</div></body></html>

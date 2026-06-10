@@ -8,6 +8,7 @@ const path = require('path');
 const { buildSchema } = require('./lib/parseDesigns');
 const render = require('./lib/render');
 const designs = require('./lib/designs');
+const assets = require('./lib/assets');
 
 const PORT = process.env.PORT || 4321;
 const PUBLIC = path.join(__dirname, 'public');
@@ -84,6 +85,31 @@ const SAMPLE_TOKENS = {
   },
   'story-overlay/cover': {
     kicker: 'This week', word: 'HELD', cta: 'Read on →', photo: SAMPLE_PHOTO
+  },
+  'card-caption/cover': {
+    photo: SAMPLE_PHOTO, caption: 'the saturday slow bunch'
+  },
+  'card-statement-bars/cover': {
+    photo: SAMPLE_PHOTO_ALT, headline: 'flowers\nfirst.\neverything else\ncan wait'
+  },
+  'card-statement-split/cover': {
+    photo: SAMPLE_PHOTO, kicker: 'From the journal',
+    headline: 'Human\nconnections\nare deeply\nnurtured', attribution: 'Jean Houston'
+  },
+  'card-testimonial/cover': {
+    kicker: 'Kind words',
+    quote: 'Highly recommended! Excellent service, speed, product and communication.',
+    attribution: 'Darren L'
+  },
+  'card-quote-lineart/cover': {
+    quote: 'human connections are deeply nurtured in the field of a shared story.',
+    attribution: 'Jean Houston', theme: 'light'
+  },
+  'card-script-moment/cover': {
+    line: 'celebrate love', surface: 'tan-2', photo: ''
+  },
+  'card-note/cover': {
+    line: "we're hiring", sub: 'florists & drivers — melbourne studio'
   }
 };
 
@@ -168,6 +194,12 @@ function validate(post) {
     if (!meta) { issues.push({ level: 'error', slide: i + 1, msg: 'Unknown slide: ' + s.slide }); errorCount++; return; }
     const declared = new Set([...meta.tokens.map(t => t.name), ...meta.levers.map(l => l.name)]);
     for (const k of Object.keys(s.tokens || {})) if (!declared.has(k)) { issues.push({ level: 'warning', slide: i + 1, msg: 'Unknown token "' + k + '" (ignored)' }); warningCount++; }
+    for (const t of meta.tokens) {
+      if (t.type === 'image' && assets.isQueryRef((s.tokens || {})[t.name])) {
+        issues.push({ level: 'warning', slide: i + 1, msg: t.name + ' = "' + s.tokens[t.name] + '" — resolves via asset-library semantic search at render time' });
+        warningCount++;
+      }
+    }
     try {
       const { leftover } = render.assembleSlide(schema, post.design, s.slide, s.tokens || {}, post.ratio);
       for (const lo of leftover) { issues.push({ level: 'error', slide: i + 1, msg: 'Unfilled ' + lo }); errorCount++; }
@@ -181,6 +213,10 @@ const server = http.createServer(async (req, res) => {
   const p = u.pathname;
   try {
     if (p === '/api/schema' && req.method === 'GET') return send(res, 200, buildSchema());
+    if (p === '/api/assets/search' && req.method === 'GET') {
+      try { return send(res, 200, await assets.searchAssets(u.searchParams.get('q') || '', u.searchParams.get('cursor') || undefined)); }
+      catch (e) { return send(res, 502, { error: 'asset-library', message: e.message }); }
+    }
     if (p === '/api/validate' && req.method === 'POST') return send(res, 200, validate((await readBody(req)).post));
     if (p === '/api/export' && req.method === 'POST') { const b = await readBody(req); return send(res, 200, { json: JSON.stringify(b.post, null, 2) }); }
     if (p === '/api/render' && req.method === 'POST') {

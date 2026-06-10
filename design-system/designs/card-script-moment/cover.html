@@ -1,0 +1,33 @@
+<!-- SLIDE cover | LANE script-moment | PHOTO optional
+     TOKENS:
+       line  : text            | two or three lowercase words, e.g. "celebrate love"
+       photo : image, optional | only when surface=photo — the plate behind the line. URL, samples/…, or "query: …"
+     LEVERS:
+       surface : enum tan-1|tan-2|ink|photo | the field: cream, clay, ink, or a darkened plate (seed: Design 6 — its flat magenta maps to tan-2/ink here)
+     VISUAL_ROLE  : one Cervanttis line, centred, on a flat or photographic field
+     FOCAL        : the script line — nothing else exists
+     PALETTE       : tan-1 / tan-2 / ink fields from the locked palette
+     TYPE          : Cervanttis only. Chrome-free lane.
+-->
+<!doctype html><html><head><meta charset="utf-8"><style>
+@font-face{font-family:CervI;src:url('{{ASSETS_BASE}}/fonts/cervanttis.ttf')}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:{{W}}px;height:{{H}}px;overflow:hidden}
+.stage{position:relative;width:{{W}}px;height:{{H}}px;display:flex;align-items:center;justify-content:center;
+       --ink:#1A1612;--tan1:#F0E5D0;--tan2:#B89A75;--text:var(--ink)}
+.stage.s-tan-1{background:var(--tan1)}
+.stage.s-tan-2{background:var(--tan2);--text:#FFFFFF}
+.stage.s-ink{background:var(--ink);--text:#FFFFFF}
+.plate,.shade{position:absolute;inset:0;display:none}
+.stage.s-photo .plate{display:block;background:#1A1612 url('{{photo}}') center/cover no-repeat}
+.stage.s-photo .shade{display:block;background:rgba(26,22,18,.50)}
+.stage.s-photo{--text:#FFFFFF}
+.line{position:relative;font-family:CervI;font-size:96px;color:var(--text);max-width:84%;text-align:center;line-height:1.2}
+.stage.r9x16 .line{font-size:104px}
+.stage.land .line{font-size:72px}
+</style></head><body>
+<div class="stage s-{{surface}} {{ORIENT}} {{RATIO_CLASS}}">
+  <div class="plate"></div>
+  <div class="shade"></div>
+  <div class="line">{{line}}</div>
+</div></body></html>

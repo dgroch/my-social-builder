@@ -1,0 +1,64 @@
+<!-- SLIDE cover | LANE testimonial | PHOTO none
+     TOKENS:
+       quote       : text           | the customer's words, verbatim, lightly trimmed — 1–3 sentences
+       attribution : text           | first name + initial, e.g. "Darren L"
+       kicker      : text, optional | whisper label above the quote, e.g. "Kind words"
+     VISUAL_ROLE  : a white card floating on an ink field with line-art florals (seed: Design 3)
+     FOCAL        : the quote
+     PALETTE       : ink #1A1612 field · white card · tan-1 line-art · tan-2 kicker
+     TYPE          : Lust quote + Neuzeit attribution/kicker. Chrome-free lane.
+-->
+<!doctype html><html><head><meta charset="utf-8"><style>
+@font-face{font-family:Lust;src:url('{{ASSETS_BASE}}/fonts/Lust-Regular.otf')}
+@font-face{font-family:SansB;src:url('{{ASSETS_BASE}}/fonts/NeuzeitGro-Bol.otf')}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:{{W}}px;height:{{H}}px;overflow:hidden}
+.stage{position:relative;width:{{W}}px;height:{{H}}px;background:#1A1612;--ink:#1A1612;--tan2:#B89A75;overflow:hidden}
+.la{position:absolute;color:rgba(240,229,208,.40)}
+.la path{vector-effect:non-scaling-stroke}
+.la1{width:520px;top:-70px;left:-60px}
+.la2{width:560px;bottom:-110px;right:-80px;transform:rotate(158deg)}
+.card{position:absolute;left:10%;right:13%;top:17%;bottom:17%;background:#FFFFFF;
+      padding:72px 64px;display:flex;flex-direction:column;justify-content:center}
+.kicker{font-family:SansB;font-size:12px;letter-spacing:.30em;text-transform:uppercase;color:var(--tan2);margin-bottom:24px}
+.q{font-family:Lust;font-size:40px;line-height:1.32;color:var(--ink)}
+.attr{font-family:SansB;font-size:14px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink);margin-top:40px}
+/* story 9:16 — card sits inside the UI-safe band */
+.stage.r9x16 .card{left:9%;right:9%;top:24%;bottom:26%}
+.stage.r9x16 .q{font-size:44px}
+/* landscape */
+.stage.land .card{left:15%;right:15%;top:13%;bottom:13%;padding:56px 64px}
+.stage.land .q{font-size:30px}
+.stage.land .attr{margin-top:24px}
+.stage.land .la1{width:380px;top:-60px;left:-50px}
+.stage.land .la2{width:400px;bottom:-90px;right:-60px}
+</style></head><body>
+<div class="stage {{ORIENT}} {{RATIO_CLASS}}">
+  <svg class="la la1" viewBox="0 0 400 520" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+    <path d="M200 510 C 195 430, 215 380, 205 300 C 198 245, 175 215, 178 150"/>
+    <path d="M178 150 C 120 155, 90 110, 115 70 C 135 40, 180 38, 192 70"/>
+    <path d="M192 70 C 200 30, 255 28, 268 65 C 278 95, 255 120, 230 128"/>
+    <path d="M230 128 C 268 120, 295 140, 285 170 C 276 196, 235 200, 210 185"/>
+    <path d="M178 150 C 168 120, 175 90, 192 70"/>
+    <path d="M210 185 C 195 178, 182 165, 178 150"/>
+    <path d="M205 300 C 260 280, 300 240, 310 195 C 262 215, 222 255, 205 300 Z"/>
+    <path d="M205 300 C 250 255, 285 225, 310 195"/>
+    <path d="M198 245 C 150 235, 120 205, 112 170 C 152 182, 185 210, 198 245 Z"/>
+  </svg>
+  <svg class="la la2" viewBox="0 0 400 520" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+    <path d="M200 510 C 195 430, 215 380, 205 300 C 198 245, 175 215, 178 150"/>
+    <path d="M178 150 C 120 155, 90 110, 115 70 C 135 40, 180 38, 192 70"/>
+    <path d="M192 70 C 200 30, 255 28, 268 65 C 278 95, 255 120, 230 128"/>
+    <path d="M230 128 C 268 120, 295 140, 285 170 C 276 196, 235 200, 210 185"/>
+    <path d="M178 150 C 168 120, 175 90, 192 70"/>
+    <path d="M210 185 C 195 178, 182 165, 178 150"/>
+    <path d="M205 300 C 260 280, 300 240, 310 195 C 262 215, 222 255, 205 300 Z"/>
+    <path d="M205 300 C 250 255, 285 225, 310 195"/>
+    <path d="M198 245 C 150 235, 120 205, 112 170 C 152 182, 185 210, 198 245 Z"/>
+  </svg>
+  <div class="card">
+    <div class="kicker">{{kicker}}</div>
+    <div class="q">{{quote}}</div>
+    <div class="attr">{{attribution}}</div>
+  </div>
+</div></body></html>

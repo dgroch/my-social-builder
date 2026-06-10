@@ -1,7 +1,7 @@
 {
   "brand": "fig-and-bloom",
-  "version": "2.0.0",
-  "system": "Cervanttis + Neuzeit Grotesk on white / black / tan-1 #F0E5D0 / tan-2 #B89A75. See design-system/SYSTEM.md for the full palette and type contract.",
+  "version": "3.0.0",
+  "system": "Lust + Cervanttis + Neuzeit Grotesk on white / ink / tan-1 #F0E5D0 / tan-2 #B89A75. v3 adds the seed lanes (from the 2023 PSD kit, reconciled to this palette) and asset-library photo queries. See design-system/SYSTEM.md.",
   "ratios": {
     "4:5": {
       "w": 1080,
@@ -23,6 +23,13 @@
       "label": "Story / Reel",
       "safeTop": 269,
       "safeBottom": 384
+    },
+    "1.91:1": {
+      "w": 1200,
+      "h": 630,
+      "label": "Landscape / link card",
+      "safeTop": 0,
+      "safeBottom": 0
     }
   },
   "lanes": {
@@ -88,6 +95,55 @@
       "voice": "One word. If you need a sentence, use story-editorial.",
       "designs": [
         "story-overlay"
+      ]
+    },
+    "caption": {
+      "label": "Caption card",
+      "intent": "A single photograph presented like a print on a split field, named in script beneath. Seed: Design 1.",
+      "voice": "A handwritten label, lowercase, affectionate. Name the bunch, the moment, the person.",
+      "designs": [
+        "card-caption"
+      ]
+    },
+    "statement": {
+      "label": "Statement",
+      "intent": "Stacked display caps beside or across a photograph. The loud-but-considered lane. Seeds: Designs 2 & 7.",
+      "voice": "Short declarative lines, broken deliberately. Wit welcome; urgency never.",
+      "designs": [
+        "card-statement-bars",
+        "card-statement-split"
+      ]
+    },
+    "testimonial": {
+      "label": "Testimonial",
+      "intent": "A customer's words on a white card over an ink field with line-art florals. Seed: Design 3.",
+      "voice": "Their words, verbatim, lightly trimmed. First name + initial attribution.",
+      "designs": [
+        "card-testimonial"
+      ]
+    },
+    "quote-lineart": {
+      "label": "Quote / line-art",
+      "intent": "A borrowed or brand line centred on a line-art floral field, light or dark. Seed: Designs 4 & 5.",
+      "voice": "A line worth keeping. Cervanttis attribution beneath, its own block.",
+      "designs": [
+        "card-quote-lineart"
+      ]
+    },
+    "script-moment": {
+      "label": "Script moment",
+      "intent": "One Cervanttis line on a flat field or quiet plate. The softest beat in the feed. Seed: Design 6.",
+      "voice": "Two or three words, lowercase. If it needs a sentence, use quote-lineart.",
+      "designs": [
+        "card-script-moment"
+      ]
+    },
+    "note": {
+      "label": "Studio note",
+      "intent": "A small announcement on textured paper with a line-art bloom — hiring, opening hours, a thank-you. Seed: Design 8.",
+      "voice": "A note pinned to the studio door. Lowercase script, no chrome.",
+      "designs": [
+        "card-note"
       ]
     }
   },
@@ -206,6 +262,104 @@
       "recommendedSequence": ["cover"],
       "slides": {
         "cover": { "template": "cover.html", "photo": "required", "role": "one_word_moment" }
+      }
+    },
+    "card-caption": {
+      "lane": "caption",
+      "label": "Caption Card",
+      "format": "static",
+      "primaryRatio": "1:1",
+      "ratios": ["1:1", "4:5", "9:16", "1.91:1"],
+      "bestFor": ["named_bunch", "weekly_favourite", "customer_moment", "print_style_share"],
+      "avoidFor": ["needs_body_copy", "urgency_offer", "multi_beat"],
+      "requiresPlate": true,
+      "recommendedSequence": ["cover"],
+      "slides": {
+        "cover": { "template": "cover.html", "photo": "required", "role": "print_with_label" }
+      }
+    },
+    "card-statement-bars": {
+      "lane": "statement",
+      "label": "Statement Bars",
+      "format": "static",
+      "primaryRatio": "1:1",
+      "ratios": ["1:1", "4:5", "9:16", "1.91:1"],
+      "bestFor": ["bold_declaration", "campaign_line", "wit_moment"],
+      "avoidFor": ["long_copy", "soft_poetic_line", "discount_framing"],
+      "requiresPlate": true,
+      "recommendedSequence": ["cover"],
+      "slides": {
+        "cover": { "template": "cover.html", "photo": "required", "role": "declaration_over_plate" }
+      }
+    },
+    "card-statement-split": {
+      "lane": "statement",
+      "label": "Statement Split",
+      "format": "static",
+      "primaryRatio": "1:1",
+      "ratios": ["1:1", "4:5", "9:16", "1.91:1"],
+      "bestFor": ["editorial_quote", "campaign_line", "press_pull"],
+      "avoidFor": ["long_copy", "urgency_offer"],
+      "requiresPlate": true,
+      "recommendedSequence": ["cover"],
+      "slides": {
+        "cover": { "template": "cover.html", "photo": "required", "role": "stacked_caps_beside_plate" }
+      }
+    },
+    "card-testimonial": {
+      "lane": "testimonial",
+      "label": "Testimonial Card",
+      "format": "static",
+      "primaryRatio": "1:1",
+      "ratios": ["1:1", "4:5", "9:16", "1.91:1"],
+      "bestFor": ["customer_review", "social_proof", "press_quote"],
+      "avoidFor": ["product_drop", "needs_photo", "long_review"],
+      "requiresPlate": false,
+      "recommendedSequence": ["cover"],
+      "slides": {
+        "cover": { "template": "cover.html", "photo": "none", "role": "review_card" }
+      }
+    },
+    "card-quote-lineart": {
+      "lane": "quote-lineart",
+      "label": "Quote Line-art",
+      "format": "static",
+      "primaryRatio": "1:1",
+      "ratios": ["1:1", "4:5", "9:16", "1.91:1"],
+      "bestFor": ["borrowed_quote", "brand_line", "seasonal_sentiment"],
+      "avoidFor": ["product_drop", "needs_photo", "cta_needed"],
+      "requiresPlate": false,
+      "recommendedSequence": ["cover"],
+      "slides": {
+        "cover": { "template": "cover.html", "photo": "none", "role": "quote_on_lineart", "levers": { "theme": ["light", "dark"] } }
+      }
+    },
+    "card-script-moment": {
+      "lane": "script-moment",
+      "label": "Script Moment",
+      "format": "static",
+      "primaryRatio": "1:1",
+      "ratios": ["1:1", "4:5", "9:16", "1.91:1"],
+      "bestFor": ["micro_sentiment", "occasion_beat", "feed_breather"],
+      "avoidFor": ["needs_sentence", "product_drop", "cta_needed"],
+      "requiresPlate": false,
+      "recommendedSequence": ["cover"],
+      "slides": {
+        "cover": { "template": "cover.html", "photo": "optional", "role": "script_line", "levers": { "surface": ["tan-1", "tan-2", "ink", "photo"] } }
+      }
+    },
+    "card-note": {
+      "lane": "note",
+      "label": "Studio Note",
+      "format": "static",
+      "primaryRatio": "1:1",
+      "ratios": ["1:1", "4:5", "9:16", "1.91:1"],
+      "bestFor": ["hiring", "hours_change", "small_announcement", "thank_you"],
+      "avoidFor": ["product_drop", "long_copy", "urgency_offer"],
+      "requiresPlate": false,
+      "recommendedSequence": ["cover"],
+      "slides": {
+        "cover": { "template": "cover.html", "photo": "none", "role": "paper_note" }
       }
     }
   }

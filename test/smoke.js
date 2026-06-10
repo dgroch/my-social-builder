@@ -53,4 +53,46 @@ for (const [name, sample] of samples) {
     checked++;
   }
 }
-console.log(`OK — schema valid, ${checked} slides assembled across ${samples.length} designs with zero unfilled tokens.`);
+
+// --- v3 seed lanes present ---
+const v3Checks = [
+  ['card-caption',        'caption'],
+  ['card-statement-bars', 'statement'],
+  ['card-statement-split','statement'],
+  ['card-testimonial',    'testimonial'],
+  ['card-quote-lineart',  'quote-lineart'],
+  ['card-script-moment',  'script-moment'],
+  ['card-note',           'note'],
+];
+for (const [d, l] of v3Checks) {
+  assert(schema.designs[d], `${d} present`);
+  assert(schema.designs[d].lane === l, `${d} lane = ${l}`);
+  assert(schema.lanes[l].designs.includes(d), `${l} lane lists ${d}`);
+  assert(schema.designs[d].ratios.includes('1.91:1'), `${d} supports 1.91:1`);
+}
+assert(schema.ratios['1.91:1'] && schema.ratios['1.91:1'].w === 1200, '1.91:1 ratio registered');
+
+// --- generic: EVERY design/slide assembles at EVERY declared ratio with synthesized tokens ---
+let generic = 0;
+for (const [id, d] of Object.entries(schema.designs)) {
+  for (const [slideId, meta] of Object.entries(d.slides)) {
+    const tokens = {};
+    for (const t of meta.tokens) tokens[t.name] = t.type === 'image' ? 'samples/osaka_45.png' : 'x';
+    for (const l of meta.levers) tokens[l.name] = l.values[0];
+    for (const ratio of d.ratios) {
+      const { leftover } = assembleSlide(schema, id, slideId, tokens, ratio);
+      assert.strictEqual(leftover.length, 0, `[generic] ${id}/${slideId}@${ratio} unfilled: ${leftover}`);
+      generic++;
+    }
+  }
+}
+
+// --- asset-library helpers (pure parts; no network) ---
+const assets = require('../lib/assets');
+assert(assets.isQueryRef('query: moody bouquet'), 'isQueryRef positive');
+assert(assets.isQueryRef('  QUERY:  caps and space  '), 'isQueryRef lenient');
+assert(!assets.isQueryRef('https://example.com/a.jpg'), 'isQueryRef negative URL');
+assert(!assets.isQueryRef('samples/osaka_45.png'), 'isQueryRef negative sample');
+assert.strictEqual(assets.queryText('query: moody bouquet '), 'moody bouquet', 'queryText trims');
+
+console.log(`OK — schema valid, ${checked} sample slides + ${generic} generic design/slide/ratio assemblies, asset helpers pass.`);

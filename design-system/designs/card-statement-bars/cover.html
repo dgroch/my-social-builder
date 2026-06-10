@@ -1,0 +1,33 @@
+<!-- SLIDE cover | LANE statement | PHOTO required
+     TOKENS:
+       photo    : image | the plate the statement sits across — URL, samples/…, or "query: <describe the shot>"
+       headline : text  | the declaration in stacked caps. Break lines yourself with newlines — each line gets its own ink bar. 2–5 short lines.
+     VISUAL_ROLE  : stacked Lust caps on ink bars, ragged-right, crossing the plate's edge (seed: Design 2; the seed's magenta block is this photo slot)
+     FOCAL        : the bars; the plate is the field they interrupt
+     PALETTE       : ink #1A1612 bars · white #FFFFFF type + right field
+     TYPE          : Lust caps on bars. Chrome-free lane (no logo, no CTA).
+-->
+<!doctype html><html><head><meta charset="utf-8"><style>
+@font-face{font-family:Lust;src:url('{{ASSETS_BASE}}/fonts/Lust-Regular.otf')}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:{{W}}px;height:{{H}}px;overflow:hidden}
+.stage{position:relative;width:{{W}}px;height:{{H}}px;background:#FFFFFF;--ink:#1A1612}
+.plate{position:absolute;left:0;top:0;width:74%;height:100%;background:#1A1612 url('{{photo}}') center/cover no-repeat}
+.bars{position:absolute;right:24px;bottom:96px;max-width:88%;text-align:right;
+      font-family:Lust;font-size:72px;line-height:1.62;text-transform:uppercase;letter-spacing:1px;
+      white-space:pre-line}
+.bars span{background:var(--ink);color:#FFFFFF;padding:4px 26px;
+           -webkit-box-decoration-break:clone;box-decoration-break:clone}
+/* portrait 4:5 */
+.stage.r4x5 .plate{width:78%;height:88%}
+/* story 9:16 — plate owns the top, bars sit above the bottom UI zone */
+.stage.r9x16 .plate{width:84%;height:78%}
+.stage.r9x16 .bars{font-size:76px;bottom:420px}
+/* landscape */
+.stage.land .plate{width:62%}
+.stage.land .bars{font-size:54px;bottom:56px}
+</style></head><body>
+<div class="stage {{ORIENT}} {{RATIO_CLASS}}">
+  <div class="plate"></div>
+  <div class="bars"><span>{{headline}}</span></div>
+</div></body></html>

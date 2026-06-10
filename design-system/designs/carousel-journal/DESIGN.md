@@ -20,7 +20,7 @@ Recommended sequence: `cover → intro → interior → interior → closing`. T
 
 - Outer margin **88px**, equal on four sides.
 - Masthead at the top margin (kicker left, index right) with a hairline under it; footer mirrors it (logo left, CTA right) with a hairline above.
-- Headline display **120px** (cover) / lede **60px** (intro), Lust, italic accent via `*asterisks*`; `<br>` for controlled line breaks.
+- Headline display **88px** (cover) / lede **52px** (intro), Lust, italic accent via `*asterisks*`; `<br>` for controlled line breaks.
 - Body copy: Neuzeit Grotesk Light, 30px / line-height 1.56.
 - Interior sections at fixed tops (200 / 543 / 886) with 1px dividers at 523 / 866 — keeps the rhythm even.
 

@@ -20,7 +20,7 @@ The lane is a **sans-only** label on a dark photo. No Cervanttis. The lane is a 
 - Type stacks in the lower 60% with these fixed rows:
   - Kicker at y=1200, sans 22px, all-caps, letter-spacing .32em, clay-tint.
   - Headline at y=1276, sans 78px / 1.05, **all-caps**, white. (Sized so 2 lines clear the subhead and the rule.)
-  - Subhead at y=1500, sans 24px / 1.5, clay-tint (optional).
+  - Subhead at y=1470, sans 30px / 1.45, clay-tint (optional).
   - Hairline rule at y=1720, 1px, white at 50% opacity.
   - Logo bottom-left at y=1820, white wordmark.
   - CTA bottom-right at y=1826, sans 22px, all-caps, white.

@@ -1,7 +1,7 @@
 # Design — Script Moment (`card-script-moment`)
 
 **Lane:** Script moment. **Format:** single static. **Primary ratio:** 1:1 (1080×1080). Also 4:5, 9:16, 1.91:1.
-**Seed:** Design 6 of the 2023 PSD kit — the seed's flat magenta field maps to the locked palette via the `surface` lever (clay clay is the closest tonal cousin; ink is the boldest).
+**Seed:** Design 6 of the 2023 PSD kit — the seed's flat magenta field maps to the locked palette via the `surface` lever (Clay is the closest tonal cousin; Noir is the boldest).
 **Best for:** a micro-sentiment ("celebrate love"), an occasion beat, a breather between photo-led posts.
 **Avoid for:** anything needing a sentence (use `card-quote-lineart`), product drops, CTAs.
 
@@ -31,5 +31,5 @@ One Cervanttis line, centred on a flat field — or, with `surface: photo`, on a
 ## Voice discipline
 
 - Two or three words, lowercase: "celebrate love", "with care", "for the makers".
-- Cervanttis 80px (88 story, 60 landscape) — the line is the artwork; don't shrink it to fit more words. Fewer words instead.
+- Cervanttis 96px (104 story, 72 landscape) — the line is the artwork; don't shrink it to fit more words. Fewer words instead.
 - Chrome-free lane. AU English.

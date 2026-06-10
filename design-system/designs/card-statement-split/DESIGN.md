@@ -17,7 +17,7 @@ The quieter sibling of `card-statement-bars`: stacked Lust caps breathe on a whi
 
 - **1:1 / 4:5** — plate flush right, 50% wide, inset 15%/12% top & bottom; copy column 42% wide at the 88px margin.
 - **9:16** — plate flush right, 71% × 55% from the top; copy below it, clear of the bottom UI zone.
-- **1.91:1** — plate full-height right half; copy column 38% at a 56px margin; Lust 38px.
+- **1.91:1** — plate full-height right half; copy column 38% at a 56px margin; Lust 48px.
 
 ## Tokens
 

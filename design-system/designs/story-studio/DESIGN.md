@@ -19,11 +19,11 @@ Single slide only. Story format is one beat — if the brief needs more, use the
 - Outer margin **88px**, equal on left and right.
 - Plate occupies the top **1056px** (55%) — full bleed, no safe-zone padding inside the plate.
 - Warm cream panel fills **y=1056 → 1920** (45%). Type stacks inside it with these fixed rows:
-  - Kicker at y=1132 (76px below plate edge), small-caps Neuzeit Bold 24px, letter-spacing .30em.
-  - Headline at y=1192, Lust 84px / 1.05. Wrap a word in `*asterisks*` for italic display accent.
+  - Kicker at y=1124, small-caps Neuzeit Bold 28px, letter-spacing .25em.
+  - Headline at y=1256, Lust 76px / 1.05. Wrap a word in `*asterisks*` for italic display accent.
   - Body at y=1472, Neuzeit Light 26px / 1.55 (omit for a tighter post).
   - Hairline rule at y=1760.
-  - Logo bottom-left at y=1820 (52px tall). CTA bottom-right at y=1826, sans 24px, letter-spacing .14em, all-caps.
+  - Logo bottom-left at y=1820 (52px tall). CTA bottom-right at y=1826, sans 26px, letter-spacing .14em, all-caps.
 - Safe-zone respect: text stays inside y=1132 → 1760, well within the 9:16 `safeTop: 269 / safeBottom: 384` envelope.
 
 ## Tokens

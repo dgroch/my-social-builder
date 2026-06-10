@@ -15,8 +15,8 @@ A centred Lust quote breathing on an oversized line-art floral field. Light them
 
 ## Grid
 
-- Quote centred, max-width 76% (60% landscape); Lust 52px / 1.35 (56 story, 38 landscape).
-- Attribution Cervanttis 36px, 40px below the quote.
+- Quote centred, max-width 76% (60% landscape); Lust 64px / 1.35 (72 story, 48 landscape).
+- Attribution Cervanttis 44px, 40px below the quote.
 - One oversized line-art figure (the `motif` lever), right-of-centre, cropped at the frame —
   rendered as a CSS mask from `assets/lineart/<motif>.svg` so the colourway follows the theme.
 

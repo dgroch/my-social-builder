@@ -17,7 +17,7 @@ A single photograph presented like a print pinned to a split field — clay-tint
 
 - **1:1 / 4:5** — split seam at 57% of width; print 66% wide, 10% top margin, ~60% tall; caption centred in the remaining band.
 - **9:16** — print 76% wide; caption sits below it, clear of the bottom UI zone.
-- **1.91:1** — seam at 76%; print 70% wide; caption at 44px.
+- **1.91:1** — seam at 76%; print 70% wide; caption at 56px.
 
 ## Tokens
 

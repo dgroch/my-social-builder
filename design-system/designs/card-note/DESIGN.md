@@ -17,8 +17,8 @@ A note pinned to the studio door: textured clay-tint paper, a single ink line-ar
 
 - Figure (the `motif` lever) in a 340×300 box (420×380 story, 260×200 landscape), centred,
   48px above the line — a CSS mask from `assets/lineart/<motif>.svg`, ink at 88%.
-- Line: Cervanttis 68px (76 story, 52 landscape), ink, centred.
-- Sub: Neuzeit Light 20px, 24px beneath, 85% opacity.
+- Line: Cervanttis 76px (88 story, 60 landscape), ink, centred.
+- Sub: Neuzeit Light 28px, 24px beneath, 85% opacity.
 - Paper grain: inline SVG fractal noise at 6% — never an imported texture image.
 
 ## Tokens

@@ -20,8 +20,8 @@ Recommended sequence: `intro → closing`. Two slides only. If the brief needs m
 - Outer margin **88px**, equal on left and right.
 - Plate occupies the top **1056px** (55%) — full bleed.
 - Warm cream panel fills **y=1056 → 1920** (45%, 864px). Type stacks inside it:
-  - **intro** — kicker at y=1132, headline at y=1192 (Lust 84px), body at y=1472 (Neuzeit Light 26px, optional), hairline at y=1760, logo at y=1820, soft "next →" hint at y=1826.
-  - **closing** — kicker at y=1132, end-line at y=1216 (Lust 76px, centred, with italic display accent on the emphasised word), url at y=1500 (centred, lowercase, optional), hairline at y=1760, logo at y=1820, CTA at y=1826.
+  - **intro** — kicker at y=1132, headline at y=1256 (Lust 72px), body at y=1430 (Neuzeit Light 30px, optional), hairline at y=1760, logo at y=1820, soft "next →" hint at y=1826.
+  - **closing** — kicker at y=1132, end-line at y=1264 (Lust 64px, centred, with italic display accent on the emphasised word), url at y=1500 (centred, lowercase, optional), hairline at y=1760, logo at y=1820, CTA at y=1826.
 
 ## Tokens
 

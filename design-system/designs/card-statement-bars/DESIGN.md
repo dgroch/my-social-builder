@@ -15,10 +15,10 @@ Stacked Lust caps on ink highlight bars, ragged-right, crossing the plate's righ
 
 ## Grid
 
-- **1:1** — plate 74% wide, full height; bars right-aligned, 24px from the right edge, 96px up from the bottom; Lust 72px caps on ink bars.
+- **1:1** — plate 74% wide, full height; bars right-aligned, 24px from the right edge, 96px up from the bottom; Lust 88px caps on ink bars.
 - **4:5** — plate 78% × 88%.
 - **9:16** — plate 84% × 78%; bars clear the bottom UI zone (≥420px up).
-- **1.91:1** — plate 62% wide; bars at 54px.
+- **1.91:1** — plate 62% wide; bars at 64px.
 
 ## Tokens
 

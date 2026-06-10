@@ -20,8 +20,8 @@ The lane is a split composition: a **clay-tint left rail** carrying the type, a 
 - Type stacks inside the rail with these fixed positions (relative to the rail, not the canvas):
   - Kicker at (64, 280), sans 22px, all-caps, letter-spacing .32em, clay.
   - Headline at (64, 340), Cervanttis 60px / 1.16, ink. Italic accent via `*word*`.
-  - Body at (64, 980), sans 24px / 1.55, ink (optional).
-  - URL at (64, 1500), sans 20px, lowercase, clay (optional).
+  - Body at (64, 1000), sans 28px / 1.5, ink (optional).
+  - URL at (64, 1480), sans 24px, lowercase, clay (optional).
   - CTA at (64, bottom-96), sans 22px, all-caps, ink.
 
 ## Tokens

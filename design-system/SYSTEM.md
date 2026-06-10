@@ -51,20 +51,34 @@ is retired.)
 
 ---
 
-## Type scale — editorial, restrained, Fig & Bloom
+## Type scale — canvas-scale, legible, Fig & Bloom
 
-Derived from the 2024 Fig & Bloom email design. Three sizes per view, no more. The headline owns the frame; the body is small; the kicker is a whisper.
+**The governing fact: a 1080px canvas is viewed at ~390pt on a phone — every size divides by
+~2.8 on the device.** The v2 scale (display 48–56, body 16, kicker 11–12) was email-scale type
+that rendered illegibly small in feed; it is retired. The v3 scale follows the design-discipline
+skill (kicker 26 · dek 34 · subhead 52 · display 96–160 at 1080-wide) and the measured type in
+the brand's own seed artwork (script captions ~80px, quote stacks ~64–70px, bars ~70px).
 
-| Token | Size (1080 wide) | Weight | Role |
-|---|---|---|---|
-| `display` | **48–56** | Lust Regular | The headline. The single line that says "this is the moment." |
-| `title` | **32–36** | Lust Regular | Sub-headlines, product names on hero lanes, "section" lines |
-| `body` | **16** | Neuzeit Light | Body copy, supporting lines |
-| `caption` | **14** | Neuzeit Light | Captions, secondary descriptions |
-| `kicker` | **11–12** | Neuzeit Bold, tracked, all caps | The kicker label. The CTA. The price. The button. |
-| `voice` | **18–24** | Cervanttis | A separate "voice" line. The Fig & Bloom "with love", "for the most magical what-you-want", the product tagline. **Always on its own line.** |
+**The floor: nothing informational below 26px at 1080-wide** (~9.3pt rendered). If a line can't
+earn 26px, it doesn't belong on the slide — edit, don't shrink.
 
-**The hard rule from the design-discipline skill holds:** max 2–3 sizes per view, and the display may take a deliberate jump above the scale. Default is 48–56; on a true hero (e.g. `story-overlay`'s single word "HELD") the display may climb to 96–160.
+| Role | 1:1 / 4:5 | 9:16 | 1.91:1 (1200w) | Face | Use |
+|---|---|---|---|---|---|
+| `kicker` | **26–28** | 28 | 22 | Neuzeit Bold, caps, tracked | Kicker, CTA, price, attribution small-caps |
+| `body` | **30–32** | 32–34 | 26 | Neuzeit Light, 1.5 | Body copy, sub lines |
+| `voice` | **40–44** | 44–48 | 32–36 | Cervanttis | The voice line — always its own block |
+| `title` | **52–64** | 56–72 | 44 | Lust | Multi-line quotes, stacked statements |
+| `display` | **96–128** | 120–160 | 72–104 | Lust | 1–3 short lines that own the frame |
+| `script` | **76–88** | 88–100 | 56–64 | Cervanttis | Script-as-display (caption, moment, note lanes) |
+
+**Max 2–3 sizes per view** still holds — hierarchy comes from bigger jumps between fewer sizes,
+plus weight, case and tracking. The display may take a deliberate jump above the scale to own its
+space (story-overlay's single word runs 200+). Multi-line stacks size to the line count and the
+space they must fill — a six-line statement at 64 beats two lines at 128 that don't fit.
+
+**Layout is relational, not pixel-stamped** (design-discipline §1): text blocks are flex stacks
+with rhythm-token gaps, anchored to panels measured in % of canvas — never absolute y-rows. This
+is also what makes one template hold across all four ratios.
 
 **The 5-beat rhythm** (one beat per section, repeated):
 

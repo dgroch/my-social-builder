@@ -15,9 +15,9 @@ A white card floating on an ink field, one large line-art figure behind it — t
 
 ## Grid
 
-- **1:1 / 4:5** — card inset left 10% / right 13% / top & bottom 17% (the asymmetry gives the field tension); 72/64px padding; Lust 40px quote.
-- **9:16** — card inset 9% sides, 24%/26% vertical — fully inside the story-UI safe band; Lust 44px.
-- **1.91:1** — card inset 15% sides, 13% vertical; Lust 30px.
+- **1:1 / 4:5** — card inset left 10% / right 13% / top & bottom 17% (the asymmetry gives the field tension); 80/72px padding; Lust 56px quote.
+- **9:16** — card inset 9% sides, 24%/26% vertical — fully inside the story-UI safe band; Lust 64px.
+- **1.91:1** — card inset 15% sides, 13% vertical; Lust 40px.
 
 ## Tokens
 

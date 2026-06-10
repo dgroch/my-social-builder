@@ -16,17 +16,17 @@ html,body{width:{{W}}px;height:{{H}}px;overflow:hidden}
        background:linear-gradient(90deg,var(--clay-tint) 0 57%,#FFFFFF 57%);
        display:flex;flex-direction:column;align-items:center}
 .photo{width:66%;margin-top:10%;height:60%;background:#000000 url('{{photo}}') center/cover no-repeat}
-.caption{flex:1;display:flex;align-items:center;font-family:CervI;font-size:64px;color:var(--ink);
+.caption{flex:1;display:flex;align-items:center;font-family:CervI;font-size:80px;color:var(--ink);
          max-width:86%;text-align:center;line-height:1.15}
 /* portrait 4:5 — taller print, same rhythm */
 .stage.r4x5 .photo{height:62%;margin-top:9%}
 /* story 9:16 — tall print, caption clear of the bottom UI zone */
 .stage.r9x16 .photo{width:76%;margin-top:12%;height:60%}
-.stage.r9x16 .caption{flex:0 0 auto;margin-top:64px}
+.stage.r9x16 .caption{flex:0 0 auto;margin-top:64px;font-size:88px}
 /* landscape — wide print, smaller script */
 .stage.land{background:linear-gradient(90deg,var(--clay-tint) 0 76%,#FFFFFF 76%)}
 .stage.land .photo{width:70%;margin-top:9%;height:64%}
-.stage.land .caption{font-size:44px}
+.stage.land .caption{font-size:56px}
 </style></head><body>
 <div class="stage {{ORIENT}} {{RATIO_CLASS}}">
   <div class="photo"></div>

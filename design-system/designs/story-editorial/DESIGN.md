@@ -19,7 +19,7 @@ The lane is a single editorial statement. The dark plate is the room; the type i
 - Dark overlay `rgba(0,0,0,.55)` (light overlay `rgba(236,230,223,.80)` on the light lever).
 - Type stacks centred vertically with these fixed rows:
   - Kicker at y=560, sans 22px, all-caps, letter-spacing .32em, clay-tint (`#ECE6DF`).
-  - Quote at y=610, Cervanttis 64px / 1.18, white (or ink on light lever). Italic accent via `*word*`.
+  - Quote at y=644, Lust 76px / 1.18, white (or ink on light lever). Italic accent via `*word*`.
   - Hairline mark at y=(1920-200), 1px, clay at 60% opacity.
   - Attribution at y=1300, sans 22px, all-caps, letter-spacing .18em, clay-tint.
   - Logo bottom-left at y=1820, white wordmark.

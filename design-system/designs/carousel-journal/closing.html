@@ -13,19 +13,33 @@
 @font-face{font-family:Sans;src:url('{{ASSETS_BASE}}/fonts/NeuzeitGro-Lig.otf')}
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{width:{{W}}px;height:{{H}}px;overflow:hidden}
-.stage{position:relative;width:{{W}}px;height:{{H}}px;background:#000000 url('{{photo}}') center/cover no-repeat}
-.ov{position:absolute;top:0;right:0;bottom:0;left:0;background:rgba(0,0,0,.72)}
-.logo-wrap{position:absolute;top:0;left:0;right:0;text-align:center}
-.logo-wrap img{margin-top:130px;height:110px}
-.voice{position:absolute;top:340px;left:120px;right:120px;text-align:center;font-family:CervI;font-size:44px;line-height:1.3;color:#FFFFFF}
-.cta-wrap{position:absolute;top:984px;left:0;right:0;text-align:center}
+.stage{position:relative;width:{{W}}px;height:{{H}}px;background:#000000 url('{{photo}}') center/cover no-repeat;--mx:120px}
+.ov{position:absolute;inset:0;background:rgba(0,0,0,.72)}
+.col{position:relative;height:100%;display:flex;flex-direction:column;align-items:center;text-align:center;padding:0 var(--mx)}
+.logo{margin-top:9.5%;height:110px;width:auto}
+.voice{margin-top:7.5%;font-family:CervI;font-size:44px;line-height:1.3;color:#FFFFFF}
+.spacer{flex:1}
 .cpill{display:inline-block;border:2px solid #ECE6DF;border-radius:999px;padding:26px 64px;font-family:Sans;font-size:24px;letter-spacing:.16em;text-transform:uppercase;color:#ECE6DF}
-.url{position:absolute;top:1140px;left:0;right:0;text-align:center;font-family:Sans;font-size:24px;letter-spacing:.18em;text-transform:uppercase;color:#ECE6DF}
+.url{margin-top:48px;font-family:Sans;font-size:24px;letter-spacing:.18em;text-transform:uppercase;color:#ECE6DF}
+.tail{flex:0 0 12%}
+/* square feed — tighter run */
+.stage.r1x1 .logo{height:96px}
+.stage.r1x1 .voice{font-size:40px}
+.stage.r1x1 .url{margin-top:40px}
+/* story 9:16 — story-scale type, clear of UI zones */
+.stage.r9x16 .logo{margin-top:14%}
+.stage.r9x16 .voice{font-size:48px}
+.stage.r9x16 .url{font-size:26px}
+.stage.r9x16 .tail{flex-basis:20%}
 </style></head><body>
-<div class="stage">
+<div class="stage {{ORIENT}} {{RATIO_CLASS}}">
   <div class="ov"></div>
-  <div class="logo-wrap"><img src="{{ASSETS_BASE}}/assets/logo_h_white.png"></div>
-  <div class="voice">{{voice}}</div>
-  <div class="cta-wrap"><span class="cpill">{{cta}}</span></div>
-  <div class="url">{{url}}</div>
+  <div class="col">
+    <img class="logo" src="{{ASSETS_BASE}}/assets/logo_h_white.png">
+    <div class="voice">{{voice}}</div>
+    <div class="spacer"></div>
+    <span class="cpill">{{cta}}</span>
+    <div class="url">{{url}}</div>
+    <div class="tail"></div>
+  </div>
 </div></body></html>

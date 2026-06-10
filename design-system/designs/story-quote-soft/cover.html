@@ -1,14 +1,12 @@
 <!-- SLIDE cover | LANE quote-soft | PHOTO required (soft-focus, right side)
      TOKENS:
        kicker   : text, markdown   | small-caps section label, e.g. "The studio"
-       headline : text, markdown   | main serif statement (Cervanttis, italic accent via *word*); 2-4 lines, set left
+       headline : text, markdown   | main serif statement, 2-4 lines, set left; <br> for controlled breaks
        body     : text, optional   | one short sans paragraph below the headline, AU English, calm register
        url      : text, optional   | short URL printed under the body, e.g. "figandbloom.com/journal"
        cta      : text             | the link-in-bio line, e.g. "Visit the link in bio →"
        photo    : image            | real soft-focus plate from the Fig & Bloom asset library (workshop, garden, room)
-     voice     : text, optional   | Cervanttis voice line — its own block, never inline
-     LEVERS:
-       theme    : enum light|dark  | light = ink on clay-tint with a soft photo inset; dark = white on a darkened photo with a clay-tint rail
+       voice    : text, optional   | Cervanttis voice line — its own block, never inline
      PALETTE       : clay-tint #ECE6DF left rail · ink #000000 type · clay #D8CCBE url
      TYPE          : Lust display + Cervanttis voice line + Neuzeit Grotesk sans
      LANE RULE     : The photo carries the mood; copy carries the message. Never invert. The rail is always clay-tint; the photo is always soft.
@@ -21,24 +19,58 @@
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{width:{{W}}px;height:{{H}}px;overflow:hidden}
 .stage{position:relative;width:{{W}}px;height:{{H}}px;background:#000000;
-       --ink:#000000;--white:#FFFFFF;--clay-tint:#ECE6DF;--clay:#D8CCBE}
-.photo{position:absolute;left:420px;right:0;top:0;bottom:0;background:url('{{photo}}') center/cover no-repeat;filter:saturate(.95)contrast(1.02)}
-.photo::after{content:"";position:absolute;left:0;right:0;top:0;bottom:0;background:linear-gradient(90deg,rgba(236,230,223,1) 0%,rgba(236,230,223,0) 22%)}
-.rail{position:absolute;left:0;top:0;bottom:0;width:560px;background:#ECE6DF}
-.kicker{position:absolute;left:64px;top:260px;font-family:SansB;font-size:26px;letter-spacing:.25em;text-transform:uppercase;color:rgba(0,0,0,.62);right:540px}
-.head{position:absolute;left:64px;right:540px;top:420px;font-family:Lust;font-size:52px;line-height:1.18;letter-spacing:-.5px;color:#000000}
+       --ink:#000000;--white:#FFFFFF;--clay-tint:#ECE6DF;--clay:#D8CCBE;
+       --rail:52%;--px:64px;--foot:96px}
+.photo{position:absolute;left:39%;right:0;top:0;bottom:0;background:url('{{photo}}') center/cover no-repeat;filter:saturate(.95)contrast(1.02)}
+.photo::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(236,230,223,1) 0%,rgba(236,230,223,0) 22%)}
+.rail{position:absolute;left:0;top:0;bottom:0;width:var(--rail);background:#ECE6DF;
+      display:flex;flex-direction:column;padding:0 var(--px) var(--foot)}
+.top{flex:0 0 13.5%}
+.kicker{font-family:SansB;font-size:26px;letter-spacing:.25em;text-transform:uppercase;color:rgba(0,0,0,.62)}
+.kicker i{font-style:normal}
+.voice{margin-top:24px;font-family:CervI;font-size:40px;line-height:1.25;color:#000000}
+.voice:empty{display:none}
+.head{margin-top:24px;font-family:Lust;font-size:52px;line-height:1.18;letter-spacing:-.5px;color:#000000}
 .head i{font-style:normal}
-.body{position:absolute;left:64px;right:540px;top:1000px;font-family:Sans;font-size:28px;line-height:1.5;color:#000000}
-.url{position:absolute;left:64px;top:1480px;font-family:Sans;font-size:24px;letter-spacing:.12em;text-transform:lowercase;color:rgba(0,0,0,.55);right:540px}
-.cta{position:absolute;left:64px;bottom:96px;font-family:SansB;font-size:26px;letter-spacing:.14em;text-transform:uppercase;color:#000000;right:540px}
-.voice{position:absolute;left:64px;right:540px;top:316px;font-family:CervI;font-style:normal;font-size:40px;line-height:1.25}</style></head><body>
-<div class="stage">
+.sp-a{flex:2 1 0}
+.body{font-family:Sans;font-size:28px;line-height:1.5;color:#000000}
+.body:empty{display:none}
+.sp-b{flex:1.5 1 0}
+.url{font-family:Sans;font-size:24px;letter-spacing:.12em;text-transform:lowercase;color:rgba(0,0,0,.55)}
+.url:empty{display:none}
+.sp-c{flex:1 1 0}
+.cta{font-family:SansB;font-size:26px;letter-spacing:.14em;text-transform:uppercase;color:#000000}
+/* feed 4:5 / 1:1 — shorter rail run, feed-scale type */
+.stage.r4x5{--rail:50%;--foot:88px}
+.stage.r4x5 .top{flex-basis:10%}
+.stage.r4x5 .head{font-size:48px}
+.stage.r1x1{--rail:50%;--foot:88px}
+.stage.r1x1 .top{flex-basis:9%}
+.stage.r1x1 .head{font-size:42px}
+.stage.r1x1 .voice{font-size:36px}
+/* landscape link card — narrower rail, the photo carries the width */
+.stage.land{--rail:46%;--px:48px;--foot:48px}
+.stage.land .photo{left:34%}
+.stage.land .top{flex-basis:9%}
+.stage.land .kicker{font-size:22px}
+.stage.land .voice{font-size:32px;margin-top:16px}
+.stage.land .head{font-size:38px;margin-top:16px}
+.stage.land .body{font-size:26px}
+.stage.land .url{font-size:20px}
+.stage.land .cta{font-size:22px}
+</style></head><body>
+<div class="stage {{ORIENT}} {{RATIO_CLASS}}">
   <div class="photo"></div>
-  <div class="rail"></div>
-  <div class="kicker">{{kicker}}</div>
-  <div class="voice">{{voice}}</div>
-  <div class="head">{{headline}}</div>
-  <div class="body">{{body}}</div>
-  <div class="url">{{url}}</div>
-  <div class="cta">{{cta}}</div>
+  <div class="rail">
+    <div class="top"></div>
+    <div class="kicker">{{kicker}}</div>
+    <div class="voice">{{voice}}</div>
+    <div class="head">{{headline}}</div>
+    <div class="sp-a"></div>
+    <div class="body">{{body}}</div>
+    <div class="sp-b"></div>
+    <div class="url">{{url}}</div>
+    <div class="sp-c"></div>
+    <div class="cta">{{cta}}</div>
+  </div>
 </div></body></html>

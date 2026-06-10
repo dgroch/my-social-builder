@@ -1,0 +1,64 @@
+<!-- SLIDE column | LANE editorial | PHOTO required (seeds: Good Weekend long-quote column + clay-block variant)
+     TOKENS:
+       text        : text, markdown | the long line or short passage, set as a narrow serif column; <br><br> for a paragraph break
+       attribution : text, optional | small sans line under the column, e.g. "From the journal — the morning run"
+       photo       : image          | full-bleed editorial plate from the Fig & Bloom asset library
+     LEVERS:
+       align : enum right|center|left | where the column sits on the plate (Good Weekend ran it right)
+       panel : enum none|clay         | none = type straight on the plate (10% mask + text shadow); clay = the clay-tint block behind the column, ink type
+     PALETTE       : ink #000000 mask · white #FFFFFF type · clay-tint #ECE6DF panel
+     TYPE          : Lust column + Neuzeit Grotesk attribution — no Cervanttis on this slide
+     LANE RULE     : A passage, not a paragraph stack — four or five short sentences is the ceiling. Centred ragged edges, like the seed.
+-->
+<!doctype html><html><head><meta charset="utf-8"><style>
+@font-face{font-family:Lust;src:url('{{ASSETS_BASE}}/fonts/Lust-Regular.otf')}
+@font-face{font-family:Sans;src:url('{{ASSETS_BASE}}/fonts/NeuzeitGro-Lig.otf')}
+@font-face{font-family:SansB;src:url('{{ASSETS_BASE}}/fonts/NeuzeitGro-Bol.otf')}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:{{W}}px;height:{{H}}px;overflow:hidden}
+.stage{position:relative;width:{{W}}px;height:{{H}}px;background:#000000 url('{{photo}}') center/cover no-repeat;
+       --ink:#000000;--white:#FFFFFF;--clay-tint:#ECE6DF;--clay:#D8CCBE;
+       --type:#FFFFFF;--quiet:#ECE6DF;--mx:88px;--foot:96px;--colw:62%;
+       --tsh:0 2px 6px rgba(0,0,0,.28),0 10px 36px rgba(0,0,0,.32)}
+.ov{position:absolute;inset:0;background:rgba(0,0,0,.10)}
+.col{position:relative;height:100%;display:flex;flex-direction:column;padding:0 var(--mx)}
+.wrap{flex:1;display:flex;flex-direction:column;justify-content:center}
+.block{width:var(--colw);text-align:center;text-shadow:var(--tsh)}
+.stage.a-right .block{align-self:flex-end}
+.stage.a-center .block{align-self:center}
+.stage.a-left .block{align-self:flex-start}
+.stage.p-clay .block{background:var(--clay-tint);--type:#000000;--quiet:rgba(0,0,0,.62);text-shadow:none;padding:64px 56px}
+.text{font-family:Lust;font-size:42px;line-height:1.5;letter-spacing:0;color:var(--type)}
+.text i{font-style:normal}
+.attr{margin-top:40px;font-family:Sans;font-size:24px;letter-spacing:.16em;text-transform:uppercase;color:var(--quiet)}
+.attr:empty{display:none}
+.foot{padding-bottom:var(--foot);text-shadow:var(--tsh)}
+.logo{height:48px;width:auto;display:block}
+/* feed 4:5 / 1:1 */
+.stage.r4x5{--foot:88px;--colw:66%}
+.stage.r4x5 .text{font-size:38px}
+.stage.r1x1{--foot:88px;--colw:70%}
+.stage.r1x1 .text{font-size:34px}
+.stage.r1x1.p-clay .block{padding:48px 40px}
+.stage.r1x1 .attr{margin-top:24px}
+/* landscape link card */
+.stage.land{--mx:64px;--foot:48px;--colw:52%}
+.stage.land .text{font-size:30px}
+.stage.land .attr{font-size:20px;margin-top:24px}
+.stage.land .logo{height:40px}
+.stage.land.p-clay .block{padding:40px 36px}
+</style></head><body>
+<div class="stage a-{{align}} p-{{panel}} {{ORIENT}} {{RATIO_CLASS}}">
+  <div class="ov"></div>
+  <div class="col">
+    <div class="wrap">
+      <div class="block">
+        <div class="text">{{text}}</div>
+        <div class="attr">{{attribution}}</div>
+      </div>
+    </div>
+    <div class="foot">
+      <img class="logo" src="{{ASSETS_BASE}}/assets/logo_h_white.png">
+    </div>
+  </div>
+</div></body></html>

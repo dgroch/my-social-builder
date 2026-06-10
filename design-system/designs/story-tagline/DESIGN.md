@@ -1,6 +1,6 @@
 # Design — Story Tagline (`story-tagline`)
 
-**Lane:** Tagline (sans-only label on a dark plate). **Format:** single-slide Story. **Primary ratio:** 9:16 (1080×1920). Also 4:5, 1:1.
+**Lane:** Tagline (sans-only label on a dark plate). **Format:** single-slide Story. **Primary ratio:** 9:16 (1080×1920). Also 4:5, 1:1, 1.91:1.
 **Best for:** a single sans label — "Gift edit", "Studio notes", "For the host", "New in" — over a moody plate. A **micro-format**, not a statement.
 **Avoid for:** anything that needs a serif headline (use `story-editorial` or `story-promo`), or any lane where the type is the message (use `story-overlay` for that).
 

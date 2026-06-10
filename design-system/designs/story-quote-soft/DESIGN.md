@@ -1,6 +1,6 @@
 # Design — Story Quote-Soft (`story-quote-soft`)
 
-**Lane:** Quote / soft (left-rail editorial on a soft-focus plate). **Format:** single-slide Story. **Primary ratio:** 9:16 (1080×1920). Also 4:5, 1:1.
+**Lane:** Quote / soft (left-rail editorial on a soft-focus plate). **Format:** single-slide Story. **Primary ratio:** 9:16 (1080×1920). Also 4:5, 1:1, 1.91:1.
 **Best for:** a poetic statement on a quiet scene; a Fig & Bloom journal line; a host's-moment preview.
 **Avoid for:** hard product drops (use `story-promo`), manifesto (use `story-editorial`).
 

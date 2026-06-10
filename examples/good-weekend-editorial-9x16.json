@@ -1,0 +1,56 @@
+{
+  "postName": "Good Weekend editorial — the morning run (full set)",
+  "design": "story-editorial",
+  "ratio": "9:16",
+  "slides": [
+    {
+      "slide": "feature",
+      "tokens": {
+        "kicker": "The journal",
+        "headline": "The morning run: how a bunch leaves the studio",
+        "dek": "From first cut to the courier's tray — the hours you don't see.",
+        "link_hint": "Slide for the story",
+        "theme": "dark",
+        "photo": "https://brand-cdn.figandbloom.workers.dev/figandbloom/asset-manifest/2026/06/floristry-craft-lifestyle-florist-workshop-or-studio-wooden-work-1WDNxT.jpg"
+      }
+    },
+    {
+      "slide": "pullquote",
+      "tokens": {
+        "quote": "We tie the stems before the morning is half done.",
+        "name": "Kellie",
+        "role": "Head florist, Melbourne studio",
+        "theme": "dark",
+        "photo": "https://brand-cdn.figandbloom.workers.dev/figandbloom/asset-manifest/2026/06/behind-the-scenes-floral-craft-floral-studio-or-workshop-in-sydn-1ZnUa2.jpg"
+      }
+    },
+    {
+      "slide": "column",
+      "tokens": {
+        "text": "The buckets are filled before sunrise.<br><br>By eight the bench is a field of cut stems, and the first orders are already wrapped, named and waiting by the door.",
+        "attribution": "From the journal",
+        "align": "right",
+        "panel": "none",
+        "photo": "https://brand-cdn.figandbloom.workers.dev/figandbloom/asset-manifest/2026/06/still-life-abstract-indoor-on-a-wooden-floor-roses-roses-flowers-1opGMU.jpg"
+      }
+    },
+    {
+      "slide": "press",
+      "tokens": {
+        "kicker": "The morning run",
+        "text": "By the time the vans leave the studio, every bunch has been cut, conditioned and photographed — a small record of the morning it was made. The photo lands in your inbox before the flowers land at the door.",
+        "link_hint": "More at the link in bio",
+        "surface": "white",
+        "photo": "https://brand-cdn.figandbloom.workers.dev/figandbloom/asset-manifest/2026/06/product-photography-indoor-studio-setting-with-a-light-wood-pane-1VTEeu.jpg"
+      }
+    },
+    {
+      "slide": "linkout",
+      "tokens": {
+        "line": "Head to the link in bio for the full story.",
+        "note": "New journal entries every week.",
+        "surface": "white"
+      }
+    }
+  ]
+}

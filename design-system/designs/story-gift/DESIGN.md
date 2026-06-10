@@ -1,6 +1,6 @@
 # Design — Story Gift (`story-gift`)
 
-**Lane:** Gift (the act of giving and the moment received). **Format:** two-slide Story. **Primary ratio:** 9:16 (1080×1920). Also 4:5, 1:1.
+**Lane:** Gift (the act of giving and the moment received). **Format:** two-slide Story. **Primary ratio:** 9:16 (1080×1920). Also 4:5, 1:1, 1.91:1.
 **Best for:** gifting moments, corporate gifting, "the act of giving" vignettes, range-refresh previews.
 **Avoid for:** hard product drops, urgency or sale offers, single-beat announcements (use `story-promo` or `story-studio`).
 

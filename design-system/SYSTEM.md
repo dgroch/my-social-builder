@@ -186,7 +186,7 @@ The system ships **14 lanes**. Each lives at `design-system/designs/<id>/` with 
 | `story-studio` | The Studio | Story | 1 | Workshop moments, hands at work |
 | `story-promo` | Promo | Story | 1 | New product / range refresh |
 | `story-gift` | Gift | Story | 2 | The act of giving |
-| `story-editorial` | Editorial | Story | 1 | Dark-plate quote / manifesto |
+| `story-editorial` | Editorial | Story | 1–5 | The Good Weekend set: manifesto cover + feature / pullquote / column / press / linkout |
 | `story-quote-soft` | Quote / soft | Story | 1 | Left-rail text on a soft-focus plate |
 | `story-tagline` | Tagline | Story | 1 | Sans-only label on a dark plate |
 | `story-overlay` | Overlay | Story | 1 | One large word over a hand/photo |
@@ -225,6 +225,34 @@ reconciliation rules, locked:
   (1200×630 — the link-card/OG ratio the seed kit shipped in). Templates adapt via the
   `{{ORIENT}}` (`land|square|port`) and `{{RATIO_CLASS}}` (`r1x1`, `r4x5`, `r9x16`, `r1_91x1`)
   stage classes the renderer injects.
+
+---
+
+## v3.2 — true multi-ratio + the Good Weekend editorial set
+
+Two changes, both locked:
+
+**1. The story/carousel lanes are truly multi-ratio.** The v2 templates were pixel-stamped for
+one ratio (absolute y-rows for 9:16, or 4:5 for the carousel). v3.2 rebuilds all of them as
+relational flex stacks — rhythm-token gaps, panels in % of canvas, footers pinned with
+`margin-top:auto` — keyed off the same `{{ORIENT}}` / `{{RATIO_CLASS}}` stage classes the
+statics use. Every **story** lane now renders 9:16 (primary), 4:5, 1:1 **and 1.91:1** (the
+link-card cut: full-bleed slides narrow their text block; panel slides go plate-left /
+panel-right). The **carousel** stays 4:5 / 1:1 / 9:16 — carousels don't ship landscape.
+Levers now default to their first enum value when a post omits them.
+
+**2. The editorial lane is the full Good Weekend set.** The 19-image seed kit
+(`seeds/Good Weekend/`) reduces to six recurring shapes, and `story-editorial` now ships all of
+them: `cover` (manifesto), `feature` (kicker + headline article tease), `pullquote` (oversized
+quote marks as template chrome, name + role), `column` (narrow centred-ragged serif passage,
+with the clay-block variant as a `panel` lever), `press` (plate over a flat sans paragraph
+panel) and `linkout` (the link-in-bio closer, the set's only action beat).
+
+**The seed plate treatment, restored:** the Good Weekend dark slides use a **5–10% ink mask**
+over the photo plus a **subtle text shadow** on the white type — never a heavy wash. The plate
+stays visible; the shadow does the lifting. (The pre-v3.2 `rgba(0,0,0,.55)` overlay on
+editorial/tagline is retired.) Pick plates with a dark region for the type to sit on — the mask
+is a lift, not a rescue.
 
 ---
 

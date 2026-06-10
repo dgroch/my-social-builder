@@ -1,0 +1,81 @@
+<!-- SLIDE feature | LANE editorial | PHOTO required (seed: Good Weekend article tease)
+     TOKENS:
+       kicker    : text             | small-caps section label, e.g. "Editorial notes" or "Gift guide"
+       headline  : text, markdown   | the article headline, set in Lust; <br> for controlled breaks
+       dek       : text, optional   | one short sans line under the headline — the standfirst
+       link_hint : text, optional   | footer link line, e.g. "Slide for the story" or "Link in bio"
+       photo     : image            | full-bleed editorial plate from the Fig & Bloom asset library
+     LEVERS:
+       theme     : enum dark|light  | dark = white type, 10% ink mask + subtle text shadow (default); light = ink type on a clay-tint wash
+     PALETTE       : ink #000000 mask · white #FFFFFF type · clay-tint #ECE6DF kicker
+     TYPE          : Lust display + Neuzeit Grotesk sans — no Cervanttis on this slide
+     LANE RULE     : The tease for an article. The headline owns the lower third; the plate stays visible (10% mask, not a wash).
+-->
+<!doctype html><html><head><meta charset="utf-8"><style>
+@font-face{font-family:Lust;src:url('{{ASSETS_BASE}}/fonts/Lust-Regular.otf')}
+@font-face{font-family:Sans;src:url('{{ASSETS_BASE}}/fonts/NeuzeitGro-Lig.otf')}
+@font-face{font-family:SansB;src:url('{{ASSETS_BASE}}/fonts/NeuzeitGro-Bol.otf')}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:{{W}}px;height:{{H}}px;overflow:hidden}
+.stage{position:relative;width:{{W}}px;height:{{H}}px;background:#000000 url('{{photo}}') center/cover no-repeat;
+       --ink:#000000;--white:#FFFFFF;--clay-tint:#ECE6DF;--clay:#D8CCBE;
+       --type:#FFFFFF;--quiet:#ECE6DF;--rule:#D8CCBE;--mx:88px;--foot:96px;
+       --tsh:0 2px 6px rgba(0,0,0,.28),0 10px 36px rgba(0,0,0,.32)}
+.stage.light{--type:#000000;--quiet:rgba(0,0,0,.62);--rule:#000000;--tsh:none}
+.ov{position:absolute;inset:0;background:rgba(0,0,0,.10)}
+.stage.light .ov{background:rgba(236,230,223,.80)}
+.col{position:relative;height:100%;display:flex;flex-direction:column;padding:0 var(--mx);text-shadow:var(--tsh)}
+.top{flex:1 1 46%}
+.kicker{font-family:SansB;font-size:28px;letter-spacing:.25em;text-transform:uppercase;color:var(--quiet)}
+.h{margin-top:32px;font-family:Lust;font-size:96px;line-height:1.08;letter-spacing:-1px;color:var(--type)}
+.h i{font-style:normal}
+.dek{margin-top:24px;font-family:Sans;font-size:32px;line-height:1.45;color:var(--quiet);max-width:88%}
+.dek:empty{display:none}
+.foot{margin-top:auto;padding-top:96px;padding-bottom:var(--foot)}
+.mark{height:1px;background:var(--rule);opacity:.6;margin-bottom:48px}
+.footrow{display:flex;justify-content:space-between;align-items:flex-end}
+.logo{height:48px;width:auto;display:block}
+.hint{font-family:SansB;font-size:26px;letter-spacing:.14em;text-transform:uppercase;color:var(--type)}
+.hint:empty{display:none}
+/* feed 4:5 / 1:1 */
+.stage.r4x5{--foot:88px}
+.stage.r4x5 .top{flex-basis:36%}
+.stage.r4x5 .h{font-size:80px}
+.stage.r4x5 .kicker{font-size:26px}
+.stage.r4x5 .dek{font-size:30px}
+.stage.r4x5 .foot{padding-top:64px}
+.stage.r4x5 .mark{margin-bottom:40px}
+.stage.r1x1{--foot:88px}
+.stage.r1x1 .top{flex-basis:30%}
+.stage.r1x1 .h{font-size:68px}
+.stage.r1x1 .kicker{font-size:26px}
+.stage.r1x1 .dek{font-size:30px}
+.stage.r1x1 .foot{padding-top:64px}
+.stage.r1x1 .mark{margin-bottom:40px}
+/* landscape link card */
+.stage.land{--mx:64px;--foot:48px}
+.stage.land .top{flex-basis:24%}
+.stage.land .h{font-size:56px;max-width:84%}
+.stage.land .kicker{font-size:22px}
+.stage.land .dek{font-size:26px;margin-top:16px}
+.stage.land .foot{padding-top:40px}
+.stage.land .mark{margin-bottom:24px}
+.stage.land .logo{height:40px}
+.stage.land .hint{font-size:22px}
+</style></head><body>
+<div class="stage {{THEME_CLASS}} {{ORIENT}} {{RATIO_CLASS}}">
+  <div class="ov"></div>
+  <div class="col">
+    <div class="top"></div>
+    <div class="kicker">{{kicker}}</div>
+    <div class="h">{{headline}}</div>
+    <div class="dek">{{dek}}</div>
+    <div class="foot">
+      <div class="mark"></div>
+      <div class="footrow">
+        <img class="logo" src="{{ASSETS_BASE}}/assets/{{LOGO_FILE}}">
+        <div class="hint">{{link_hint}}</div>
+      </div>
+    </div>
+  </div>
+</div></body></html>

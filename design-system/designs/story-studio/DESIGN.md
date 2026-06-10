@@ -1,6 +1,6 @@
 # Design — Story Studio (`story-studio`)
 
-**Lane:** Studio (moments from the workshop). **Format:** single-slide Story. **Primary ratio:** 9:16 (1080×1920). Also 4:5, 1:1.
+**Lane:** Studio (moments from the workshop). **Format:** single-slide Story. **Primary ratio:** 9:16 (1080×1920). Also 4:5, 1:1, 1.91:1.
 **Best for:** "In the studio" moments, behind-the-scenes vignettes, process photography, single-plate announcements.
 **Avoid for:** multi-message carousels, hard product drops, anything that needs more than one beat.
 

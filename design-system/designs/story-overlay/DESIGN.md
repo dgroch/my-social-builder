@@ -1,6 +1,6 @@
 # Design — Story Overlay (`story-overlay`)
 
-**Lane:** Overlay (one large translucent word over a hand-held or in-stillness plate). **Format:** single-slide Story. **Primary ratio:** 9:16 (1080×1920). Also 4:5, 1:1.
+**Lane:** Overlay (one large translucent word over a hand-held or in-stillness plate). **Format:** single-slide Story. **Primary ratio:** 9:16 (1080×1920). Also 4:5, 1:1, 1.91:1.
 **Best for:** a single word worth holding for a moment — "Held", "Quiet", "Bloom", "Slow", "Hand-tied". A **micro-moment**, not a message.
 **Avoid for:** anything that needs a sentence (use `story-editorial`), a product (use `story-promo`), a process vignette (use `story-studio`).
 

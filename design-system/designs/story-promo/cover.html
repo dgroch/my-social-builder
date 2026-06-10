@@ -6,7 +6,7 @@
        from_price : text, optional | "from $X" pill rendered as a small badge under the subhead
        cta        : text           | lower-right link, e.g. "See the range →"
        photo      : image          | real named product plate from the Fig & Bloom asset library
-     voice     : text, optional   | Cervanttis voice line — its own block, never inline
+       voice      : text, optional | Cervanttis voice line — its own block, never inline
      LEVERS:
        theme      : enum light|dark | light = ink type on a clean upper plate; dark = white type on a darkened plate
      PALETTE       : clay-tint #ECE6DF lower panel · ink #000000 type · clay #D8CCBE price pill
@@ -19,29 +19,69 @@
 @font-face{font-family:SansB;src:url('{{ASSETS_BASE}}/fonts/NeuzeitGro-Bol.otf')}
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{width:{{W}}px;height:{{H}}px;overflow:hidden}
-.stage{position:relative;width:{{W}}px;height:{{H}}px;background:#ECE6DF;
-       --ink:#000000;--char:#000000;--rule:#D8CCBE;--pill:#000000;--pill-ink:#ECE6DF}
-.stage.dark{--ink:#FFFFFF;--char:#ECE6DF;--rule:#D8CCBE;--pill:#ECE6DF;--pill-ink:#000000}
-.plate{position:absolute;left:0;right:0;top:0;height:1200px;background:#000000 url('{{photo}}') center/cover no-repeat}
-.plate::after{content:"";position:absolute;left:0;right:0;top:0;bottom:0;background:transparent}
+.stage{position:relative;width:{{W}}px;height:{{H}}px;background:#ECE6DF;display:flex;flex-direction:column;
+       --ink:#000000;--char:#000000;--rule:#D8CCBE;--pill:#000000;--pill-ink:#ECE6DF;
+       --plate:62.5%;--px:88px;--pt:52px;--pb:72px}
+.stage.dark{--ink:#FFFFFF;--char:#ECE6DF;--pill:#ECE6DF;--pill-ink:#000000;background:#000000}
+.plate{position:relative;flex:0 0 var(--plate);background:#000000 url('{{photo}}') center/cover no-repeat}
+.plate::after{content:"";position:absolute;inset:0;background:transparent}
 .stage.dark .plate::after{background:rgba(0,0,0,.45)}
-.kicker{position:absolute;left:88px;top:1252px;font-family:SansB;font-size:28px;letter-spacing:.25em;text-transform:uppercase;color:var(--char)}
-.h{position:absolute;left:88px;right:88px;top:1396px;font-family:Lust;font-size:72px;line-height:1.05;letter-spacing:-0.5px;color:var(--ink)}
+.panel{flex:1;display:flex;flex-direction:column;min-height:0;padding:var(--pt) var(--px) var(--pb)}
+.kicker{font-family:SansB;font-size:28px;letter-spacing:.25em;text-transform:uppercase;color:var(--char)}
+.voice{margin-top:24px;font-family:CervI;font-size:44px;line-height:1.25;color:var(--char)}
+.voice:empty{display:none}
+.h{margin-top:24px;font-family:Lust;font-size:72px;line-height:1.05;letter-spacing:-0.5px;color:var(--ink)}
 .h i{font-style:normal}
-.sub{position:absolute;left:88px;right:88px;top:1516px;font-family:Sans;font-size:30px;line-height:1.45;color:var(--char)}
-.pill{position:absolute;left:88px;top:1592px;display:inline-block;padding:18px 34px;background:var(--pill);color:var(--pill-ink);font-family:SansB;font-size:24px;letter-spacing:.08em;border-radius:999px}
-.rule{position:absolute;left:88px;right:88px;bottom:160px;height:1px;background:var(--rule)}
-.logo{position:absolute;left:88px;bottom:72px;height:52px}
-.cta{position:absolute;right:88px;bottom:84px;font-family:SansB;font-size:26px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink)}
-.voice{position:absolute;left:88px;right:88px;top:1304px;font-family:CervI;font-style:normal;font-size:44px;line-height:1.25}</style></head><body>
-<div class="stage {{THEME_CLASS}}">
+.sub{margin-top:16px;font-family:Sans;font-size:30px;line-height:1.45;color:var(--char)}
+.sub:empty{display:none}
+.pill{margin-top:24px;align-self:flex-start;padding:18px 34px;background:var(--pill);color:var(--pill-ink);font-family:SansB;font-size:24px;letter-spacing:.08em;border-radius:999px}
+.pill:empty{display:none}
+.foot{margin-top:auto;padding-top:40px}
+.rule{height:1px;background:var(--rule);margin-bottom:40px}
+.footrow{display:flex;justify-content:space-between;align-items:flex-end}
+.logo{height:52px;width:auto;display:block}
+.cta{font-family:SansB;font-size:26px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink)}
+/* feed 4:5 / 1:1 — shorter plate, feed-scale type */
+.stage.r4x5{--plate:54%;--pt:48px;--pb:64px}
+.stage.r4x5 .kicker{font-size:26px}
+.stage.r4x5 .voice{font-size:40px}
+.stage.r4x5 .h{font-size:60px}
+.stage.r4x5 .pill{padding:14px 28px}
+.stage.r1x1{--plate:48%;--pt:40px;--pb:56px}
+.stage.r1x1 .kicker{font-size:26px}
+.stage.r1x1 .voice{font-size:40px}
+.stage.r1x1 .h{font-size:52px}
+.stage.r1x1 .sub{font-size:28px}
+.stage.r1x1 .pill{padding:12px 26px;margin-top:16px}
+.stage.r1x1 .rule{margin-bottom:24px}
+/* landscape link card — plate left, panel right */
+.stage.land{flex-direction:row;--px:48px;--pt:48px;--pb:40px}
+.stage.land .plate{flex:0 0 52%}
+.stage.land .panel{min-width:0}
+.stage.land .kicker{font-size:22px}
+.stage.land .voice{font-size:32px;margin-top:16px}
+.stage.land .h{font-size:44px;margin-top:16px}
+.stage.land .sub{font-size:26px}
+.stage.land .pill{padding:10px 22px;font-size:20px;margin-top:16px}
+.stage.land .foot{padding-top:24px}
+.stage.land .rule{margin-bottom:24px}
+.stage.land .logo{height:40px}
+.stage.land .cta{font-size:22px}
+</style></head><body>
+<div class="stage {{THEME_CLASS}} {{ORIENT}} {{RATIO_CLASS}}">
   <div class="plate"></div>
-  <div class="kicker">{{kicker}}</div>
-  <div class="voice">{{voice}}</div>
-  <div class="h">{{headline}}</div>
-  <div class="sub">{{subhead}}</div>
-  <div class="pill">{{from_price}}</div>
-  <div class="rule"></div>
-  <img class="logo" src="{{ASSETS_BASE}}/assets/{{LOGO_FILE}}">
-  <div class="cta">{{cta}}</div>
+  <div class="panel">
+    <div class="kicker">{{kicker}}</div>
+    <div class="voice">{{voice}}</div>
+    <div class="h">{{headline}}</div>
+    <div class="sub">{{subhead}}</div>
+    <div class="pill">{{from_price}}</div>
+    <div class="foot">
+      <div class="rule"></div>
+      <div class="footrow">
+        <img class="logo" src="{{ASSETS_BASE}}/assets/{{LOGO_FILE}}">
+        <div class="cta">{{cta}}</div>
+      </div>
+    </div>
+  </div>
 </div></body></html>

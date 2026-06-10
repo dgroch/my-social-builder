@@ -1,0 +1,57 @@
+<!-- SLIDE press | LANE editorial | PHOTO required (seeds: Good Weekend photo-over-panel paragraph)
+     TOKENS:
+       kicker    : text, optional | small-caps label above the paragraph, e.g. "The morning run"
+       text      : text, markdown | the story paragraph, sans, three or four sentences; <br><br> for a paragraph break
+       link_hint : text, optional | lower-right link line, e.g. "More at the link in bio"
+       photo     : image          | the plate — fills the upper part of the frame, uncropped mood
+     LEVERS:
+       surface : enum white|clay  | panel surface under the paragraph — white (seed default) or clay-tint
+     PALETTE       : white #FFFFFF panel · ink #000000 type · clay-tint #ECE6DF alt panel
+     TYPE          : Neuzeit Grotesk only — the quiet news beat; no Lust, no Cervanttis
+     LANE RULE     : The paragraph reads like a magazine caption — plain, factual, warm. No headline on this slide; that's the feature's job.
+-->
+<!doctype html><html><head><meta charset="utf-8"><style>
+@font-face{font-family:Sans;src:url('{{ASSETS_BASE}}/fonts/NeuzeitGro-Lig.otf')}
+@font-face{font-family:SansB;src:url('{{ASSETS_BASE}}/fonts/NeuzeitGro-Bol.otf')}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:{{W}}px;height:{{H}}px;overflow:hidden}
+.stage{position:relative;width:{{W}}px;height:{{H}}px;background:#FFFFFF;display:flex;flex-direction:column;
+       --ink:#000000;--white:#FFFFFF;--clay-tint:#ECE6DF;--clay:#D8CCBE;
+       --plate:58%;--px:88px;--pt:64px;--pb:88px}
+.stage.s-clay{background:#ECE6DF}
+.plate{position:relative;flex:0 0 var(--plate);background:#000000 url('{{photo}}') center/cover no-repeat}
+.panel{flex:1;display:flex;flex-direction:column;min-height:0;padding:var(--pt) var(--px) var(--pb)}
+.kicker{font-family:SansB;font-size:26px;letter-spacing:.25em;text-transform:uppercase;color:rgba(0,0,0,.62);margin-bottom:24px}
+.kicker:empty{display:none;margin-bottom:0}
+.text{font-family:Sans;font-size:32px;line-height:1.55;color:var(--ink);max-width:856px}
+.foot{margin-top:auto;padding-top:40px;display:flex;justify-content:space-between;align-items:flex-end}
+.logo{height:44px;width:auto;display:block}
+.hint{font-family:SansB;font-size:24px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink)}
+.hint:empty{display:none}
+/* feed 4:5 / 1:1 */
+.stage.r4x5{--plate:55%;--pt:56px;--pb:80px}
+.stage.r4x5 .text{font-size:30px}
+.stage.r1x1{--plate:50%;--pt:48px;--pb:64px}
+.stage.r1x1 .text{font-size:28px}
+.stage.r1x1 .kicker{margin-bottom:16px}
+/* landscape link card — plate left, panel right */
+.stage.land{flex-direction:row;--px:48px;--pt:48px;--pb:40px}
+.stage.land .plate{flex:0 0 52%}
+.stage.land .panel{min-width:0}
+.stage.land .kicker{font-size:22px;margin-bottom:16px}
+.stage.land .text{font-size:26px}
+.stage.land .foot{padding-top:24px}
+.stage.land .logo{height:36px}
+.stage.land .hint{font-size:20px}
+</style></head><body>
+<div class="stage s-{{surface}} {{ORIENT}} {{RATIO_CLASS}}">
+  <div class="plate"></div>
+  <div class="panel">
+    <div class="kicker">{{kicker}}</div>
+    <div class="text">{{text}}</div>
+    <div class="foot">
+      <img class="logo" src="{{ASSETS_BASE}}/assets/logo_h_black.png">
+      <div class="hint">{{link_hint}}</div>
+    </div>
+  </div>
+</div></body></html>

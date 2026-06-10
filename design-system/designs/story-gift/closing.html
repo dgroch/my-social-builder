@@ -1,11 +1,11 @@
 <!-- SLIDE closing | LANE gift | PHOTO required
      TOKENS:
        kicker   : text             | small-caps section label, e.g. "Delivered with care"
-       end_line : text, markdown   | brand sign-off line in serif italic; wrap a word in *asterisks* for display accent
+       end_line : text, markdown   | brand sign-off line in serif; wrap a word in *asterisks* for display accent
        cta      : text             | lower-right link, e.g. "Choose a moment →"
        url      : text, optional   | short URL printed under the end-line, e.g. "figandbloom.com"
        photo    : image            | real finished-gift plate from the Fig & Bloom asset library
-     voice     : text, optional   | Cervanttis voice line — its own block, never inline
+       voice    : text, optional   | Cervanttis voice line — its own block, never inline
      LEVERS:
        theme    : enum light|dark  | light = ink type on a clean upper plate; dark = white type on a darkened plate
      PALETTE       : clay-tint #ECE6DF lower panel · ink #000000 type · clay #D8CCBE rules
@@ -18,27 +18,63 @@
 @font-face{font-family:SansB;src:url('{{ASSETS_BASE}}/fonts/NeuzeitGro-Bol.otf')}
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{width:{{W}}px;height:{{H}}px;overflow:hidden}
-.stage{position:relative;width:{{W}}px;height:{{H}}px;background:#ECE6DF;
-       --ink:#000000;--char:#000000;--rule:#D8CCBE;--clay-tint:#ECE6DF;--clay:#D8CCBE}
-.stage.dark{--ink:#FFFFFF;--char:#ECE6DF;--rule:#D8CCBE}
-.plate{position:absolute;left:0;right:0;top:0;height:1056px;background:#000000 url('{{photo}}') center/cover no-repeat}
-.plate::after{content:"";position:absolute;left:0;right:0;top:0;bottom:0;background:transparent}
+.stage{position:relative;width:{{W}}px;height:{{H}}px;background:#ECE6DF;display:flex;flex-direction:column;
+       --ink:#000000;--char:#000000;--rule:#D8CCBE;--clay-tint:#ECE6DF;--clay:#D8CCBE;
+       --plate:55%;--px:88px;--pt:64px;--pb:72px}
+.stage.dark{--ink:#FFFFFF;--char:#ECE6DF;background:#000000}
+.plate{position:relative;flex:0 0 var(--plate);background:#000000 url('{{photo}}') center/cover no-repeat}
+.plate::after{content:"";position:absolute;inset:0;background:transparent}
 .stage.dark .plate::after{background:rgba(0,0,0,.55)}
-.kicker{position:absolute;left:88px;right:88px;top:1124px;font-family:SansB;font-size:28px;letter-spacing:.25em;text-transform:uppercase;color:var(--char);text-align:center}
-.h{position:absolute;left:88px;right:88px;top:1264px;font-family:Lust;font-size:64px;line-height:1.12;letter-spacing:-0.5px;color:var(--ink);text-align:center}
+.panel{flex:1;display:flex;flex-direction:column;min-height:0;padding:var(--pt) var(--px) var(--pb);text-align:center}
+.kicker{font-family:SansB;font-size:28px;letter-spacing:.25em;text-transform:uppercase;color:var(--char)}
+.voice{margin-top:24px;font-family:CervI;font-size:44px;line-height:1.25;color:var(--char)}
+.voice:empty{display:none}
+.h{margin-top:24px;font-family:Lust;font-size:64px;line-height:1.12;letter-spacing:-0.5px;color:var(--ink)}
 .h i{font-style:normal}
-.url{position:absolute;left:88px;right:88px;top:1500px;font-family:Sans;font-size:24px;letter-spacing:.10em;text-align:center;color:var(--char);text-transform:lowercase}
-.rule{position:absolute;left:88px;right:88px;bottom:160px;height:1px;background:var(--rule)}
-.logo{position:absolute;left:88px;bottom:72px;height:52px}
-.cta{position:absolute;right:88px;bottom:84px;font-family:SansB;font-size:26px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink)}
-.voice{position:absolute;left:88px;right:88px;top:1180px;font-family:CervI;font-style:normal;font-size:44px;line-height:1.25;text-align:center}</style></head><body>
-<div class="stage {{THEME_CLASS}}">
+.url{margin-top:24px;font-family:Sans;font-size:24px;letter-spacing:.10em;color:var(--char);text-transform:lowercase}
+.url:empty{display:none}
+.foot{margin-top:auto;padding-top:40px;text-align:left}
+.rule{height:1px;background:var(--rule);margin-bottom:40px}
+.footrow{display:flex;justify-content:space-between;align-items:flex-end}
+.logo{height:52px;width:auto;display:block}
+.cta{font-family:SansB;font-size:26px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink)}
+/* feed 4:5 / 1:1 — shorter plate, feed-scale type */
+.stage.r4x5{--plate:50%;--pt:48px;--pb:64px}
+.stage.r4x5 .kicker{font-size:26px}
+.stage.r4x5 .voice{font-size:40px}
+.stage.r4x5 .h{font-size:56px}
+.stage.r1x1{--plate:46%;--pt:48px;--pb:64px}
+.stage.r1x1 .kicker{font-size:26px}
+.stage.r1x1 .voice{font-size:40px}
+.stage.r1x1 .h{font-size:52px}
+.stage.r1x1 .url{margin-top:16px}
+.stage.r1x1 .rule{margin-bottom:24px}
+/* landscape link card — plate left, panel right */
+.stage.land{flex-direction:row;--px:48px;--pt:48px;--pb:40px}
+.stage.land .plate{flex:0 0 52%}
+.stage.land .panel{min-width:0}
+.stage.land .kicker{font-size:22px}
+.stage.land .voice{font-size:32px;margin-top:16px}
+.stage.land .h{font-size:40px;margin-top:16px}
+.stage.land .url{font-size:20px;margin-top:16px}
+.stage.land .foot{padding-top:24px}
+.stage.land .rule{margin-bottom:24px}
+.stage.land .logo{height:40px}
+.stage.land .cta{font-size:22px}
+</style></head><body>
+<div class="stage {{THEME_CLASS}} {{ORIENT}} {{RATIO_CLASS}}">
   <div class="plate"></div>
-  <div class="kicker">{{kicker}}</div>
-  <div class="voice">{{voice}}</div>
-  <div class="h">{{end_line}}</div>
-  <div class="url">{{url}}</div>
-  <div class="rule"></div>
-  <img class="logo" src="{{ASSETS_BASE}}/assets/{{LOGO_FILE}}">
-  <div class="cta">{{cta}}</div>
+  <div class="panel">
+    <div class="kicker">{{kicker}}</div>
+    <div class="voice">{{voice}}</div>
+    <div class="h">{{end_line}}</div>
+    <div class="url">{{url}}</div>
+    <div class="foot">
+      <div class="rule"></div>
+      <div class="footrow">
+        <img class="logo" src="{{ASSETS_BASE}}/assets/{{LOGO_FILE}}">
+        <div class="cta">{{cta}}</div>
+      </div>
+    </div>
+  </div>
 </div></body></html>

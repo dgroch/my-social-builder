@@ -1,6 +1,6 @@
 # Design — Story Promo (`story-promo`)
 
-**Lane:** Promo (genuine newness). **Format:** single-slide Story. **Primary ratio:** 9:16 (1080×1920). Also 4:5, 1:1.
+**Lane:** Promo (genuine newness). **Format:** single-slide Story. **Primary ratio:** 9:16 (1080×1920). Also 4:5, 1:1, 1.91:1.
 **Best for:** quiet product announcements ("new in", "just arrived", "this week's stem"), range refreshes, fresh-from-the-studio deliveries.
 **Avoid for:** flash sales, urgency, countdowns, discount framing, anything that needs more than one beat.
 

@@ -5,7 +5,7 @@
        headline : text, markdown   | main headline; wrap a word in *asterisks* for an italic-serif accent
        cta      : text             | footer call-to-action, e.g. "Read the guide →"
        photo    : image            | hero plate URL — a real named Fig & Bloom design (Osaka, Marseille, …)
-     voice     : text, optional   | Cervanttis voice line — its own block, never inline
+       voice    : text, optional   | Cervanttis voice line — its own block, never inline
      LEVERS:
        theme    : enum light|dark  | light = ink type on the plate; dark = white type on a darkened plate
      VISUAL_ROLE  : opener / hook
@@ -20,27 +20,48 @@
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{width:{{W}}px;height:{{H}}px;overflow:hidden}
 .stage{position:relative;width:{{W}}px;height:{{H}}px;background:#000000 url('{{photo}}') center/cover no-repeat;
-       --ink:#000000;--char:#000000;--rule:#000000;--clay-tint:#ECE6DF;--clay:#D8CCBE;--white:#FFFFFF}
+       --ink:#000000;--char:#000000;--rule:#000000;--clay-tint:#ECE6DF;--clay:#D8CCBE;--white:#FFFFFF;
+       --mx:88px;--my:88px}
 .stage.dark{--ink:#FFFFFF;--char:#ECE6DF;--rule:#D8CCBE}
-.ov{position:absolute;top:0;right:0;bottom:0;left:0;background:transparent}
+.ov{position:absolute;inset:0;background:transparent}
 .stage.dark .ov{background:rgba(0,0,0,.60)}
-.kicker{position:absolute;left:88px;top:88px;font-family:Sans;font-size:26px;letter-spacing:.25em;text-transform:uppercase;color:var(--char)}
-.idx{position:absolute;right:88px;top:88px;font-family:Sans;font-size:26px;letter-spacing:.10em;color:var(--char)}
-.mrule{position:absolute;left:88px;right:88px;top:160px;height:2px;background:var(--rule)}
-.h{position:absolute;left:88px;top:268px;width:904px;font-family:Lust;font-size:88px;line-height:1.04;letter-spacing:-1px;color:var(--ink)}
+.col{position:relative;height:100%;display:flex;flex-direction:column;padding:var(--my) var(--mx)}
+.mast{display:flex;justify-content:space-between;align-items:baseline;font-family:Sans;font-size:26px;color:var(--char)}
+.mast .kicker{letter-spacing:.25em;text-transform:uppercase}
+.mast .idx{letter-spacing:.10em}
+.mrule{height:2px;background:var(--rule);margin-top:40px}
+.voice{margin-top:32px;font-family:CervI;font-size:40px;line-height:1.25;color:var(--char)}
+.voice:empty{display:none}
+.h{margin-top:96px;font-family:Lust;font-size:88px;line-height:1.04;letter-spacing:-1px;color:var(--ink)}
 .h i{font-style:normal}
-.frule{position:absolute;left:88px;right:88px;bottom:170px;height:2px;background:var(--rule)}
-.logo{position:absolute;left:88px;bottom:88px;height:58px}
-.read{position:absolute;right:88px;bottom:96px;font-family:Sans;font-size:26px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink)}
-.voice{position:absolute;left:88px;right:88px;top:192px;font-family:CervI;font-style:normal;font-size:40px;line-height:1.25}</style></head><body>
-<div class="stage {{THEME_CLASS}}">
+.voice:not(:empty) + .h{margin-top:40px}
+.foot{margin-top:auto;padding-top:40px}
+.frule{height:2px;background:var(--rule);margin-bottom:24px}
+.footrow{display:flex;justify-content:space-between;align-items:flex-end}
+.logo{height:58px;width:auto;display:block}
+.read{font-family:Sans;font-size:26px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink)}
+/* square feed */
+.stage.r1x1 .h{font-size:76px;margin-top:64px}
+.stage.r1x1 .voice:not(:empty) + .h{margin-top:32px}
+/* story 9:16 — clear of the top/bottom UI zones, story-scale type */
+.stage.r9x16{--my:160px}
+.stage.r9x16 .mast{font-size:28px}
+.stage.r9x16 .h{font-size:104px}
+.stage.r9x16 .voice{font-size:44px}
+</style></head><body>
+<div class="stage {{THEME_CLASS}} {{ORIENT}} {{RATIO_CLASS}}">
   <div class="ov"></div>
-  <div class="kicker">{{kicker}}</div>
-  <div class="voice">{{voice}}</div>
-  <div class="idx">{{index}}</div>
-  <div class="mrule"></div>
-  <div class="h">{{headline}}</div>
-  <div class="frule"></div>
-  <img class="logo" src="{{ASSETS_BASE}}/assets/{{LOGO_FILE}}">
-  <div class="read">{{cta}}</div>
+  <div class="col">
+    <div class="mast"><span class="kicker">{{kicker}}</span><span class="idx">{{index}}</span></div>
+    <div class="mrule"></div>
+    <div class="voice">{{voice}}</div>
+    <div class="h">{{headline}}</div>
+    <div class="foot">
+      <div class="frule"></div>
+      <div class="footrow">
+        <img class="logo" src="{{ASSETS_BASE}}/assets/{{LOGO_FILE}}">
+        <div class="read">{{cta}}</div>
+      </div>
+    </div>
+  </div>
 </div></body></html>

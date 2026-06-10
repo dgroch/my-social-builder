@@ -193,9 +193,13 @@ reconciliation rules, locked:
 - **The seed didone caps map to Lust caps**; the seed handwriting maps to **Cervanttis**; the seed
   sans maps to **Neuzeit Grotesk**. No fonts were adopted from the seeds.
 - **The seed grey split fields map to tan-1 / white.** The seed black stays ink `#1A1612`.
-- **Line-art florals** are an inline SVG motif (thin strokes, `vector-effect: non-scaling-stroke`),
-  used **only on the seeded lanes** (`card-testimonial`, `card-quote-lineart`, `card-note`) — at
-  tan-1 38% on ink, ink 15% on white, white 20% on ink. Never on the v2 story/carousel lanes.
+- **Line-art figures** are the brand's own illustrations — eight single-line drawings in
+  `design-system/assets/lineart/` (`body-flower`, `body`, `face-1`, `face-2`, `front-face`,
+  `hand-flower`, `hand-plant`, `hand-rose`). Templates render them as **CSS masks**: the black
+  SVG is the stencil, the `background-color` is the colourway — one file drives every
+  combination (tan-1 42% on ink, ink 16% on white, white 22% on ink, ink 88% on paper). A
+  `motif` lever on `card-testimonial`, `card-quote-lineart` and `card-note` picks the figure.
+  Line-art never appears on the v2 story/carousel lanes.
 - **The `card-*` lanes are chrome-free** — no logo, no CTA, no kicker-bar furniture (the seeds carry
   none). The type is the brand. Story/carousel lanes keep their logo lockups.
 - **Statics are multi-ratio**: every `card-*` lane renders 1:1 (primary), 4:5, 9:16 and **1.91:1**

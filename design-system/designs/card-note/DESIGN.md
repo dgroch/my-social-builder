@@ -15,14 +15,16 @@ A note pinned to the studio door: textured tan-1 paper, a single ink line-art bl
 
 ## Grid
 
-- Bloom 240px tall (300 story, 170 landscape), centred, 48px above the line.
-- Line: Cervanttis 60px (68 story, 48 landscape), ink, centred.
-- Sub: Neuzeit Light 16px, 24px beneath, 85% opacity.
+- Figure (the `motif` lever) in a 340×300 box (420×380 story, 260×200 landscape), centred,
+  48px above the line — a CSS mask from `assets/lineart/<motif>.svg`, ink at 88%.
+- Line: Cervanttis 68px (76 story, 52 landscape), ink, centred.
+- Sub: Neuzeit Light 20px, 24px beneath, 85% opacity.
 - Paper grain: inline SVG fractal noise at 6% — never an imported texture image.
 
 ## Tokens
 
-**cover** — `line` (text), `sub` (optional)
+**cover** — `line` (text), `sub` (optional); lever
+`motif: hand-plant|hand-flower|hand-rose|body-flower|face-1|face-2`
 
 ## Voice discipline
 

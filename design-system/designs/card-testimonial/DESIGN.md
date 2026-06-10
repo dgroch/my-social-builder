@@ -5,7 +5,7 @@
 **Best for:** customer reviews, social proof, short press quotes.
 **Avoid for:** product drops, posts that need a photo (the lane is deliberately photo-free), reviews longer than ~3 sentences.
 
-A white card floating on an ink field, line-art florals cropped at two corners behind it. The customer's words set in Lust on the card; attribution in tracked small caps. No photo — the absence is the point: the words carry.
+A white card floating on an ink field, one large line-art figure behind it — the drawing emerges in the bands above and below the card (the `motif` lever picks the figure). The customer's words set in Lust on the card; attribution in tracked small caps. No photo — the absence is the point: the words carry.
 
 ## Slides
 
@@ -21,7 +21,8 @@ A white card floating on an ink field, line-art florals cropped at two corners b
 
 ## Tokens
 
-**cover** — `quote` (text), `attribution` (text), `kicker` (optional)
+**cover** — `quote` (text), `attribution` (text), `kicker` (optional); lever
+`motif: body-flower|face-1|face-2|hand-flower|hand-rose|front-face`
 
 ## Voice discipline
 

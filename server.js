@@ -99,17 +99,17 @@ const SAMPLE_TOKENS = {
   'card-testimonial/cover': {
     kicker: 'Kind words',
     quote: 'Highly recommended! Excellent service, speed, product and communication.',
-    attribution: 'Darren L'
+    attribution: 'Darren L', motif: 'body-flower'
   },
   'card-quote-lineart/cover': {
     quote: 'human connections are deeply nurtured in the field of a shared story.',
-    attribution: 'Jean Houston', theme: 'light'
+    attribution: 'Jean Houston', theme: 'light', motif: 'body-flower'
   },
   'card-script-moment/cover': {
     line: 'celebrate love', surface: 'tan-2', photo: ''
   },
   'card-note/cover': {
-    line: "we're hiring", sub: 'florists & drivers — melbourne studio'
+    line: "we're hiring", sub: 'florists & drivers — melbourne studio', motif: 'hand-plant'
   }
 };
 

@@ -317,7 +317,7 @@
       "requiresPlate": false,
       "recommendedSequence": ["cover"],
       "slides": {
-        "cover": { "template": "cover.html", "photo": "none", "role": "review_card" }
+        "cover": { "template": "cover.html", "photo": "none", "role": "review_card", "levers": { "motif": ["body-flower", "face-1", "face-2", "hand-flower", "hand-rose", "front-face"] } }
       }
     },
     "card-quote-lineart": {
@@ -331,7 +331,7 @@
       "requiresPlate": false,
       "recommendedSequence": ["cover"],
       "slides": {
-        "cover": { "template": "cover.html", "photo": "none", "role": "quote_on_lineart", "levers": { "theme": ["light", "dark"] } }
+        "cover": { "template": "cover.html", "photo": "none", "role": "quote_on_lineart", "levers": { "theme": ["light", "dark"], "motif": ["body-flower", "face-1", "face-2", "front-face", "hand-flower", "hand-rose", "hand-plant", "body"] } }
       }
     },
     "card-script-moment": {
@@ -359,7 +359,7 @@
       "requiresPlate": false,
       "recommendedSequence": ["cover"],
       "slides": {
-        "cover": { "template": "cover.html", "photo": "none", "role": "paper_note" }
+        "cover": { "template": "cover.html", "photo": "none", "role": "paper_note", "levers": { "motif": ["hand-plant", "hand-flower", "hand-rose", "body-flower", "face-1", "face-2"] } }
       }
     }
   }

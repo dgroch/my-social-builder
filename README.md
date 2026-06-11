@@ -38,6 +38,27 @@ Ships a `Dockerfile` (Node + system Chromium) and a `render.yaml` Blueprint. In 
 **New → Blueprint**, pick the repo, **Apply**. First build installs Chromium (a few minutes).
 Render has normal outbound internet, so the renderer can load CDN product plates.
 
+## The three journeys
+
+The UI is organised around how the tool is actually used:
+
+**1. New post — start from an asset (try the templates on).** Paste a photo URL or search the
+asset library, give it one line, and the builder renders it across every applicable template at
+once — a contact sheet of the same content in 16 compositions. Click the one that works to
+fine-tune every token in the editor.
+
+**2. Campaigns — review a suite an agent made.** A campaign is an integrated set of posts that
+hang together on the grid. An agent (Claude, via the `social-post-builder` skill) composes the
+suite and `POST`s it to `/api/campaigns`; the UI shows it as a 3-up Instagram grid plus a story
+strip, with per-post **approve / request changes** and feedback the agent reads back via
+`GET /api/campaigns/:id` to iterate. Edit any post in the editor and **Save to campaign**.
+
+**3. Campaigns — prompt one in-app.** Describe the campaign in a sentence or two and the server
+has Claude (`claude-opus-4-8`) compose the set against the live design-system schema — different
+lanes, one shared feed ratio, photo tokens as `query: …` so the asset library resolves real
+plates at render time. Requires `ANTHROPIC_API_KEY` on the server (Render dashboard →
+Environment); without it the endpoint returns clear guidance and journey 2 still works.
+
 ## What it does
 
 - **Auto-generated form** — fields, help text and lever dropdowns parsed from template headers +
@@ -75,11 +96,22 @@ test/smoke.js             guardrails: schema parses; sample assembles with zero 
 | GET | `/api/schema` | — | designs, slides, tokens, levers, ratios, lanes (the contract the skill targets) |
 | GET | `/api/assets/search?q=…` | — | semantic asset-library search (proxied) — `{results:[{id,title,url,description,mediaType}]}` |
 | POST | `/api/validate` | `{post}` | `{ok,errorCount,warningCount,issues}` without rendering |
-| POST | `/api/render` | `{post}` | `{slices:[{index,slide,w,h,pngBase64,unfilled}]}` |
+| POST | `/api/render` | `{post, scale?}` | `{slices:[{index,slide,w,h,pngBase64,unfilled}]}` — `scale` 0.5–2 (default 2; 0.5 for fast previews) |
 | POST | `/api/export` | `{post}` | `{json}` |
+| GET | `/api/tryon` | — | the try-on catalog: one photo-bearing slide per design + the slots a user's photo/line drop into |
+| GET/POST | `/api/campaigns` | list / `{name, brief?, posts:[post,…]}` | campaigns — the agent-review intake; response includes per-post validation |
+| POST | `/api/campaigns/generate` | `{brief, name?, ratio?}` | Claude composes the suite (needs `ANTHROPIC_API_KEY`; 501 with guidance otherwise) |
+| GET/PUT/DELETE | `/api/campaigns/:id` | — | one campaign incl. per-post `status` + `feedback[]` (what agents read back) |
+| POST | `/api/campaigns/:id/posts/:postId/feedback` | `{text}` | record reviewer feedback (flips post to `changes_requested`) |
+| POST | `/api/campaigns/:id/posts/:postId/status` | `{status}` | `pending` \| `approved` \| `changes_requested` |
+| PUT | `/api/campaigns/:id/posts/:postId/post` | `{post}` | replace a post body (e.g. after editing; resets to `pending`) |
 | GET/POST | `/api/designs` | list / `{name,post}` | saved posts |
 | GET/PUT/DELETE | `/api/designs/:id` | — / `{post}` | one saved post |
 | POST | `/api/designs/:id/clone` | `{name?}` | a copy |
+
+**Agent loop (journey 2):** compose posts → `POST /api/campaigns` → human reviews in the UI →
+`GET /api/campaigns/:id` → act on `posts[*].feedback` / `status` → `PUT …/posts/:postId/post`
+with the revision (status resets to `pending`) → repeat until everything is `approved`.
 
 `post.json` = `{ postName, design, ratio, slides:[{slide, tokens}] }`. See the skill's
 `references/post-schema.md`.

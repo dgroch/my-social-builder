@@ -9,18 +9,82 @@
 </head>
 <body>
   <header>
-    <div class="brand">Fig &amp; Bloom · <span>Social Post Builder</span></div>
-    <div class="actions">
+    <div class="brand">Fig &amp; Bloom · <span>Social Builder</span></div>
+    <nav class="viewnav">
+      <button data-view="create" class="viewtab on">New post</button>
+      <button data-view="campaigns" class="viewtab">Campaigns</button>
+      <button data-view="editor" class="viewtab">Editor</button>
+    </nav>
+    <div class="actions" id="editorActions">
       <button id="btnSample" class="ghost">Sample</button>
       <button id="btnImport" class="ghost">Import JSON</button>
       <button id="btnExport" class="ghost">Export JSON</button>
       <button id="btnSave" class="ghost">Save</button>
+      <button id="btnSaveCampaign" class="ghost" style="display:none">Save to campaign</button>
       <button id="btnValidate" class="ghost">Validate</button>
       <button id="btnRender" class="primary">Render</button>
     </div>
   </header>
 
-  <main>
+  <!-- Journey 2: one post from an asset — try the templates on for size -->
+  <main id="view-create" class="view on single">
+    <section class="create-pane">
+      <h2>Start from an asset</h2>
+      <p class="muted">Drop in a photo (or search the asset library), give it a line, and try every template on for size. Click the one that works to fine-tune it in the editor.</p>
+      <div class="create-form">
+        <label class="grow">Photo
+          <input id="tryPhoto" placeholder="Paste an image URL, or search below">
+          <div id="tryPicker"></div>
+        </label>
+        <label class="grow">The line — headline / quote / caption (optional; sample copy fills the gaps)
+          <textarea id="tryLine" placeholder="e.g. The flowers are the easy part."></textarea>
+        </label>
+        <div class="row">
+          <label>Kicker <input id="tryKicker" placeholder="e.g. The Journal"></label>
+          <label>CTA <input id="tryCta" placeholder="e.g. Read the journal →"></label>
+          <label>Ratio
+            <select id="tryRatio">
+              <option value="4:5">4:5 · Feed (portrait)</option>
+              <option value="1:1">1:1 · Feed (square)</option>
+              <option value="9:16">9:16 · Story</option>
+              <option value="1.91:1">1.91:1 · Link card</option>
+            </select>
+          </label>
+          <button id="btnTryon" class="primary">Try the templates on</button>
+        </div>
+      </div>
+      <div id="tryonGrid" class="tryon-grid"></div>
+    </section>
+  </main>
+
+  <!-- Journeys 1 + 3: review agent-made suites; prompt a campaign -->
+  <main id="view-campaigns" class="view single">
+    <section id="campaignsHome" class="create-pane">
+      <h2>Campaigns</h2>
+      <p class="muted">A campaign is an integrated set of posts that hang together on the grid. Compose one from a brief below, or have your agent <code>POST /api/campaigns</code> a suite for review.</p>
+      <div class="gen-box">
+        <textarea id="genBrief" placeholder="Describe the campaign — e.g. Mother's Day is three weeks out. Warm, no urgency: one journal carousel on writing the card, a studio story, a testimonial, and a quiet statement piece."></textarea>
+        <div class="row">
+          <button id="btnGenerate" class="primary">Compose with Claude</button>
+          <span id="genStatus" class="muted"></span>
+        </div>
+      </div>
+      <div id="campaignList" class="muted">Loading…</div>
+    </section>
+    <section id="campaignDetail" class="create-pane" hidden>
+      <a id="campBack" class="backlink">← All campaigns</a>
+      <h2 id="campName"></h2>
+      <p id="campBrief" class="muted"></p>
+      <h3 class="gridlabel">The grid</h3>
+      <div id="campGrid" class="ig-grid"></div>
+      <div id="campStories"></div>
+      <h3 class="gridlabel">Review</h3>
+      <div id="campPosts"></div>
+    </section>
+  </main>
+
+  <!-- The full editor (token-level control) -->
+  <main id="view-editor" class="view editor-grid">
     <section class="left">
       <div class="row">
         <label>Design

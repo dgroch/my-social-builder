@@ -126,6 +126,20 @@ function validate(post) {
   return { ok: errorCount === 0, errorCount, warningCount, issues };
 }
 
+// Campaign posts pin their plates at compose time: every "query: …" photo token is
+// resolved against the asset library ONCE, so viewing/downloading later never depends
+// on the library being up (or returning the same hit twice) and render-cache keys
+// stay stable. A failed resolution keeps the query token — render-time fallback.
+async function pinPostPhotos(posts) {
+  const schema = buildSchema();
+  const out = [];
+  for (const post of posts || []) {
+    try { out.push((await assets.resolvePostPhotos(post, schema)).post); }
+    catch { out.push(post); }
+  }
+  return out;
+}
+
 const server = http.createServer(async (req, res) => {
   const u = new URL(req.url, 'http://x');
   const p = u.pathname;
@@ -181,6 +195,7 @@ const server = http.createServer(async (req, res) => {
     if (p === '/api/campaigns' && req.method === 'POST') {
       const b = await readBody(req);
       if (!Array.isArray(b.posts) || !b.posts.length) return send(res, 400, { error: 'posts[] required — each entry a renderable post {postName, design, ratio, slides}' });
+      b.posts = await pinPostPhotos(b.posts);
       const validations = b.posts.map(post => validate(post));
       const rec = await campaigns.create(b);
       return send(res, 200, { campaign: rec, validations });
@@ -191,6 +206,7 @@ const server = http.createServer(async (req, res) => {
       if (!generate.hasKey()) return send(res, 501, { error: 'no_api_key', message: 'Campaign generation needs ANTHROPIC_API_KEY on the server. Add it in the Render dashboard (Environment), or compose the campaign with an agent and POST it to /api/campaigns.' });
       try {
         const { campaign, model, usage } = await generate.generateCampaign(b.brief, { ratio: b.ratio });
+        campaign.posts = await pinPostPhotos(campaign.posts);
         const validations = campaign.posts.map(post => validate(post));
         const rec = await campaigns.create({ name: b.name || campaign.name, brief: b.brief, source: 'generated', posts: campaign.posts });
         return send(res, 200, { campaign: rec, rationale: campaign.rationale, validations, model, usage });
@@ -270,7 +286,8 @@ const server = http.createServer(async (req, res) => {
             const notes = campaigns.pendingFeedback(rec, postId).map(f => f.text);
             if (!notes.length) return send(res, 400, { error: 'no_feedback', message: 'No unaddressed feedback on this post.' });
             const current = (rec.posts.find(x => x.id === postId) || rec.posts[Number(postId)]).post;
-            const { post: revised, usage } = await generate.revisePost(current, notes, rec.brief);
+            let { post: revised, usage } = await generate.revisePost(current, notes, rec.brief);
+            revised = (await pinPostPhotos([revised]))[0];
             const v = validate(revised);
             if (!v.ok) return send(res, 502, { error: 'revision_invalid', message: 'Claude returned a post that fails validation: ' + v.issues.filter(i => i.level === 'error').map(i => i.msg).join('; '), validation: v });
             const updated = await campaigns.applyRevision(id, postId, revised);

@@ -104,6 +104,13 @@ function validate(post) {
     if (!meta) { issues.push({ level: 'error', slide: i + 1, msg: 'Unknown slide: ' + s.slide }); errorCount++; return; }
     const declared = new Set([...meta.tokens.map(t => t.name), ...meta.levers.map(l => l.name)]);
     for (const k of Object.keys(s.tokens || {})) if (!declared.has(k)) { issues.push({ level: 'warning', slide: i + 1, msg: 'Unknown token "' + k + '" (ignored)' }); warningCount++; }
+    // one rulebook: a required token that's missing OR empty is an error here, not just at render
+    for (const t of meta.tokens) {
+      if (!t.optional) {
+        const v = (s.tokens || {})[t.name];
+        if (v == null || String(v).trim() === '') { issues.push({ level: 'error', slide: i + 1, msg: 'Required field "' + t.name + '" is empty' }); errorCount++; }
+      }
+    }
     for (const t of meta.tokens) {
       if (t.type === 'image' && assets.isQueryRef((s.tokens || {})[t.name])) {
         issues.push({ level: 'warning', slide: i + 1, msg: t.name + ' = "' + s.tokens[t.name] + '" — resolves via asset-library semantic search at render time' });
@@ -135,7 +142,17 @@ const server = http.createServer(async (req, res) => {
       if (!v.ok) return send(res, 400, { error: 'validation', validation: v });
       // scale: 0.5 for fast preview thumbnails (try-on grid, campaign review), 2 for production
       const scale = Math.min(2, Math.max(0.5, Number(b.scale) || 2));
-      try { return send(res, 200, await render.renderPost(b.post, { scale })); }
+      try {
+        const out = await render.renderPost(b.post, { scale });
+        // Strip the raw Buffer before serialising — JSON.stringify turns it into a
+        // number-per-byte array that bloats responses ~10x, blocks the server on the
+        // stringify and freezes the browser tab on the parse. pngBase64 is the wire format.
+        return send(res, 200, {
+          scale,
+          slices: out.slices.map(s => ({ index: s.index, slide: s.slide, w: s.w, h: s.h, pngBase64: s.pngBase64, unfilled: s.unfilled, overflow: s.overflow, failedAssets: s.failedAssets })),
+          resolutions: out.resolutions
+        });
+      }
       catch (e) { return send(res, 500, { error: 'render', message: e.message }); }
     }
     // Try-on catalog — "try different templates on for size": one representative
@@ -159,12 +176,12 @@ const server = http.createServer(async (req, res) => {
 
     // Campaigns — the review surface. Agents POST a suite of posts; the UI shows the
     // set on the grid with per-post approve / feedback; agents read the feedback back.
-    if (p === '/api/campaigns' && req.method === 'GET') return send(res, 200, { campaigns: campaigns.list() });
+    if (p === '/api/campaigns' && req.method === 'GET') return send(res, 200, { campaigns: await campaigns.list() });
     if (p === '/api/campaigns' && req.method === 'POST') {
       const b = await readBody(req);
       if (!Array.isArray(b.posts) || !b.posts.length) return send(res, 400, { error: 'posts[] required — each entry a renderable post {postName, design, ratio, slides}' });
       const validations = b.posts.map(post => validate(post));
-      const rec = campaigns.create(b);
+      const rec = await campaigns.create(b);
       return send(res, 200, { campaign: rec, validations });
     }
     if (p === '/api/campaigns/generate' && req.method === 'POST') {
@@ -174,7 +191,7 @@ const server = http.createServer(async (req, res) => {
       try {
         const { campaign, model, usage } = await generate.generateCampaign(b.brief, { ratio: b.ratio });
         const validations = campaign.posts.map(post => validate(post));
-        const rec = campaigns.create({ name: b.name || campaign.name, brief: b.brief, source: 'generated', posts: campaign.posts });
+        const rec = await campaigns.create({ name: b.name || campaign.name, brief: b.brief, source: 'generated', posts: campaign.posts });
         return send(res, 200, { campaign: rec, rationale: campaign.rationale, validations, model, usage });
       } catch (e) { return send(res, 502, { error: 'generate', message: e.message }); }
     }
@@ -183,43 +200,43 @@ const server = http.createServer(async (req, res) => {
       const [, id, postId, action] = cm;
       try {
         if (!postId) {
-          if (req.method === 'GET') return send(res, 200, Object.assign({ canGenerate: generate.hasKey() }, campaigns.get(id)));
-          if (req.method === 'PUT') return send(res, 200, campaigns.update(id, await readBody(req)));
-          if (req.method === 'DELETE') return send(res, 200, campaigns.remove(id));
+          if (req.method === 'GET') return send(res, 200, Object.assign({ canGenerate: generate.hasKey() }, await campaigns.get(id)));
+          if (req.method === 'PUT') return send(res, 200, await campaigns.update(id, await readBody(req)));
+          if (req.method === 'DELETE') return send(res, 200, await campaigns.remove(id));
         } else {
           const b = await readBody(req);
-          if (action === '/feedback' && req.method === 'POST') return send(res, 200, campaigns.addFeedback(id, postId, b.text));
-          if (action === '/status' && req.method === 'POST') return send(res, 200, campaigns.setStatus(id, postId, b.status));
-          if (action === '/post' && req.method === 'PUT') return send(res, 200, campaigns.setPost(id, postId, b.post));
+          if (action === '/feedback' && req.method === 'POST') return send(res, 200, await campaigns.addFeedback(id, postId, b.text));
+          if (action === '/status' && req.method === 'POST') return send(res, 200, await campaigns.setStatus(id, postId, b.status));
+          if (action === '/post' && req.method === 'PUT') return send(res, 200, await campaigns.setPost(id, postId, b.post));
           // Close the loop on reviewer feedback: Claude revises the post against every
           // unaddressed note, the body is swapped in, and the post returns to pending.
           if (action === '/revise' && req.method === 'POST') {
             if (!generate.hasKey()) return send(res, 501, { error: 'no_api_key', message: 'Revision needs ANTHROPIC_API_KEY on the server.' });
             // a note sent with the revise call is recorded first, so it survives even if the revision fails
-            if ((b.text || '').trim()) campaigns.addFeedback(id, postId, b.text.trim());
-            const rec = campaigns.get(id);
+            if ((b.text || '').trim()) await campaigns.addFeedback(id, postId, b.text.trim());
+            const rec = await campaigns.get(id);
             const notes = campaigns.pendingFeedback(rec, postId).map(f => f.text);
             if (!notes.length) return send(res, 400, { error: 'no_feedback', message: 'No unaddressed feedback on this post.' });
             const current = (rec.posts.find(x => x.id === postId) || rec.posts[Number(postId)]).post;
             const { post: revised, usage } = await generate.revisePost(current, notes, rec.brief);
             const v = validate(revised);
             if (!v.ok) return send(res, 502, { error: 'revision_invalid', message: 'Claude returned a post that fails validation: ' + v.issues.filter(i => i.level === 'error').map(i => i.msg).join('; '), validation: v });
-            const updated = campaigns.applyRevision(id, postId, revised);
+            const updated = await campaigns.applyRevision(id, postId, revised);
             return send(res, 200, { campaign: updated, validation: v, usage });
           }
         }
       } catch (e) { return send(res, e.message.startsWith('Unknown') ? 404 : (e.code === 'NO_API_KEY' ? 501 : 502), { error: 'campaigns', message: e.message }); }
     }
 
-    if (p === '/api/designs' && req.method === 'GET') return send(res, 200, { designs: designs.list() });
-    if (p === '/api/designs' && req.method === 'POST') return send(res, 200, designs.create(await readBody(req)));
+    if (p === '/api/designs' && req.method === 'GET') return send(res, 200, { designs: await designs.list() });
+    if (p === '/api/designs' && req.method === 'POST') return send(res, 200, await designs.create(await readBody(req)));
     const m = p.match(/^\/api\/designs\/([^/]+)(\/clone)?$/);
     if (m) {
       const id = m[1];
-      if (m[2] && req.method === 'POST') return send(res, 200, designs.clone(id, (await readBody(req)).name));
-      if (req.method === 'GET') return send(res, 200, designs.get(id));
-      if (req.method === 'PUT') return send(res, 200, designs.update(id, await readBody(req)));
-      if (req.method === 'DELETE') return send(res, 200, designs.remove(id));
+      if (m[2] && req.method === 'POST') return send(res, 200, await designs.clone(id, (await readBody(req)).name));
+      if (req.method === 'GET') return send(res, 200, await designs.get(id));
+      if (req.method === 'PUT') return send(res, 200, await designs.update(id, await readBody(req)));
+      if (req.method === 'DELETE') return send(res, 200, await designs.remove(id));
     }
     // Component library
     if (p === '/api/library' && req.method === 'GET') {
@@ -274,4 +291,5 @@ const server = http.createServer(async (req, res) => {
   } catch (e) { send(res, 500, { error: 'server', message: e.message }); }
 });
 
-server.listen(PORT, () => console.log('social-post-builder on http://localhost:' + PORT));
+const store = require('./lib/store');
+server.listen(PORT, () => console.log('social-post-builder on http://localhost:' + PORT + ' (store: ' + store.backend() + ')'));

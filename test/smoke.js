@@ -128,31 +128,123 @@ for (const [id, d] of Object.entries(schema.designs)) {
   }
 }
 
-// --- campaigns store (temp DATA_DIR) ---
+// --- campaigns store (async; temp DATA_DIR disk backend) ---
 const campaigns = require('../lib/campaigns');
-{
-  const rec = campaigns.create({ name: 'Test', brief: 'b', posts: [sampleEditorial, sampleGoodWeekend] });
+async function campaignTests() {
+  const rec = await campaigns.create({ name: 'Test', brief: 'b', posts: [sampleEditorial, sampleGoodWeekend] });
   assert.strictEqual(rec.posts.length, 2, 'campaign wraps posts');
   assert.strictEqual(rec.posts[0].status, 'pending', 'posts start pending');
-  campaigns.addFeedback(rec.id, rec.posts[0].id, 'tighter kicker');
-  campaigns.setStatus(rec.id, rec.posts[1].id, 'approved');
-  const back = campaigns.get(rec.id);
+  await campaigns.addFeedback(rec.id, rec.posts[0].id, 'tighter kicker');
+  await campaigns.setStatus(rec.id, rec.posts[1].id, 'approved');
+  const back = await campaigns.get(rec.id);
   assert.strictEqual(back.posts[0].status, 'changes_requested', 'feedback flips status');
   assert.strictEqual(back.posts[0].feedback.length, 1, 'feedback recorded');
   assert.strictEqual(back.posts[1].status, 'approved', 'status set');
-  assert.strictEqual(campaigns.list()[0].approved, 1, 'list aggregates');
-  campaigns.setPost(rec.id, back.posts[0].id, sampleEditorial);
-  assert.strictEqual(campaigns.get(rec.id).posts[0].status, 'pending', 'edited post resets to pending');
+  assert.strictEqual((await campaigns.list())[0].approved, 1, 'list aggregates');
+  await campaigns.setPost(rec.id, back.posts[0].id, sampleEditorial);
+  assert.strictEqual((await campaigns.get(rec.id)).posts[0].status, 'pending', 'edited post resets to pending');
   // revision flow: feedback → applyRevision marks it addressed, post back to pending
-  campaigns.addFeedback(rec.id, back.posts[0].id, 'make the plate moodier');
-  assert.strictEqual(campaigns.pendingFeedback(campaigns.get(rec.id), back.posts[0].id).length, 2, 'pending feedback counted');
-  campaigns.applyRevision(rec.id, back.posts[0].id, sampleGoodWeekend);
-  const revised = campaigns.get(rec.id);
+  await campaigns.addFeedback(rec.id, back.posts[0].id, 'make the plate moodier');
+  assert.strictEqual(campaigns.pendingFeedback(await campaigns.get(rec.id), back.posts[0].id).length, 2, 'pending feedback counted');
+  await campaigns.applyRevision(rec.id, back.posts[0].id, sampleGoodWeekend);
+  const revised = await campaigns.get(rec.id);
   assert.strictEqual(revised.posts[0].status, 'pending', 'revision resets to pending');
   assert(revised.posts[0].feedback.every(f => f.addressedAt), 'revision marks feedback addressed');
   assert.strictEqual(campaigns.pendingFeedback(revised, back.posts[0].id).length, 0, 'no pending after revision');
-  campaigns.remove(rec.id);
-  assert.strictEqual(campaigns.list().length, 0, 'campaign removed');
+  await campaigns.remove(rec.id);
+  assert.strictEqual((await campaigns.list()).length, 0, 'campaign removed');
+}
+
+// --- Notion driver against an in-memory fake of the Notion API ---
+// Covers the full round-trip: create page → query by Record ID → property-item
+// pagination for chunked Data → update → archive. No token, no network.
+async function notionDriverTests() {
+  const http = require('http');
+  const pages = new Map(); // page_id -> {archived, properties}
+  const fake = http.createServer((req, res) => {
+    let body = '';
+    req.on('data', c => body += c);
+    req.on('end', () => {
+      const b = body ? JSON.parse(body) : {};
+      const out = (code, obj) => { res.writeHead(code, { 'content-type': 'application/json' }); res.end(JSON.stringify(obj)); };
+      const u = req.url;
+      if (req.method === 'POST' && u === '/pages') {
+        const id = 'pg_' + (pages.size + 1);
+        pages.set(id, { archived: false, properties: b.properties });
+        return out(200, { id });
+      }
+      let m = u.match(/^\/pages\/([^/]+)\/properties\/(.+?)(\?|$)/);
+      if (req.method === 'GET' && m) {
+        const page = pages.get(m[1]);
+        const items = (page.properties['Data'].rich_text || []).map(t => ({ type: 'rich_text', rich_text: { plain_text: t.text.content } }));
+        // exercise pagination: serve max 2 items per call
+        const cursor = Number((u.match(/start_cursor=(\d+)/) || [])[1] || 0);
+        const slice = items.slice(cursor, cursor + 2);
+        return out(200, { results: slice, has_more: cursor + 2 < items.length, next_cursor: String(cursor + 2) });
+      }
+      m = u.match(/^\/pages\/([^/]+)$/);
+      if (m && req.method === 'GET') {
+        const page = pages.get(m[1]);
+        if (!page) return out(404, { message: 'not found' });
+        const props = JSON.parse(JSON.stringify(page.properties));
+        props['Data'].id = 'DataPropId';
+        return out(200, { id: m[1], archived: page.archived, properties: props, created_time: 'c', last_edited_time: 'u' });
+      }
+      if (m && req.method === 'PATCH') {
+        const page = pages.get(m[1]);
+        if (b.archived != null) page.archived = b.archived;
+        if (b.properties) page.properties = b.properties;
+        return out(200, { id: m[1] });
+      }
+      if (req.method === 'POST' && /^\/databases\/.+\/query$/.test(u)) {
+        const conds = b.filter.and || [b.filter];
+        const results = [];
+        for (const [id, page] of pages) {
+          if (page.archived) continue;
+          const ok = conds.every(c =>
+            (c.select && page.properties['Type'].select.name === c.select.equals) ||
+            (c.rich_text && page.properties['Record ID'].rich_text[0].text.content === c.rich_text.equals));
+          if (ok) {
+            const props = JSON.parse(JSON.stringify(page.properties));
+            props['Data'].id = 'DataPropId';
+            results.push({ id, archived: false, properties: props, created_time: 'c', last_edited_time: 'u' });
+          }
+        }
+        return out(200, { results: b.page_size === 1 ? results.slice(0, 1) : results, has_more: false });
+      }
+      out(404, { message: 'unhandled ' + req.method + ' ' + u });
+    });
+  });
+  await new Promise(r => fake.listen(0, r));
+  process.env.NOTION_API_URL = 'http://localhost:' + fake.address().port;
+  process.env.NOTION_TOKEN = 'test-token';
+  process.env.NOTION_SOCIAL_DB_ID = 'db_test';
+  try {
+    const store = require('../lib/store');
+    assert.strictEqual(store.backend(), 'notion', 'notion backend selected with env set');
+    // big enough record to span multiple Data chunks (and paginated reads)
+    const rec = { id: 'camp_n1', name: 'Notion test', brief: 'b', source: 'generated',
+      posts: [{ id: 'cpost_1', status: 'approved', feedback: [], post: { postName: 'x'.repeat(4500), design: 'card-note', ratio: '1:1', slides: [] } }],
+      createdAt: 'c', updatedAt: 'u' };
+    await store.create('campaign', rec);
+    const back = await store.get('campaign', 'camp_n1');
+    assert.deepStrictEqual(back, rec, 'notion round-trips a chunked record');
+    const summaries = await store.list('campaign');
+    assert.strictEqual(summaries.length, 1, 'notion list');
+    assert.strictEqual(summaries[0].approved, 1, 'notion list aggregates from properties');
+    rec.name = 'Renamed';
+    await store.update('campaign', rec);
+    assert.strictEqual((await store.get('campaign', 'camp_n1')).name, 'Renamed', 'notion update');
+    await store.remove('campaign', 'camp_n1');
+    assert.strictEqual((await store.list('campaign')).length, 0, 'notion archive removes from list');
+    await assert.rejects(() => store.get('campaign', 'camp_n1'), /Unknown campaign/, 'archived record 404s');
+    assert.throws(() => store.chunkJson({ big: 'y'.repeat(200000) }), /too large/, 'oversize record rejected');
+  } finally {
+    delete process.env.NOTION_TOKEN;
+    delete process.env.NOTION_SOCIAL_DB_ID;
+    delete process.env.NOTION_API_URL;
+    fake.close();
+  }
 }
 
 // --- campaign generator (pure parts; no network) ---
@@ -177,4 +269,8 @@ assert(!assets.isQueryRef('https://example.com/a.jpg'), 'isQueryRef negative URL
 assert(!assets.isQueryRef('samples/osaka_45.png'), 'isQueryRef negative sample');
 assert.strictEqual(assets.queryText('query: moody bouquet '), 'moody bouquet', 'queryText trims');
 
-console.log(`OK — schema valid, ${checked} sample slides + ${generic} generic design/slide/ratio assemblies, asset helpers pass.`);
+(async () => {
+  await campaignTests();
+  await notionDriverTests();
+  console.log(`OK — schema valid, ${checked} sample slides + ${generic} generic design/slide/ratio assemblies, campaign store (disk + notion fake), asset helpers pass.`);
+})().catch(e => { console.error(e); process.exit(1); });

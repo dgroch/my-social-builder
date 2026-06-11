@@ -76,6 +76,27 @@ Environment); without it the endpoint returns clear guidance and journey 2 still
 No Meta push: this app produces the **assets**. A Meta-equipped agent (or you) takes the PNG set
 to Ads Manager. (A push button can be added later, mirroring the email builder's Klaviyo push.)
 
+## Persistence — the Notion backend
+
+Saved posts and campaigns live on a pluggable store (`lib/store.js`), the same split as the
+email builder: **local-disk JSON by default** (zero setup, but ephemeral on Render — wiped on
+every deploy), or a **Notion database** when both env vars are set:
+
+| Env var | Value |
+|---|---|
+| `NOTION_TOKEN` | an internal-integration secret (the email builder's token works) |
+| `NOTION_SOCIAL_DB_ID` | the Social Builder Store database id |
+
+One row per record: summary columns (Type, Design/Ratio or Brief/Source/Posts/Approved/Changes)
+for browsing in Notion, and the full record JSON chunked into the `Data` property — the lookup
+key is the app's own `Record ID`, so URLs survive a backend switch. **Connect the integration to
+the database** (database page → ⋯ → Connections → your integration) or every call 404s.
+
+To recreate the database from scratch, it needs: `Name` (title), `Type` (select: post/campaign),
+`Record ID`, `Design`, `Ratio`, `Brief`, `Data` (rich_text), `Source` (select: api/generated),
+`Posts`, `Approved`, `Changes` (number). The server logs the active backend at boot
+(`store: disk` / `store: notion`).
+
 ## Layout
 
 ```

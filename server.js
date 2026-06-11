@@ -104,6 +104,13 @@ function validate(post) {
     if (!meta) { issues.push({ level: 'error', slide: i + 1, msg: 'Unknown slide: ' + s.slide }); errorCount++; return; }
     const declared = new Set([...meta.tokens.map(t => t.name), ...meta.levers.map(l => l.name)]);
     for (const k of Object.keys(s.tokens || {})) if (!declared.has(k)) { issues.push({ level: 'warning', slide: i + 1, msg: 'Unknown token "' + k + '" (ignored)' }); warningCount++; }
+    // one rulebook: a required token that's missing OR empty is an error here, not just at render
+    for (const t of meta.tokens) {
+      if (!t.optional) {
+        const v = (s.tokens || {})[t.name];
+        if (v == null || String(v).trim() === '') { issues.push({ level: 'error', slide: i + 1, msg: 'Required field "' + t.name + '" is empty' }); errorCount++; }
+      }
+    }
     for (const t of meta.tokens) {
       if (t.type === 'image' && assets.isQueryRef((s.tokens || {})[t.name])) {
         issues.push({ level: 'warning', slide: i + 1, msg: t.name + ' = "' + s.tokens[t.name] + '" — resolves via asset-library semantic search at render time' });
@@ -135,7 +142,17 @@ const server = http.createServer(async (req, res) => {
       if (!v.ok) return send(res, 400, { error: 'validation', validation: v });
       // scale: 0.5 for fast preview thumbnails (try-on grid, campaign review), 2 for production
       const scale = Math.min(2, Math.max(0.5, Number(b.scale) || 2));
-      try { return send(res, 200, await render.renderPost(b.post, { scale })); }
+      try {
+        const out = await render.renderPost(b.post, { scale });
+        // Strip the raw Buffer before serialising — JSON.stringify turns it into a
+        // number-per-byte array that bloats responses ~10x, blocks the server on the
+        // stringify and freezes the browser tab on the parse. pngBase64 is the wire format.
+        return send(res, 200, {
+          scale,
+          slices: out.slices.map(s => ({ index: s.index, slide: s.slide, w: s.w, h: s.h, pngBase64: s.pngBase64, unfilled: s.unfilled, overflow: s.overflow, failedAssets: s.failedAssets })),
+          resolutions: out.resolutions
+        });
+      }
       catch (e) { return send(res, 500, { error: 'render', message: e.message }); }
     }
     // Try-on catalog — "try different templates on for size": one representative

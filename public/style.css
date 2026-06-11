@@ -117,3 +117,47 @@ pre.json{background:#1c1a17;color:#e8e2da;padding:16px;border-radius:10px;overfl
 .fb-list{margin-top:6px;display:flex;flex-direction:column;gap:6px}
 .fb-item{font-size:12px;background:#fdf4e3;border-radius:8px;padding:6px 10px;color:#6d5712}
 .fb-item.done{background:#eaf3ec;color:#476b52;text-decoration:none;opacity:.8}
+
+/* ---------- Editor v2: slide strip + live preview ---------- */
+.namefield{flex:1;min-width:180px}
+.namefield input{width:100%}
+.slide-strip{display:flex;gap:8px;overflow-x:auto;padding:4px 0 12px;margin-bottom:6px;border-bottom:1px solid var(--line)}
+.slide-card{flex:0 0 auto;display:flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:10px;background:#fff;padding:8px 10px;cursor:pointer;font-size:12px}
+.slide-card.on{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
+.slide-card .sc-num{font-weight:700;color:var(--char)}
+.slide-card .sc-name{text-transform:uppercase;letter-spacing:.08em}
+.slide-card .sc-tools{display:flex;gap:2px}
+.slide-card .sc-tools button{border:none;background:none;padding:2px 4px;font-size:13px;color:var(--char);cursor:pointer;border-radius:4px}
+.slide-card .sc-tools button:hover{background:#f3eee6}
+.slide-card .sc-del{color:#b54}
+.slide-card.add{background:transparent;border-style:dashed}
+.slide-card.add select{font-size:12px;padding:4px 6px}
+.slide-card.add button{font-size:12px;padding:4px 8px}
+.field label .opt{font-size:10px;color:#b3a995;letter-spacing:.08em;text-transform:uppercase}
+.live-preview{position:sticky;top:0;z-index:3;background:var(--bg);padding:10px 0 12px;border-bottom:1px solid var(--line);margin-bottom:14px}
+.lp-frame{display:flex;align-items:center;justify-content:center;min-height:120px;max-height:46vh}
+.lp-frame img{max-width:100%;max-height:46vh;border:1px solid var(--line);border-radius:8px;box-shadow:0 4px 16px rgba(0,0,0,.06)}
+.lp-meta{margin-top:6px;font-size:12px}
+#lpWarn{display:flex;flex-direction:column;gap:4px;margin-top:6px}
+.chip{font-size:12px;border-radius:8px;padding:5px 10px;background:#f3eee6;color:var(--char);align-self:flex-start}
+.chip.bad{background:#fbe9e6;color:#9b2c1a}
+.figwarn{font-size:12px;background:#fbe9e6;color:#9b2c1a;padding:6px 10px}
+button.busy{opacity:.7;cursor:progress}
+/* header ⋯ menu */
+.menu-wrap{position:relative}
+.menu{position:absolute;right:0;top:40px;background:#fff;border:1px solid var(--line);border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,.10);display:flex;flex-direction:column;min-width:170px;z-index:20;overflow:hidden}
+.menu button{border:none;border-radius:0;text-align:left;padding:10px 14px;background:#fff}
+.menu button:hover{background:#f3eee6}
+/* toasts */
+#toasts{position:fixed;right:18px;bottom:18px;display:flex;flex-direction:column;gap:8px;z-index:60}
+.toast{background:var(--accent);color:#fff;padding:10px 16px;border-radius:10px;font-size:13px;box-shadow:0 6px 20px rgba(0,0,0,.18);opacity:0;transform:translateY(8px);transition:all .25s}
+.toast.on{opacity:1;transform:none}
+.toast.bad{background:#9b2c1a}
+/* preview placeholders while campaign thumbs render */
+.ig-cell{position:relative}
+.ig-cell.loading::after,.review-thumb-wrap.loading::after{content:'rendering preview…';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#9a9186}
+.ig-cell.story{background:#efe9e0;min-height:200px}
+.ig-cell.story img{height:300px;width:auto;border-radius:10px}
+.review-thumb-wrap{position:relative;width:170px;min-height:120px;background:#efe9e0;border-radius:8px;align-self:flex-start}
+.review-thumb{width:100%;border-radius:8px;cursor:zoom-in;display:block}
+.status.s-revising{background:#fdf4e3;color:#8a6d1a;border-color:#efdfb5}

@@ -121,10 +121,16 @@ for (const [design, slide, slots] of TRYON_SLOTS) {
   for (const k of Object.keys(slots.apply || {})) assert(names.has(k), `tryon: ${design}/${slide} declares apply token "${k}"`);
   assert(SAMPLE_TOKENS[`${design}/${slide}`], `tryon: ${design}/${slide} has sample copy`);
 }
-// every library component has sample copy (raw {{placeholders}} in thumbnails otherwise)
+// every library component has sample copy (raw {{placeholders}} in thumbnails otherwise),
+// and every sample fills its slide's required tokens (the one validation rulebook)
 for (const [id, d] of Object.entries(schema.designs)) {
-  for (const slideId of Object.keys(d.slides)) {
-    assert(SAMPLE_TOKENS[`${id}/${slideId}`], `library: ${id}/${slideId} has sample copy`);
+  for (const [slideId, meta] of Object.entries(d.slides)) {
+    const sample = SAMPLE_TOKENS[`${id}/${slideId}`];
+    assert(sample, `library: ${id}/${slideId} has sample copy`);
+    for (const t of meta.tokens) {
+      if (!t.optional) assert(sample[t.name] != null && String(sample[t.name]).trim() !== '',
+        `library: ${id}/${slideId} sample fills required "${t.name}"`);
+    }
   }
 }
 

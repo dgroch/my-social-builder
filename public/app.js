@@ -1,8 +1,19 @@
 'use strict';
 let SCHEMA = null, STATE = { design: null, ratio: null, slides: [] }, LAST = null;
+let CAMPAIGN_REF = null; // {campId, postId} when a post was opened from a campaign
 
 const $ = s => document.querySelector(s);
 const el = (t, a = {}, kids = []) => { const e = document.createElement(t); for (const k in a) { if (k === 'class') e.className = a[k]; else if (k === 'html') e.innerHTML = a[k]; else e.setAttribute(k, a[k]); } (Array.isArray(kids) ? kids : [kids]).forEach(c => c && e.append(c)); return e; };
+
+// ---------- Views (the three journeys) ----------
+const VIEW_INIT = { create: false, campaigns: false };
+function showView(name) {
+  document.querySelectorAll('.viewtab').forEach(t => t.classList.toggle('on', t.dataset.view === name));
+  document.querySelectorAll('.view').forEach(v => v.classList.toggle('on', v.id === 'view-' + name));
+  $('#editorActions').style.display = name === 'editor' ? 'flex' : 'none';
+  if (name === 'create' && !VIEW_INIT.create) { VIEW_INIT.create = true; initCreate(); }
+  if (name === 'campaigns') { if (!VIEW_INIT.campaigns) { VIEW_INIT.campaigns = true; wireCampaigns(); } loadCampaigns(); }
+}
 
 async function boot() {
   SCHEMA = await (await fetch('/api/schema')).json();
@@ -12,6 +23,8 @@ async function boot() {
   $('#ratio').onchange = e => { STATE.ratio = e.target.value; sync(); };
   selectDesign(ds.value);
   wire(); loadDesigns();
+  document.querySelectorAll('.viewtab').forEach(t => t.onclick = () => showView(t.dataset.view));
+  showView('create');
 }
 
 function selectDesign(id) {
@@ -288,11 +301,211 @@ async function loadDesigns() {
   });
 }
 
-function load(p) {
+function load(p, campaignRef) {
+  CAMPAIGN_REF = campaignRef || null;
+  $('#btnSaveCampaign').style.display = CAMPAIGN_REF ? '' : 'none';
   $('#design').value = p.design; selectDesign(p.design);
   STATE.ratio = p.ratio; $('#ratio').value = p.ratio;
   STATE.slides = p.slides.map(s => ({ slide: s.slide, tokens: Object.assign({}, s.tokens) }));
-  renderForm(); showTab('preview');
+  renderForm(); showView('editor'); showTab('preview');
+}
+
+// ---------- Journey 2: one post from an asset — try the templates on ----------
+let TRYON = null;
+
+function initCreate() {
+  const photoInput = $('#tryPhoto');
+  $('#tryPicker').append(assetPicker(photoInput, () => {}));
+  $('#btnTryon').onclick = runTryon;
+}
+
+function tryonText(text, slot) {
+  if (!text) return null;
+  if (slot.case === 'lower') return text.toLowerCase().replace(/\.$/, '');
+  if (slot.case === 'word') return text.split(/\s+/).slice(0, 2).join(' ').toUpperCase();
+  return text;
+}
+
+function tryonPost(opt, photo, line, kicker, cta, ratio) {
+  const tokens = Object.assign({}, opt.sample);
+  const slots = opt.slots;
+  if (photo) {
+    tokens[slots.photo] = photo;
+    Object.assign(tokens, slots.apply || {});
+  }
+  const main = tryonText(line, slots);
+  if (main) tokens[slots.main] = main;
+  if (kicker && 'kicker' in tokens) tokens.kicker = kicker;
+  if (cta && 'cta' in tokens) tokens.cta = cta;
+  const r = opt.ratios.includes(ratio) ? ratio : opt.ratios[0];
+  return { postName: `Try-on · ${opt.design}/${opt.slide}`, design: opt.design, ratio: r, slides: [{ slide: opt.slide, tokens }] };
+}
+
+async function runTryon() {
+  const grid = $('#tryonGrid');
+  if (!TRYON) {
+    grid.textContent = 'Loading templates…';
+    TRYON = (await (await fetch('/api/tryon')).json()).options;
+  }
+  const photo = $('#tryPhoto').value.trim();
+  const line = $('#tryLine').value.trim();
+  const kicker = $('#tryKicker').value.trim();
+  const cta = $('#tryCta').value.trim();
+  const ratio = $('#tryRatio').value;
+  grid.innerHTML = '';
+  const jobs = TRYON.map(opt => {
+    const post = tryonPost(opt, photo, line, kicker, cta, ratio);
+    const card = el('div', { class: 'tryon-card' });
+    const ph = el('div', { class: 'tryon-thumb', 'data-ratio': post.ratio }, el('span', { class: 'muted' }, 'rendering…'));
+    card.append(ph);
+    const meta = el('div', { class: 'meta' });
+    meta.append(el('div', { class: 'name' }, opt.label + (opt.slide !== 'cover' ? ` · ${opt.slide}` : '')));
+    meta.append(el('div', { class: 'sub' }, `${opt.laneLabel} · ${post.ratio}`));
+    const open = el('button', {}, 'Open in editor');
+    open.onclick = () => load(post);
+    meta.append(open);
+    card.append(meta);
+    grid.append(card);
+    return { post, ph, card };
+  });
+  // limited concurrency so the singleton browser isn't swamped
+  let i = 0;
+  async function worker() {
+    while (i < jobs.length) {
+      const job = jobs[i++];
+      try {
+        const r = await fetch('/api/render', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ post: job.post, scale: 0.5 }) });
+        if (!r.ok) throw new Error((await r.json()).message || 'render failed');
+        const { slices } = await r.json();
+        job.ph.innerHTML = '';
+        const img = el('img', { src: 'data:image/png;base64,' + slices[0].pngBase64 });
+        img.onclick = () => openLightbox(img.src, job.post.postName);
+        job.ph.append(img);
+      } catch (e) {
+        job.ph.innerHTML = '';
+        job.ph.append(el('span', { class: 'muted' }, '✕ ' + e.message));
+      }
+    }
+  }
+  await Promise.all([worker(), worker()]);
+}
+
+// ---------- Journeys 1 + 3: campaigns ----------
+function wireCampaigns() {
+  $('#btnGenerate').onclick = generateCampaign;
+  $('#campBack').onclick = () => { $('#campaignDetail').hidden = true; $('#campaignsHome').hidden = false; loadCampaigns(); };
+}
+
+async function generateCampaign() {
+  const brief = $('#genBrief').value.trim();
+  const status = $('#genStatus');
+  if (!brief) { status.textContent = 'Describe the campaign first.'; return; }
+  $('#btnGenerate').disabled = true;
+  status.textContent = 'Composing — Claude is writing the set (30–90s)…';
+  try {
+    const r = await fetch('/api/campaigns/generate', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ brief }) });
+    const data = await r.json();
+    if (!r.ok) { status.textContent = data.message || data.error; return; }
+    status.textContent = '';
+    openCampaign(data.campaign.id);
+  } catch (e) { status.textContent = 'Failed: ' + e.message; }
+  finally { $('#btnGenerate').disabled = false; }
+}
+
+async function loadCampaigns() {
+  const box = $('#campaignList');
+  const { campaigns } = await (await fetch('/api/campaigns')).json();
+  if (!campaigns.length) { box.className = 'muted'; box.textContent = 'No campaigns yet — compose one above, or have an agent POST /api/campaigns.'; return; }
+  box.className = 'designList'; box.innerHTML = '';
+  campaigns.forEach(c => {
+    const item = el('div', { class: 'item' });
+    item.append(el('div', {}, [
+      el('div', { class: 'name' }, c.name),
+      el('div', { class: 'sub muted' }, `${c.postCount} posts · ${c.approved} approved · ${c.changesRequested} need changes · ${c.source === 'generated' ? 'composed in-app' : 'agent-pushed'}`)
+    ]));
+    const open = el('a', {}, 'review'); open.onclick = () => openCampaign(c.id);
+    const del = el('a', { style: 'color:#b54' }, 'delete'); del.onclick = async () => { if (confirm('Delete campaign "' + c.name + '"?')) { await fetch('/api/campaigns/' + c.id, { method: 'DELETE' }); loadCampaigns(); } };
+    item.append(el('div', { style: 'display:flex;gap:12px' }, [open, del]));
+    box.append(item);
+  });
+}
+
+const PREVIEW_CACHE = new Map(); // postJSON -> dataURI of slide 1
+
+async function previewPost(post, target) {
+  const key = JSON.stringify(post);
+  if (PREVIEW_CACHE.has(key)) { target.src = PREVIEW_CACHE.get(key); return; }
+  try {
+    const r = await fetch('/api/render', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ post, scale: 0.5 }) });
+    if (!r.ok) throw new Error('render failed');
+    const { slices } = await r.json();
+    const uri = 'data:image/png;base64,' + slices[0].pngBase64;
+    PREVIEW_CACHE.set(key, uri);
+    target.src = uri;
+  } catch (e) { target.alt = '✕ ' + e.message; target.classList.add('failed'); }
+}
+
+async function openCampaign(id) {
+  const c = await (await fetch('/api/campaigns/' + id)).json();
+  $('#campaignsHome').hidden = true;
+  const d = $('#campaignDetail'); d.hidden = false;
+  $('#campName').textContent = c.name;
+  $('#campBrief').textContent = c.brief || '';
+
+  // The grid — how the feed posts hang together, 3-up like the profile grid
+  const grid = $('#campGrid'); grid.innerHTML = '';
+  const feed = c.posts.filter(p => p.post.ratio !== '9:16');
+  const stories = c.posts.filter(p => p.post.ratio === '9:16');
+  feed.forEach(p => {
+    const cell = el('div', { class: 'ig-cell' });
+    const img = el('img');
+    cell.append(img); grid.append(cell);
+    previewPost(p.post, img);
+    img.onclick = () => openLightbox(img.src, p.post.postName);
+  });
+  const sbox = $('#campStories'); sbox.innerHTML = '';
+  if (stories.length) {
+    sbox.append(el('h3', { class: 'gridlabel' }, 'Stories'));
+    const row = el('div', { class: 'story-row' });
+    stories.forEach(p => { const img = el('img'); row.append(img); previewPost(p.post, img); img.onclick = () => openLightbox(img.src, p.post.postName); });
+    sbox.append(row);
+  }
+
+  // Review cards — approve / request changes / open in editor, per post
+  const list = $('#campPosts'); list.innerHTML = '';
+  c.posts.forEach(p => {
+    const card = el('div', { class: 'review-card' });
+    const img = el('img', { class: 'review-thumb' });
+    previewPost(p.post, img);
+    card.append(img);
+    const meta = el('div', { class: 'meta' });
+    meta.append(el('div', { class: 'name' }, p.post.postName || p.post.design));
+    meta.append(el('div', { class: 'sub' }, `${p.post.design} · ${p.post.ratio} · ${p.post.slides.length} slide${p.post.slides.length > 1 ? 's' : ''}`));
+    const status = el('span', { class: 'status s-' + p.status }, p.status.replace('_', ' '));
+    meta.append(status);
+    const btns = el('div', { class: 'actions' });
+    const approve = el('button', {}, '✓ Approve');
+    approve.onclick = async () => { await fetch(`/api/campaigns/${c.id}/posts/${p.id}/status`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ status: 'approved' }) }); openCampaign(c.id); };
+    const edit = el('button', {}, 'Open in editor');
+    edit.onclick = () => load(p.post, { campId: c.id, postId: p.id });
+    btns.append(approve, edit);
+    meta.append(btns);
+    const fb = el('textarea', { placeholder: 'Feedback — saved for the agent to act on…' });
+    const send = el('button', { class: 'savebtn' }, 'Request changes');
+    send.onclick = async () => {
+      if (!fb.value.trim()) return;
+      await fetch(`/api/campaigns/${c.id}/posts/${p.id}/feedback`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ text: fb.value.trim() }) });
+      openCampaign(c.id);
+    };
+    meta.append(fb, send);
+    if (p.feedback.length) {
+      const fl = el('div', { class: 'fb-list' });
+      p.feedback.forEach(f => fl.append(el('div', { class: 'fb-item' }, f.text)));
+      meta.append(fl);
+    }
+    card.append(meta);
+    list.append(card);
+  });
 }
 
 const SAMPLE = { postName: 'Flower Card Guide — carousel', design: 'carousel-journal', ratio: '4:5', slides: [
@@ -310,6 +523,14 @@ function wire() {
   $('#fileInput').onchange = e => { const f = e.target.files[0]; if (!f) return; const r = new FileReader(); r.onload = () => { try { load(JSON.parse(r.result)); } catch (x) { alert('Invalid JSON'); } }; r.readAsText(f); };
   $('#btnSave').onclick = async () => { const name = prompt('Save as:', post().postName); if (!name) return; const p = post(); p.postName = name; await fetch('/api/designs', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name, post: p }) }); loadDesigns(); showTab('designs'); };
   $('#btnSample').onclick = () => load(SAMPLE);
+  $('#btnSaveCampaign').onclick = async () => {
+    if (!CAMPAIGN_REF) return;
+    await fetch(`/api/campaigns/${CAMPAIGN_REF.campId}/posts/${CAMPAIGN_REF.postId}/post`, {
+      method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ post: post() })
+    });
+    PREVIEW_CACHE.clear();
+    showView('campaigns'); openCampaign(CAMPAIGN_REF.campId);
+  };
   $('#addSlide').onclick = () => {
     const d = SCHEMA.designs[STATE.design];
     const slide = $('#addSlideSel').value;

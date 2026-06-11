@@ -3,7 +3,15 @@
   "version": "1.0.0",
   "description": "Fig & Bloom Social Post Builder — token-editor UI + Puppeteer render server for on-brand carousels and static posts from the locked design-system.",
   "main": "server.js",
-  "scripts": { "start": "node server.js", "test": "node test/smoke.js" },
-  "dependencies": { "puppeteer": "^23.6.0" },
-  "engines": { "node": ">=18" }
+  "scripts": {
+    "start": "node server.js",
+    "test": "node test/smoke.js"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.104.1",
+    "puppeteer": "^23.6.0"
+  },
+  "engines": {
+    "node": ">=18"
+  }
 }

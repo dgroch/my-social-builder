@@ -1,2 +1,4 @@
 node_modules/
 scripts/debug-render.js
+data/
+.feedback/

@@ -2,6 +2,8 @@
 // Zero-dependency guardrails (no Chromium needed): schema parses for all designs, and the
 // sample posts assemble every slide with no unfilled tokens.
 const assert = require('assert');
+// campaigns store writes to DATA_DIR — point it at a temp dir before any require
+process.env.DATA_DIR = require('fs').mkdtempSync(require('path').join(require('os').tmpdir(), 'sps-test-'));
 const { buildSchema } = require('../lib/parseDesigns');
 const { assembleSlide } = require('../lib/render');
 
@@ -104,6 +106,59 @@ for (const [id, d] of Object.entries(schema.designs)) {
       generic++;
     }
   }
+}
+
+// --- try-on catalog stays in lockstep with the schema ---
+const { TRYON_SLOTS, SAMPLE_TOKENS } = require('../lib/samples');
+for (const [design, slide, slots] of TRYON_SLOTS) {
+  const d = schema.designs[design];
+  assert(d, `tryon: ${design} exists`);
+  const meta = d.slides[slide];
+  assert(meta, `tryon: ${design}/${slide} exists`);
+  const names = new Set([...meta.tokens.map(t => t.name), ...meta.levers.map(l => l.name)]);
+  assert(names.has(slots.photo), `tryon: ${design}/${slide} declares photo token "${slots.photo}"`);
+  assert(names.has(slots.main), `tryon: ${design}/${slide} declares main token "${slots.main}"`);
+  for (const k of Object.keys(slots.apply || {})) assert(names.has(k), `tryon: ${design}/${slide} declares apply token "${k}"`);
+  assert(SAMPLE_TOKENS[`${design}/${slide}`], `tryon: ${design}/${slide} has sample copy`);
+}
+// every library component has sample copy (raw {{placeholders}} in thumbnails otherwise)
+for (const [id, d] of Object.entries(schema.designs)) {
+  for (const slideId of Object.keys(d.slides)) {
+    assert(SAMPLE_TOKENS[`${id}/${slideId}`], `library: ${id}/${slideId} has sample copy`);
+  }
+}
+
+// --- campaigns store (temp DATA_DIR) ---
+const campaigns = require('../lib/campaigns');
+{
+  const rec = campaigns.create({ name: 'Test', brief: 'b', posts: [sampleEditorial, sampleGoodWeekend] });
+  assert.strictEqual(rec.posts.length, 2, 'campaign wraps posts');
+  assert.strictEqual(rec.posts[0].status, 'pending', 'posts start pending');
+  campaigns.addFeedback(rec.id, rec.posts[0].id, 'tighter kicker');
+  campaigns.setStatus(rec.id, rec.posts[1].id, 'approved');
+  const back = campaigns.get(rec.id);
+  assert.strictEqual(back.posts[0].status, 'changes_requested', 'feedback flips status');
+  assert.strictEqual(back.posts[0].feedback.length, 1, 'feedback recorded');
+  assert.strictEqual(back.posts[1].status, 'approved', 'status set');
+  assert.strictEqual(campaigns.list()[0].approved, 1, 'list aggregates');
+  campaigns.setPost(rec.id, back.posts[0].id, sampleEditorial);
+  assert.strictEqual(campaigns.get(rec.id).posts[0].status, 'pending', 'edited post resets to pending');
+  campaigns.remove(rec.id);
+  assert.strictEqual(campaigns.list().length, 0, 'campaign removed');
+}
+
+// --- campaign generator (pure parts; no network) ---
+const generate = require('../lib/generate');
+{
+  const digest = generate.schemaDigest();
+  for (const id of Object.keys(schema.designs)) assert(digest.includes(id), `digest lists ${id}`);
+  const folded = generate.foldTokenPairs({
+    name: 'X', posts: [{ postName: 'p', design: 'story-editorial', ratio: '9:16',
+      slides: [{ slide: 'cover', tokens: [{ name: 'kicker', value: 'K' }, { name: 'photo', value: 'query: moody plate' }] }] }]
+  });
+  assert.strictEqual(folded.posts[0].slides[0].tokens.kicker, 'K', 'token pairs fold to object');
+  assert(generate.OUTPUT_SCHEMA.properties.posts, 'output schema shape');
+  if (!process.env.ANTHROPIC_API_KEY) assert(!generate.hasKey(), 'hasKey false without env');
 }
 
 // --- asset-library helpers (pure parts; no network) ---

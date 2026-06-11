@@ -20,6 +20,9 @@ const MIME = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css
 // -----------------------------------------------------------------------------
 const SAMPLE_PHOTO = 'https://brand-cdn.figandbloom.workers.dev/figandbloom/asset-manifest/2026/06/floral-arrangement-product-shot-indoor-studio-setting-tabletop-d-1BooMH.jpg';
 const SAMPLE_PHOTO_ALT = 'https://brand-cdn.figandbloom.workers.dev/figandbloom/asset-manifest/2026/06/floral-arrangement-indoors-likely-a-home-or-studio-setting-pink-1oJNWF.jpg';
+// Dark plates for the Good Weekend editorial slides — white type needs a dark region to sit on.
+const SAMPLE_PHOTO_DARK = 'https://brand-cdn.figandbloom.workers.dev/figandbloom/asset-manifest/2026/06/behind-the-scenes-floral-craft-floral-studio-or-workshop-in-sydn-1ZnUa2.jpg';
+const SAMPLE_PHOTO_MOODY = 'https://brand-cdn.figandbloom.workers.dev/figandbloom/asset-manifest/2026/06/still-life-abstract-indoor-on-a-wooden-floor-roses-roses-flowers-1opGMU.jpg';
 
 // Realistic sample data for every component. One block per (design, slide).
 const SAMPLE_TOKENS = {
@@ -70,6 +73,30 @@ const SAMPLE_TOKENS = {
     kicker: 'From the journal', voice: 'on the morning run',
     quote: 'We tie the stems before the morning is half done. We photograph them before the van goes.',
     attribution: 'Fig & Bloom — on the morning run', photo: SAMPLE_PHOTO, theme: 'dark'
+  },
+  'story-editorial/feature': {
+    kicker: 'The journal',
+    headline: 'The morning run: how a bunch leaves the studio',
+    dek: 'From first cut to the courier’s tray — the hours you don’t see.',
+    link_hint: 'Slide for the story', photo: SAMPLE_PHOTO_DARK, theme: 'dark'
+  },
+  'story-editorial/pullquote': {
+    quote: 'We tie the stems before the morning is half done.',
+    name: 'Kellie', role: 'Head florist, Melbourne studio',
+    photo: SAMPLE_PHOTO_DARK, theme: 'dark'
+  },
+  'story-editorial/column': {
+    text: 'The buckets are filled before sunrise.<br><br>By eight the bench is a field of cut stems, and the first orders are already wrapped, named and waiting by the door.',
+    attribution: 'From the journal', align: 'right', panel: 'none', photo: SAMPLE_PHOTO_MOODY
+  },
+  'story-editorial/press': {
+    kicker: 'The morning run',
+    text: 'By the time the vans leave the studio, every bunch has been cut, conditioned and photographed — a small record of the morning it was made.',
+    link_hint: 'More at the link in bio', surface: 'white', photo: SAMPLE_PHOTO
+  },
+  'story-editorial/linkout': {
+    line: 'Head to the link in bio for the full story.',
+    note: 'New journal entries every week.', surface: 'white'
   },
   'story-quote-soft/cover': {
     kicker: 'The studio', voice: 'a small, quiet room',

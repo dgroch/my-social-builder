@@ -1,7 +1,9 @@
 # Fig & Bloom — Social Post Builder
 
 A local token-editor **UI + render server** for building on-brand Fig & Bloom social posts —
-carousels and statics — from locked design-system templates. Pick a design + ratio, fill the
+carousels and statics — from locked design-system templates. v3 ships **14 lanes** — the v2
+story/carousel set plus seven `card-*` statics reconciled from the 2023 PSD seed kit (`/seeds`),
+each rendering at 1:1, 4:5, 9:16 and 1.91:1. Pick a design + ratio, fill the
 tokens in a form that **generates itself from the templates**, render a production-accurate PNG
 **set** with Puppeteer, and **download** it (per-slide or a `.zip`). Companion to the
 `social-post-builder` skill in `dgroch/skills`, which writes the same `post.json` this app renders.
@@ -40,6 +42,11 @@ Render has normal outbound internet, so the renderer can load CDN product plates
 
 - **Auto-generated form** — fields, help text and lever dropdowns parsed from template headers +
   `design-system/manifest.json`. Add a template → it appears automatically.
+- **Semantic photo sourcing** — every image token accepts `query: <describe the shot>`, resolved at
+  render time against the [Fig & Bloom Asset Library](https://asset-library-u70t.onrender.com)
+  (override with `ASSET_LIBRARY_URL`). The UI adds a **Search assets** picker under each photo
+  field. No match → the render fails with guidance to generate a plate via the brand-photographer
+  skill and upload it to the library.
 - **Validate** — unknown design/slide/token and unfilled tokens, without rendering.
 - **Render** — one PNG per slide at 2× via Puppeteer; download individually or as a `.zip`.
 - **Import / Export JSON** — round-trip a `post.json` (the interchange format).
@@ -66,6 +73,7 @@ test/smoke.js             guardrails: schema parses; sample assembles with zero 
 | Method | Path | Body | Returns |
 |---|---|---|---|
 | GET | `/api/schema` | — | designs, slides, tokens, levers, ratios, lanes (the contract the skill targets) |
+| GET | `/api/assets/search?q=…` | — | semantic asset-library search (proxied) — `{results:[{id,title,url,description,mediaType}]}` |
 | POST | `/api/validate` | `{post}` | `{ok,errorCount,warningCount,issues}` without rendering |
 | POST | `/api/render` | `{post}` | `{slices:[{index,slide,w,h,pngBase64,unfilled}]}` |
 | POST | `/api/export` | `{post}` | `{json}` |

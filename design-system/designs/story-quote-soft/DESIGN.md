@@ -1,10 +1,10 @@
 # Design — Story Quote-Soft (`story-quote-soft`)
 
-**Lane:** Quote / soft (left-rail editorial on a soft-focus plate). **Format:** single-slide Story. **Primary ratio:** 9:16 (1080×1920). Also 4:5, 1:1.
+**Lane:** Quote / soft (left-rail editorial on a soft-focus plate). **Format:** single-slide Story. **Primary ratio:** 9:16 (1080×1920). Also 4:5, 1:1, 1.91:1.
 **Best for:** a poetic statement on a quiet scene; a Fig & Bloom journal line; a host's-moment preview.
 **Avoid for:** hard product drops (use `story-promo`), manifesto (use `story-editorial`).
 
-The lane is a split composition: a **tan-1 left rail** carrying the type, a **soft-focus photo** on the right. The rail is the speaker; the photo is the room. A subtle gradient at the rail/photo seam dissolves the line.
+The lane is a split composition: a **clay-tint left rail** carrying the type, a **soft-focus photo** on the right. The rail is the speaker; the photo is the room. A subtle gradient at the rail/photo seam dissolves the line.
 
 ## Slides
 
@@ -14,14 +14,14 @@ The lane is a split composition: a **tan-1 left rail** carrying the type, a **so
 
 ## Grid (9:16)
 
-- **Tan-1 rail** = left 560px (≈35%), full height. The rail is the speaker.
+- **Clay-tint rail** = left 560px (≈35%), full height. The rail is the speaker.
 - **Photo area** = right 520px (≈65%), full height. The photo is the room. Always soft-focus; the lane is a mood, not a portrait.
-- **Gradient seam** at the left edge of the photo: `linear-gradient(90deg, #F0E5D0 0%, transparent 22%)` dissolves the hard line between rail and photo.
+- **Gradient seam** at the left edge of the photo: `linear-gradient(90deg, #ECE6DF 0%, transparent 22%)` dissolves the hard line between rail and photo.
 - Type stacks inside the rail with these fixed positions (relative to the rail, not the canvas):
-  - Kicker at (64, 280), sans 22px, all-caps, letter-spacing .32em, tan-2.
+  - Kicker at (64, 280), sans 22px, all-caps, letter-spacing .32em, clay.
   - Headline at (64, 340), Cervanttis 60px / 1.16, ink. Italic accent via `*word*`.
-  - Body at (64, 980), sans 24px / 1.55, ink (optional).
-  - URL at (64, 1500), sans 20px, lowercase, tan-2 (optional).
+  - Body at (64, 1000), sans 28px / 1.5, ink (optional).
+  - URL at (64, 1480), sans 24px, lowercase, clay (optional).
   - CTA at (64, bottom-96), sans 22px, all-caps, ink.
 
 ## Tokens
@@ -46,4 +46,4 @@ The lane is a split composition: a **tan-1 left rail** carrying the type, a **so
 
 ## Palette
 
-`--ink #1A1612` · `--white #FFFFFF` · `--tan-1 #F0E5D0` · `--tan-2 #B89A75` — see `design-system/SYSTEM.md` for the full token contract.
+`--ink #000000` · `--white #FFFFFF` · `--clay-tint #ECE6DF` · `--clay #D8CCBE` — see `design-system/SYSTEM.md` for the full token contract.

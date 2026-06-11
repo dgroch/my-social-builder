@@ -1,15 +1,15 @@
 <!-- SLIDE cover | LANE editorial | PHOTO required
      TOKENS:
        kicker     : text             | small-caps section label, e.g. "The journal" or "From the studio"
-       quote      : text, markdown   | the editorial line, set large in Cervanttis; wrap a word in *asterisks* for italic accent; <br> for line breaks
+       quote      : text, markdown   | the editorial line, set large in Lust; <br> for controlled line breaks
        attribution: text             | small sans attribution under the quote, e.g. "Fig & Bloom — on hand-tied mornings"
        photo      : image            | real dark-plate photo from the Fig & Bloom asset library (rustic, hands, studio, in-stillness)
-     voice     : text, optional   | Cervanttis voice line — its own block, never inline
+       voice      : text, optional   | Cervanttis voice line — its own block, never inline
      LEVERS:
-       theme      : enum light|dark  | dark = white type on a dark photo (default); light = ink type on a tan-1 plate with the photo as a darker inset
-     PALETTE       : ink #1A1612 ground · white #FFFFFF type · tan-1 #F0E5D0 attribution
+       theme      : enum dark|light  | dark = white type on a dark photo (default); light = ink type on a clay-tint wash over the plate
+     PALETTE       : ink #000000 ground · white #FFFFFF type · clay-tint #ECE6DF attribution
      TYPE          : Lust display + Cervanttis voice line + Neuzeit Grotesk sans
-     LANE RULE     : No CTA on this lane. The quote is the message. If you need a CTA, use story-promo or story-overlay.
+     LANE RULE     : No CTA on this slide. The quote is the message. For the article-promo beats use feature/pullquote/column/press/linkout.
 -->
 <!doctype html><html><head><meta charset="utf-8"><style>
 @font-face{font-family:Lust;src:url('{{ASSETS_BASE}}/fonts/Lust-Regular.otf')}
@@ -18,25 +18,64 @@
 @font-face{font-family:SansB;src:url('{{ASSETS_BASE}}/fonts/NeuzeitGro-Bol.otf')}
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{width:{{W}}px;height:{{H}}px;overflow:hidden}
-.stage{position:relative;width:{{W}}px;height:{{H}}px;background:#1A1612 url('{{photo}}') center/cover no-repeat;
-       --ink:#1A1612;--white:#FFFFFF;--tan-1:#F0E5D0;--tan-2:#B89A75;--rule:#B89A75}
-.stage.light{background:#F0E5D0 url('{{photo}}') center/cover no-repeat}
-.ov{position:absolute;left:0;right:0;top:0;bottom:0;background:rgba(26,22,18,.55)}
-.stage.light .ov{background:rgba(240,229,208,.80)}
-.kicker{position:absolute;left:88px;top:560px;font-family:SansB;font-size:12px;letter-spacing:.32em;text-transform:uppercase;color:var(--tan-1)}
-.quote{position:absolute;left:88px;right:88px;top:610px;font-family:Lust;font-size:52px;line-height:1.18;letter-spacing:-.5px;color:var(--white)}
-.stage.light .quote{color:var(--ink)}
+.stage{position:relative;width:{{W}}px;height:{{H}}px;background:#000000 url('{{photo}}') center/cover no-repeat;
+       --ink:#000000;--white:#FFFFFF;--clay-tint:#ECE6DF;--clay:#D8CCBE;--rule:#D8CCBE;
+       --type:#FFFFFF;--quiet:#ECE6DF;--mx:88px;--foot:96px;
+       --tsh:0 2px 6px rgba(0,0,0,.28),0 10px 36px rgba(0,0,0,.32)}
+.stage.light{--type:#000000;--quiet:rgba(0,0,0,.62);--rule:#000000;--tsh:none}
+/* seed-faithful plate treatment: a 10% ink mask + a subtle text shadow lift the white
+   type off the photo — never a heavy wash; the plate stays visible (Good Weekend kit) */
+.ov{position:absolute;inset:0;background:rgba(0,0,0,.10)}
+.stage.light .ov{background:rgba(236,230,223,.80)}
+.col{position:relative;height:100%;display:flex;flex-direction:column;padding:0 var(--mx);text-shadow:var(--tsh)}
+.top{flex:0 1 26%}
+.kicker{font-family:SansB;font-size:28px;letter-spacing:.25em;text-transform:uppercase;color:var(--quiet)}
+.voice{margin-top:24px;font-family:CervI;font-size:44px;line-height:1.25;color:var(--type)}
+.voice:empty{display:none}
+.quote{margin-top:24px;font-family:Lust;font-size:76px;line-height:1.18;letter-spacing:-.5px;color:var(--type)}
 .quote i{font-style:normal}
-.attr{position:absolute;left:88px;right:88px;top:1300px;font-family:Sans;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--tan-1)}
-.mark{position:absolute;left:88px;right:88px;bottom:200px;height:1px;background:var(--rule);opacity:.6}
-.logo{position:absolute;left:88px;bottom:96px;height:48px}
-.voice{position:absolute;left:88px;right:88px;top:600px;font-family:CervI;font-style:normal;font-size:24px;line-height:1.3}</style></head><body>
-<div class="stage {{THEME_CLASS}}">
+.spacer{flex:1}
+.attr{font-family:Sans;font-size:24px;letter-spacing:.16em;text-transform:uppercase;color:var(--quiet)}
+.attr:empty{display:none}
+.foot{margin-top:64px;padding-bottom:var(--foot)}
+.mark{height:1px;background:var(--rule);opacity:.6;margin-bottom:56px}
+.logo{height:48px;width:auto;display:block}
+/* feed 4:5 / 1:1 — shallower head, feed-scale type */
+.stage.r4x5{--foot:88px}
+.stage.r4x5 .top{flex-basis:18%}
+.stage.r4x5 .quote{font-size:64px}
+.stage.r4x5 .voice{font-size:40px}
+.stage.r4x5 .kicker{font-size:26px}
+.stage.r4x5 .mark{margin-bottom:40px}
+.stage.r1x1{--foot:88px}
+.stage.r1x1 .top{flex-basis:15%}
+.stage.r1x1 .quote{font-size:56px}
+.stage.r1x1 .voice{font-size:40px}
+.stage.r1x1 .kicker{font-size:26px}
+.stage.r1x1 .mark{margin-bottom:40px}
+/* landscape link card */
+.stage.land{--mx:64px;--foot:48px}
+.stage.land .top{flex-basis:12%}
+.stage.land .quote{font-size:44px;max-width:78%}
+.stage.land .voice{font-size:32px;margin-top:16px}
+.stage.land .kicker{font-size:22px}
+.stage.land .attr{font-size:20px}
+.stage.land .foot{margin-top:32px}
+.stage.land .mark{margin-bottom:24px}
+.stage.land .logo{height:40px}
+</style></head><body>
+<div class="stage {{THEME_CLASS}} {{ORIENT}} {{RATIO_CLASS}}">
   <div class="ov"></div>
-  <div class="kicker">{{kicker}}</div>
-  <div class="voice">{{voice}}</div>
-  <div class="quote">{{quote}}</div>
-  <div class="attr">{{attribution}}</div>
-  <div class="mark"></div>
-  <img class="logo" src="{{ASSETS_BASE}}/assets/logo_h_white.png">
+  <div class="col">
+    <div class="top"></div>
+    <div class="kicker">{{kicker}}</div>
+    <div class="voice">{{voice}}</div>
+    <div class="quote">{{quote}}</div>
+    <div class="spacer"></div>
+    <div class="attr">{{attribution}}</div>
+    <div class="foot">
+      <div class="mark"></div>
+      <img class="logo" src="{{ASSETS_BASE}}/assets/{{LOGO_FILE}}">
+    </div>
+  </div>
 </div></body></html>

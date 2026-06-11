@@ -1,6 +1,6 @@
 # Design — Story Promo (`story-promo`)
 
-**Lane:** Promo (genuine newness). **Format:** single-slide Story. **Primary ratio:** 9:16 (1080×1920). Also 4:5, 1:1.
+**Lane:** Promo (genuine newness). **Format:** single-slide Story. **Primary ratio:** 9:16 (1080×1920). Also 4:5, 1:1, 1.91:1.
 **Best for:** quiet product announcements ("new in", "just arrived", "this week's stem"), range refreshes, fresh-from-the-studio deliveries.
 **Avoid for:** flash sales, urgency, countdowns, discount framing, anything that needs more than one beat.
 
@@ -19,12 +19,12 @@ Single slide only. If the brief needs more than one beat, use the journal carous
 - Outer margin **88px**, equal on left and right.
 - Plate occupies the top **1200px** (62.5%) — full bleed, slightly larger than `story-studio` so the product can speak.
 - Warm cream panel fills **y=1200 → 1920** (37.5%, 720px). Type stacks inside it with these fixed rows:
-  - Kicker at y=1276 (76px below plate edge), small-caps Neuzeit Bold 24px, letter-spacing .30em.
-  - Headline at y=1336, Lust 68px / 1.05. Wrap a word in `*asterisks*` for italic display accent. (Sized so a 2-line headline — e.g. "Lucerne —<br>*soft*, contemporary white." — clears the subhead at y=1528 without overlap.)
-  - Subhead at y=1528, Neuzeit Light 26px / 1.5 (one descriptor line).
+  - Kicker at y=1252, small-caps Neuzeit Bold 28px, letter-spacing .25em.
+  - Headline at y=1396, Lust 72px / 1.05. Wrap a word in `*asterisks*` for italic display accent. (Sized so a 2-line headline — e.g. "Lucerne —<br>*soft*, contemporary white." — clears the subhead at y=1528 without overlap.)
+  - Subhead at y=1516, Neuzeit Light 30px / 1.45 (one descriptor line).
   - From-price pill at y=1642, sans 22px, dark fill, rounded. Omit the pill for posts without a price (range-refresh teasers, general newness).
   - Hairline rule at y=1760.
-  - Logo bottom-left at y=1820 (52px tall). CTA bottom-right at y=1826, sans 24px, letter-spacing .14em, all-caps.
+  - Logo bottom-left at y=1820 (52px tall). CTA bottom-right at y=1826, sans 26px, letter-spacing .14em, all-caps.
 
 ## Tokens
 
@@ -35,7 +35,7 @@ Single slide only. If the brief needs more than one beat, use the journal carous
 ## Theme lever
 
 - `light` → ink type, no plate overlay. Logo: `logo_h_black.png`. Use on plates with a clean upper wall (most named products on warm studio backdrops).
-- `dark`  → white type on a `rgba(18,15,12,.45)` plate overlay. Logo: `logo_h_white.png`. Use on moodier plates (dim florals, low-light studio).
+- `dark`  → white type on a `rgba(0,0,0,.45)` plate overlay. Logo: `logo_h_white.png`. Use on moodier plates (dim florals, low-light studio).
 
 The builder derives `THEME_CLASS` and `LOGO_FILE` from this lever — they are not separate tokens.
 

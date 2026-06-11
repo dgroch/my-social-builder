@@ -1,4 +1,4 @@
-# Fig & Bloom — Social Design System v2
+# Fig & Bloom — Social Design System v3
 
 The visual system for the `my-social-builder` renderer. **One type trio. Four tokens. Generous, editorial spacing. Every element earns its place.**
 
@@ -24,14 +24,19 @@ When the brief has a word that wants italic emphasis inside a Lust headline, the
 
 ## The palette
 
-Four colours only. The two tans are the workhorses; the white and black are the polar ends.
+The official Fig & Bloom brand palette — four colours only. Clay and its tint are the workhorses;
+Silk White and Noir are the polar ends.
 
-| Token | Hex | Role |
-|---|---|---|
-| `--white` | `#FFFFFF` | Full backgrounds, type on dark plates |
-| `--ink` | `#1A1612` | Type on light/cream plates (warm black, never pure `#000`) |
-| `--tan-1` | `#F0E5D0` | Light tan / cream — primary surface for text panels, lower thirds |
-| `--tan-2` | `#B89A75` | Deep tan / clay — secondary surface, photo overlays, accent fills |
+| Token | Brand name | Hex | Role |
+|---|---|---|---|
+| `--white` | Silk White | `#FFFFFF` | Full backgrounds, type on dark plates |
+| `--ink` | Noir | `#000000` | Type on light/cream plates, dark fields, bars |
+| `--clay-tint` | Clay 50% tint | `#ECE6DF` | Light surface — text panels, lower thirds, paper |
+| `--clay` | Clay | `#D8CCBE` | Secondary surface, photo overlays, accent fills |
+
+(The CSS var names `--ink` / `--clay-tint` / `--clay` are the system's working names for the brand
+swatches; pre-v3.1 builds used a warmer reconstruction — `#1A1612` / `#F0E5D0` / `#B89A75` — which
+is retired.)
 
 **Rule:** No other colour enters the system. No pink, no sage, no dusty miller grey, no blue, no orange. Fig & Bloom's floral photography already brings the colour; the chrome stays in the four-token palette.
 
@@ -39,27 +44,41 @@ Four colours only. The two tans are the workhorses; the white and black are the 
 
 - **`--white`** → full-bleed backgrounds for the airy lanes; type on a dark/moody plate
 - **`--ink`** → Lust headlines on light plates; sans body; logo in the light theme
-- **`--tan-1`** → the warm lower-third panel (story-studio, story-promo, story-gift); the cream block on a dark photo (story-editorial)
-- **`--tan-2`** → deep accent: from-price pill, hairline rules on tan-1 panels, badge fills, secondary CTA backgrounds on light themes
+- **`--clay-tint`** → the warm lower-third panel (story-studio, story-promo, story-gift); the cream block on a dark photo (story-editorial)
+- **`--clay`** → deep accent: from-price pill, hairline rules on clay-tint panels, badge fills, secondary CTA backgrounds on light themes
 
 **Hairlines** are always `--ink` at 1px (subtle, structural) — never grey.
 
 ---
 
-## Type scale — editorial, restrained, Fig & Bloom
+## Type scale — canvas-scale, legible, Fig & Bloom
 
-Derived from the 2024 Fig & Bloom email design. Three sizes per view, no more. The headline owns the frame; the body is small; the kicker is a whisper.
+**The governing fact: a 1080px canvas is viewed at ~390pt on a phone — every size divides by
+~2.8 on the device.** The v2 scale (display 48–56, body 16, kicker 11–12) was email-scale type
+that rendered illegibly small in feed; it is retired. The v3 scale follows the design-discipline
+skill (kicker 26 · dek 34 · subhead 52 · display 96–160 at 1080-wide) and the measured type in
+the brand's own seed artwork (script captions ~80px, quote stacks ~64–70px, bars ~70px).
 
-| Token | Size (1080 wide) | Weight | Role |
-|---|---|---|---|
-| `display` | **48–56** | Lust Regular | The headline. The single line that says "this is the moment." |
-| `title` | **32–36** | Lust Regular | Sub-headlines, product names on hero lanes, "section" lines |
-| `body` | **16** | Neuzeit Light | Body copy, supporting lines |
-| `caption` | **14** | Neuzeit Light | Captions, secondary descriptions |
-| `kicker` | **11–12** | Neuzeit Bold, tracked, all caps | The kicker label. The CTA. The price. The button. |
-| `voice` | **18–24** | Cervanttis | A separate "voice" line. The Fig & Bloom "with love", "for the most magical what-you-want", the product tagline. **Always on its own line.** |
+**The floor: nothing informational below 26px at 1080-wide** (~9.3pt rendered). If a line can't
+earn 26px, it doesn't belong on the slide — edit, don't shrink.
 
-**The hard rule from the design-discipline skill holds:** max 2–3 sizes per view, and the display may take a deliberate jump above the scale. Default is 48–56; on a true hero (e.g. `story-overlay`'s single word "HELD") the display may climb to 96–160.
+| Role | 1:1 / 4:5 | 9:16 | 1.91:1 (1200w) | Face | Use |
+|---|---|---|---|---|---|
+| `kicker` | **26–28** | 28 | 22 | Neuzeit Bold, caps, tracked | Kicker, CTA, price, attribution small-caps |
+| `body` | **30–32** | 32–34 | 26 | Neuzeit Light, 1.5 | Body copy, sub lines |
+| `voice` | **40–44** | 44–48 | 32–36 | Cervanttis | The voice line — always its own block |
+| `title` | **52–64** | 56–72 | 44 | Lust | Multi-line quotes, stacked statements |
+| `display` | **96–128** | 120–160 | 72–104 | Lust | 1–3 short lines that own the frame |
+| `script` | **76–88** | 88–100 | 56–64 | Cervanttis | Script-as-display (caption, moment, note lanes) |
+
+**Max 2–3 sizes per view** still holds — hierarchy comes from bigger jumps between fewer sizes,
+plus weight, case and tracking. The display may take a deliberate jump above the scale to own its
+space (story-overlay's single word runs 200+). Multi-line stacks size to the line count and the
+space they must fill — a six-line statement at 64 beats two lines at 128 that don't fit.
+
+**Layout is relational, not pixel-stamped** (design-discipline §1): text blocks are flex stacks
+with rhythm-token gaps, anchored to panels measured in % of canvas — never absolute y-rows. This
+is also what makes one template hold across all four ratios.
 
 **The 5-beat rhythm** (one beat per section, repeated):
 
@@ -159,7 +178,7 @@ These are off the system. If a brief needs one of them, raise it before building
 
 ## Lane taxonomy (locked)
 
-The system ships **8 lanes**. Each lives at `design-system/designs/<id>/` with a `cover.html` (and `intro.html` / `closing.html` where applicable) plus a `DESIGN.md` token contract.
+The system ships **14 lanes**. Each lives at `design-system/designs/<id>/` with a `cover.html` (and `intro.html` / `closing.html` where applicable) plus a `DESIGN.md` token contract.
 
 | ID | Lane | Format | Slides | Use case |
 |---|---|---|---|---|
@@ -167,12 +186,95 @@ The system ships **8 lanes**. Each lives at `design-system/designs/<id>/` with a
 | `story-studio` | The Studio | Story | 1 | Workshop moments, hands at work |
 | `story-promo` | Promo | Story | 1 | New product / range refresh |
 | `story-gift` | Gift | Story | 2 | The act of giving |
-| `story-editorial` | Editorial | Story | 1 | Dark-plate quote / manifesto |
+| `story-editorial` | Editorial | Story | 1–5 | The Good Weekend set: manifesto cover + feature / pullquote / column / press / linkout |
 | `story-quote-soft` | Quote / soft | Story | 1 | Left-rail text on a soft-focus plate |
 | `story-tagline` | Tagline | Story | 1 | Sans-only label on a dark plate |
 | `story-overlay` | Overlay | Story | 1 | One large word over a hand/photo |
+| `card-caption` | Caption card | Static | 1 | A print with a handwritten label (seed: Design 1) |
+| `card-statement-bars` | Statement | Static | 1 | Stacked caps on ink bars across a plate (seed: Design 2) |
+| `card-statement-split` | Statement | Static | 1 | Stacked caps beside a plate (seed: Design 7) |
+| `card-testimonial` | Testimonial | Static | 1 | Review card on ink + line-art (seed: Design 3) |
+| `card-quote-lineart` | Quote / line-art | Static | 1 | Centred quote on line-art field, light/dark (seeds: Designs 4–5) |
+| `card-script-moment` | Script moment | Static | 1 | One Cervanttis line on a flat field (seed: Design 6) |
+| `card-note` | Studio note | Static | 1 | Paper-texture note with a line-art bloom (seed: Design 8) |
 
 Lanes are a closed set. Add a new lane only when a recurring brief shape demands it.
+
+---
+
+## v3 — the seed lanes (reconciling the 2023 PSD kit)
+
+The seven `card-*` lanes translate the eight-design 2023 PSD kit (`/seeds`) into this system. The
+reconciliation rules, locked:
+
+- **The seed magenta is a placeholder, not a colour.** Every magenta block/field in the PSDs is a
+  photo slot (or, on flat fields, maps to the locked palette via a lever). No pink enters the chrome.
+- **The seed didone caps map to Lust caps**; the seed handwriting maps to **Cervanttis**; the seed
+  sans maps to **Neuzeit Grotesk**. No fonts were adopted from the seeds.
+- **The seed grey split fields map to clay-tint / white.** The seed black stays ink `#000000`.
+- **Line-art figures** are the brand's own illustrations — eight single-line drawings in
+  `design-system/assets/lineart/` (`body-flower`, `body`, `face-1`, `face-2`, `front-face`,
+  `hand-flower`, `hand-plant`, `hand-rose`). Templates render them as **CSS masks**: the black
+  SVG is the stencil, the `background-color` is the colourway — one file drives every
+  combination (clay-tint 42% on ink, ink 16% on white, white 22% on ink, ink 88% on paper). A
+  `motif` lever on `card-testimonial`, `card-quote-lineart` and `card-note` picks the figure.
+  Line-art never appears on the v2 story/carousel lanes.
+- **The `card-*` lanes are chrome-free** — no logo, no CTA, no kicker-bar furniture (the seeds carry
+  none). The type is the brand. Story/carousel lanes keep their logo lockups.
+- **Statics are multi-ratio**: every `card-*` lane renders 1:1 (primary), 4:5, 9:16 and **1.91:1**
+  (1200×630 — the link-card/OG ratio the seed kit shipped in). Templates adapt via the
+  `{{ORIENT}}` (`land|square|port`) and `{{RATIO_CLASS}}` (`r1x1`, `r4x5`, `r9x16`, `r1_91x1`)
+  stage classes the renderer injects.
+
+---
+
+## v3.2 — true multi-ratio + the Good Weekend editorial set
+
+Two changes, both locked:
+
+**1. The story/carousel lanes are truly multi-ratio.** The v2 templates were pixel-stamped for
+one ratio (absolute y-rows for 9:16, or 4:5 for the carousel). v3.2 rebuilds all of them as
+relational flex stacks — rhythm-token gaps, panels in % of canvas, footers pinned with
+`margin-top:auto` — keyed off the same `{{ORIENT}}` / `{{RATIO_CLASS}}` stage classes the
+statics use. Every **story** lane now renders 9:16 (primary), 4:5, 1:1 **and 1.91:1** (the
+link-card cut: full-bleed slides narrow their text block; panel slides go plate-left /
+panel-right). The **carousel** stays 4:5 / 1:1 / 9:16 — carousels don't ship landscape.
+Levers now default to their first enum value when a post omits them.
+
+**2. The editorial lane is the full Good Weekend set.** The 19-image seed kit
+(`seeds/Good Weekend/`) reduces to six recurring shapes, and `story-editorial` now ships all of
+them: `cover` (manifesto), `feature` (kicker + headline article tease), `pullquote` (oversized
+quote marks as template chrome, name + role), `column` (narrow centred-ragged serif passage,
+with the clay-block variant as a `panel` lever), `press` (plate over a flat sans paragraph
+panel) and `linkout` (the link-in-bio closer, the set's only action beat).
+
+**The seed plate treatment, restored:** the Good Weekend dark slides use a **5–10% ink mask**
+over the photo plus a **subtle text shadow** on the white type — never a heavy wash. The plate
+stays visible; the shadow does the lifting. (The pre-v3.2 `rgba(0,0,0,.55)` overlay on
+editorial/tagline is retired.) Pick plates with a dark region for the type to sit on — the mask
+is a lift, not a rescue.
+
+---
+
+## Photo sourcing — the asset library contract
+
+Every `photo` token accepts three forms:
+
+1. **A URL** — used as-is (the brand CDN, `https://brand-cdn.figandbloom.workers.dev/…`).
+2. **`samples/<file>`** — a plate bundled in `design-system/assets/samples/`.
+3. **`query: <natural language>`** — resolved **at render time** against the Fig & Bloom Asset
+   Library's semantic search (`https://asset-library-u70t.onrender.com`, override with
+   `ASSET_LIBRARY_URL`). The top-ranked image hit wins; the render response reports what was chosen
+   in `resolutions`.
+
+This is what makes the framework programmatic end-to-end: an agent writes a `post.json` that
+*describes* the plate it needs ("moody hand-tied bouquet on dark wood, side light") and the
+pipeline finds the on-brand asset.
+
+**When the library has no match**, the render fails with a `NO_ASSET` error and explicit guidance:
+generate the plate with the **brand-photographer skill** (which produces photography in the
+register below), upload it to the asset library, then re-render. The builder never falls back to
+stock or placeholder imagery — every plate is a real Fig & Bloom asset.
 
 ---
 

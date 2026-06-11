@@ -1,6 +1,6 @@
 # Design — Story Studio (`story-studio`)
 
-**Lane:** Studio (moments from the workshop). **Format:** single-slide Story. **Primary ratio:** 9:16 (1080×1920). Also 4:5, 1:1.
+**Lane:** Studio (moments from the workshop). **Format:** single-slide Story. **Primary ratio:** 9:16 (1080×1920). Also 4:5, 1:1, 1.91:1.
 **Best for:** "In the studio" moments, behind-the-scenes vignettes, process photography, single-plate announcements.
 **Avoid for:** multi-message carousels, hard product drops, anything that needs more than one beat.
 
@@ -19,11 +19,11 @@ Single slide only. Story format is one beat — if the brief needs more, use the
 - Outer margin **88px**, equal on left and right.
 - Plate occupies the top **1056px** (55%) — full bleed, no safe-zone padding inside the plate.
 - Warm cream panel fills **y=1056 → 1920** (45%). Type stacks inside it with these fixed rows:
-  - Kicker at y=1132 (76px below plate edge), small-caps Neuzeit Bold 24px, letter-spacing .30em.
-  - Headline at y=1192, Lust 84px / 1.05. Wrap a word in `*asterisks*` for italic display accent.
+  - Kicker at y=1124, small-caps Neuzeit Bold 28px, letter-spacing .25em.
+  - Headline at y=1256, Lust 76px / 1.05. Wrap a word in `*asterisks*` for italic display accent.
   - Body at y=1472, Neuzeit Light 26px / 1.55 (omit for a tighter post).
   - Hairline rule at y=1760.
-  - Logo bottom-left at y=1820 (52px tall). CTA bottom-right at y=1826, sans 24px, letter-spacing .14em, all-caps.
+  - Logo bottom-left at y=1820 (52px tall). CTA bottom-right at y=1826, sans 26px, letter-spacing .14em, all-caps.
 - Safe-zone respect: text stays inside y=1132 → 1760, well within the 9:16 `safeTop: 269 / safeBottom: 384` envelope.
 
 ## Tokens
@@ -35,7 +35,7 @@ Single slide only. Story format is one beat — if the brief needs more, use the
 ## Theme lever
 
 - `light` → ink type, no plate overlay. Logo: `logo_h_black.png`. Use on plates with a clean upper wall (workshop scenes with bright backdrops).
-- `dark`  → white type on a `rgba(18,15,12,.50)` plate overlay. Logo: `logo_h_white.png`. Use on moodier plates (hand at work, low-light studio, dim florals).
+- `dark`  → white type on a `rgba(0,0,0,.50)` plate overlay. Logo: `logo_h_white.png`. Use on moodier plates (hand at work, low-light studio, dim florals).
 
 The builder derives `THEME_CLASS` and `LOGO_FILE` from this lever — they are not separate tokens.
 

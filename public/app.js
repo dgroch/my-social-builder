@@ -22,6 +22,8 @@ function selectDesign(id) {
   rs.value = d.primaryRatio;
   $('#laneNote').textContent = `Lane: ${SCHEMA.lanes[d.lane].label} — ${SCHEMA.lanes[d.lane].intent}`;
   STATE.slides = d.recommendedSequence.map(slide => ({ slide, tokens: defaultsFor(d, slide) }));
+  const as = $('#addSlideSel'); as.innerHTML = '';
+  Object.keys(d.slides).forEach(s => as.append(el('option', { value: s }, s)));
   renderForm();
 }
 
@@ -39,7 +41,7 @@ function renderForm() {
     const meta = d.slides[s.slide];
     const card = el('div', { class: 'card' });
     const title = el('h3', {}, [document.createTextNode(`${i + 1}. ${s.slide}`)]);
-    if (s.slide === 'interior') title.append(el('button', { class: 'del' }, '✕ remove'));
+    if (STATE.slides.length > 1) title.append(el('button', { class: 'del' }, '✕ remove'));
     card.append(title);
     meta.levers.forEach(l => {
       const sel = el('select'); l.values.forEach(v => sel.append(el('option', { value: v }, v)));
@@ -50,13 +52,48 @@ function renderForm() {
       const long = tok.markdown || /quote|headline|end_line/.test(tok.name);
       const inp = el(long ? 'textarea' : 'input'); inp.value = s.tokens[tok.name] || '';
       inp.oninput = () => { s.tokens[tok.name] = inp.value; sync(); };
-      const help = tok.help + (tok.markdown ? '  ·  *word* = italic accent' : '') + (tok.type === 'image' ? '  ·  URL or samples/osaka_45.png' : '');
-      card.append(el('div', { class: 'field' }, [el('label', {}, tok.name), inp, el('div', { class: 'help' }, help)]));
+      const help = tok.help + (tok.markdown ? '  ·  *word* = italic accent' : '') + (tok.type === 'image' ? '  ·  URL, samples/…, or "query: cosy autumn bouquet" (resolved at render)' : '');
+      const field = el('div', { class: 'field' }, [el('label', {}, tok.name), inp, el('div', { class: 'help' }, help)]);
+      if (tok.type === 'image') field.append(assetPicker(inp, () => { s.tokens[tok.name] = inp.value; sync(); }));
+      card.append(field);
     });
-    if (s.slide === 'interior') title.querySelector('.del').onclick = () => { STATE.slides.splice(i, 1); renderForm(); };
+    const del = title.querySelector('.del');
+    if (del) del.onclick = () => { STATE.slides.splice(i, 1); renderForm(); };
     wrap.append(card);
   });
   sync();
+}
+
+// ---------- Asset library picker ----------
+// A "Search assets" row under every image token: semantic search against the
+// Fig & Bloom asset library; clicking a thumbnail fills the token with the CDN URL.
+function assetPicker(inp, onPick) {
+  const box = el('div', { class: 'asset-picker' });
+  const q = el('input', { placeholder: 'Describe the shot — e.g. moody bouquet on dark wood' });
+  const btn = el('button', { type: 'button' }, 'Search assets');
+  const grid = el('div', { class: 'asset-grid' });
+  const run = async () => {
+    const query = q.value.trim() || (inp.value.startsWith('query:') ? inp.value.slice(6).trim() : '');
+    if (!query) { grid.textContent = 'Type a description first.'; return; }
+    grid.textContent = 'Searching…';
+    try {
+      const r = await fetch('/api/assets/search?q=' + encodeURIComponent(query));
+      if (!r.ok) { const e = await r.json().catch(() => ({})); grid.textContent = 'Asset library error: ' + (e.message || r.status); return; }
+      const { results } = await r.json();
+      const imgs = (results || []).filter(a => a.mediaType === 'image' && a.url).slice(0, 12);
+      grid.innerHTML = '';
+      if (!imgs.length) { grid.textContent = 'No matches. Generate one with the brand-photographer skill, upload it to the asset library, then search again.'; return; }
+      imgs.forEach(a => {
+        const t = el('img', { src: a.url, title: a.title + ' — ' + a.description, loading: 'lazy' });
+        t.onclick = () => { inp.value = a.url; onPick(); grid.querySelectorAll('img').forEach(i => i.classList.remove('picked')); t.classList.add('picked'); };
+        grid.append(t);
+      });
+    } catch (e) { grid.textContent = 'Search failed: ' + e.message; }
+  };
+  btn.onclick = run;
+  q.onkeydown = e => { if (e.key === 'Enter') { e.preventDefault(); run(); } };
+  box.append(el('div', { class: 'asset-row' }, [q, btn]), grid);
+  return box;
 }
 
 function post() { return { postName: 'Untitled', design: STATE.design, ratio: STATE.ratio, slides: STATE.slides }; }
@@ -273,7 +310,17 @@ function wire() {
   $('#fileInput').onchange = e => { const f = e.target.files[0]; if (!f) return; const r = new FileReader(); r.onload = () => { try { load(JSON.parse(r.result)); } catch (x) { alert('Invalid JSON'); } }; r.readAsText(f); };
   $('#btnSave').onclick = async () => { const name = prompt('Save as:', post().postName); if (!name) return; const p = post(); p.postName = name; await fetch('/api/designs', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name, post: p }) }); loadDesigns(); showTab('designs'); };
   $('#btnSample').onclick = () => load(SAMPLE);
-  $('#addInterior').onclick = () => { const d = SCHEMA.designs[STATE.design]; const idx = STATE.slides.filter(s => s.slide === 'interior').length + 2; const t = defaultsFor(d, 'interior'); t.index = String(idx).padStart(2, '0'); t.cta = 'Next →'; const at = STATE.slides.map(s => s.slide).lastIndexOf('interior'); STATE.slides.splice(at + 1, 0, { slide: 'interior', tokens: t }); renderForm(); };
+  $('#addSlide').onclick = () => {
+    const d = SCHEMA.designs[STATE.design];
+    const slide = $('#addSlideSel').value;
+    if (!d.slides[slide]) return;
+    const t = defaultsFor(d, slide);
+    if (slide === 'interior') { t.index = String(STATE.slides.length + 1).padStart(2, '0'); t.cta = 'Next →'; }
+    // insert after the last slide of the same kind, else append
+    const at = STATE.slides.map(s => s.slide).lastIndexOf(slide);
+    STATE.slides.splice(at === -1 ? STATE.slides.length : at + 1, 0, { slide, tokens: t });
+    renderForm();
+  };
   document.querySelectorAll('.tab').forEach(t => t.onclick = () => showTab(t.dataset.tab));
 }
 

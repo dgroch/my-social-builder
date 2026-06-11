@@ -9,9 +9,10 @@
        label_3 : text  | section 3 pill label
        quote_3 : text  | section 3 sample message
        cta     : text  | footer CTA — "Next →" mid-deck, "Read the guide →" on the last interior
-       photo   : image, optional | faint ground plate; omit for flat tan-1
+       photo   : image, optional | faint ground plate; omit for flat clay-tint
+       voice   : text, optional  | Cervanttis voice line — its own block, never inline
      NOTE        : exactly three sections by design — keeps the rhythm even. Do not add a fourth.
-     PALETTE       : tan-1 #F0E5D0 surface · ink #1A1612 type · tan-2 #B89A75 pill stroke
+     PALETTE       : clay-tint #ECE6DF surface · ink #000000 type · clay #D8CCBE pill stroke
      TYPE          : Lust display + Cervanttis voice line + Neuzeit Grotesk sans
 -->
 <!doctype html><html><head><meta charset="utf-8"><style>
@@ -20,31 +21,55 @@
 @font-face{font-family:Sans;src:url('{{ASSETS_BASE}}/fonts/NeuzeitGro-Lig.otf')}
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{width:{{W}}px;height:{{H}}px;overflow:hidden}
-.stage{position:relative;width:{{W}}px;height:{{H}}px;background:#F0E5D0 url('{{photo}}') center/cover no-repeat}
-.ov{position:absolute;top:0;right:0;bottom:0;left:0;background:rgba(240,229,208,.93)}
-.kicker{position:absolute;left:88px;top:88px;font-family:Sans;font-size:12px;letter-spacing:.30em;text-transform:uppercase;color:#1A1612}
-.idx{position:absolute;right:88px;top:88px;font-family:Sans;font-size:12px;letter-spacing:.10em;color:#1A1612}
-.mrule{position:absolute;left:88px;right:88px;top:142px;height:2px;background:#1A1612}
-.frule{position:absolute;left:88px;right:88px;bottom:170px;height:2px;background:#1A1612}
-.logo{position:absolute;left:88px;bottom:88px;height:58px}
-.read{position:absolute;right:88px;bottom:96px;font-family:Sans;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#1A1612}
-.sec{position:absolute;left:88px;right:88px;text-align:center}
-.pill{display:inline-block;border:2px solid #B89A75;border-radius:999px;padding:13px 30px;font-family:Sans;font-size:12px;letter-spacing:.20em;text-transform:uppercase;color:#1A1612;background:rgba(240,229,208,.85)}
-.q{margin-top:28px;font-family:CervI;font-size:22px;line-height:1.30;color:#1A1612}
-.div{position:absolute;left:88px;right:88px;height:1px;background:#B89A75}
-.voice{position:absolute;left:88px;right:88px;top:156px;font-family:CervI;font-style:normal;font-size:24px;line-height:1.3}</style></head><body>
-<div class="stage">
+.stage{position:relative;width:{{W}}px;height:{{H}}px;background:#ECE6DF url('{{photo}}') center/cover no-repeat;
+       --mx:88px;--my:88px}
+.ov{position:absolute;inset:0;background:rgba(236,230,223,.93)}
+.col{position:relative;height:100%;display:flex;flex-direction:column;padding:var(--my) var(--mx)}
+.mast{display:flex;justify-content:space-between;align-items:baseline;font-family:Sans;font-size:26px;color:#000000}
+.mast .kicker{letter-spacing:.25em;text-transform:uppercase}
+.mast .idx{letter-spacing:.10em}
+.mrule{height:2px;background:#000000;margin-top:40px}
+.voice{margin-top:32px;font-family:CervI;font-size:36px;line-height:1.25;color:#000000}
+.voice:empty{display:none}
+.secs{flex:1;display:flex;flex-direction:column;min-height:0;padding:24px 0}
+.sec{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.pill{display:inline-block;border:2px solid #D8CCBE;border-radius:999px;padding:14px 34px;font-family:Sans;font-size:24px;letter-spacing:.18em;text-transform:uppercase;color:#000000;background:rgba(236,230,223,.85)}
+.q{margin-top:28px;font-family:CervI;font-size:34px;line-height:1.3;color:#000000;max-width:100%}
+.div{height:1px;background:#D8CCBE}
+.foot{padding-top:0}
+.frule{height:2px;background:#000000;margin-bottom:24px}
+.footrow{display:flex;justify-content:space-between;align-items:flex-end}
+.logo{height:58px;width:auto;display:block}
+.read{font-family:Sans;font-size:26px;letter-spacing:.14em;text-transform:uppercase;color:#000000}
+/* square feed — tighter sections */
+.stage.r1x1 .q{font-size:30px;margin-top:20px}
+.stage.r1x1 .pill{padding:12px 28px}
+.stage.r1x1 .secs{padding:16px 0}
+/* story 9:16 — story-scale type */
+.stage.r9x16{--my:160px}
+.stage.r9x16 .mast{font-size:28px}
+.stage.r9x16 .pill{font-size:26px}
+.stage.r9x16 .q{font-size:40px}
+</style></head><body>
+<div class="stage {{ORIENT}} {{RATIO_CLASS}}">
   <div class="ov"></div>
-  <div class="kicker">{{kicker}}</div>
-  <div class="voice">{{voice}}</div>
-  <div class="idx">{{index}}</div>
-  <div class="mrule"></div>
-  <div class="sec" style="top:200px"><span class="pill">{{label_1}}</span><div class="q">{{quote_1}}</div></div>
-  <div class="div" style="top:523px"></div>
-  <div class="sec" style="top:543px"><span class="pill">{{label_2}}</span><div class="q">{{quote_2}}</div></div>
-  <div class="div" style="top:866px"></div>
-  <div class="sec" style="top:886px"><span class="pill">{{label_3}}</span><div class="q">{{quote_3}}</div></div>
-  <div class="frule"></div>
-  <img class="logo" src="{{ASSETS_BASE}}/assets/logo_h_black.png">
-  <div class="read">{{cta}}</div>
+  <div class="col">
+    <div class="mast"><span class="kicker">{{kicker}}</span><span class="idx">{{index}}</span></div>
+    <div class="mrule"></div>
+    <div class="voice">{{voice}}</div>
+    <div class="secs">
+      <div class="sec"><span class="pill">{{label_1}}</span><div class="q">{{quote_1}}</div></div>
+      <div class="div"></div>
+      <div class="sec"><span class="pill">{{label_2}}</span><div class="q">{{quote_2}}</div></div>
+      <div class="div"></div>
+      <div class="sec"><span class="pill">{{label_3}}</span><div class="q">{{quote_3}}</div></div>
+    </div>
+    <div class="foot">
+      <div class="frule"></div>
+      <div class="footrow">
+        <img class="logo" src="{{ASSETS_BASE}}/assets/logo_h_black.png">
+        <div class="read">{{cta}}</div>
+      </div>
+    </div>
+  </div>
 </div></body></html>

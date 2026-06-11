@@ -1,0 +1,15 @@
+{
+  "postName": "Testimonial — Darren L",
+  "design": "card-testimonial",
+  "ratio": "1:1",
+  "slides": [
+    {
+      "slide": "cover",
+      "tokens": {
+        "kicker": "Kind words",
+        "quote": "Highly recommended! Excellent service, speed, product and communication.",
+        "attribution": "Darren L"
+      }
+    }
+  ]
+}

@@ -1,0 +1,76 @@
+<!-- SLIDE pullquote | LANE editorial | PHOTO required (seed: Good Weekend pull-quote)
+     TOKENS:
+       quote : text, markdown   | the pulled line, WITHOUT quote marks — the template draws them; <br> for controlled breaks
+       name  : text             | who said it, e.g. "Kellie" or "Robert Irwin"
+       role  : text, optional   | their role, e.g. "Head florist" — sits under the name
+       photo : image            | full-bleed editorial plate from the Fig & Bloom asset library
+     LEVERS:
+       theme : enum dark|light  | dark = white type, 10% ink mask + subtle text shadow (default); light = ink type on a clay-tint wash
+     PALETTE       : ink #000000 mask · white #FFFFFF quote + marks · clay-tint #ECE6DF role
+     TYPE          : Lust quote + Neuzeit Grotesk attribution — no Cervanttis on this slide
+     LANE RULE     : Do NOT include quote marks in the token — the oversized marks are template chrome. One line worth pulling; trim, don't shrink.
+-->
+<!doctype html><html><head><meta charset="utf-8"><style>
+@font-face{font-family:Lust;src:url('{{ASSETS_BASE}}/fonts/Lust-Regular.otf')}
+@font-face{font-family:Sans;src:url('{{ASSETS_BASE}}/fonts/NeuzeitGro-Lig.otf')}
+@font-face{font-family:SansB;src:url('{{ASSETS_BASE}}/fonts/NeuzeitGro-Bol.otf')}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:{{W}}px;height:{{H}}px;overflow:hidden}
+.stage{position:relative;width:{{W}}px;height:{{H}}px;background:#000000 url('{{photo}}') center/cover no-repeat;
+       --ink:#000000;--white:#FFFFFF;--clay-tint:#ECE6DF;--clay:#D8CCBE;
+       --type:#FFFFFF;--quiet:#ECE6DF;--mx:88px;--foot:96px;
+       --tsh:0 2px 6px rgba(0,0,0,.28),0 10px 36px rgba(0,0,0,.32)}
+.stage.light{--type:#000000;--quiet:rgba(0,0,0,.62);--tsh:none}
+.ov{position:absolute;inset:0;background:rgba(0,0,0,.10)}
+.stage.light .ov{background:rgba(236,230,223,.80)}
+.col{position:relative;height:100%;display:flex;flex-direction:column;padding:0 var(--mx);text-shadow:var(--tsh)}
+.top{flex:1 1 30%}
+.omark{font-family:Lust;font-size:200px;line-height:.55;color:var(--type);height:.55em}
+.q{margin-top:40px;font-family:Lust;font-size:80px;line-height:1.16;letter-spacing:-.5px;color:var(--type)}
+.q i{font-style:normal}
+.q::after{content:"\201D";margin-left:.08em}
+.who{margin-top:64px}
+.name{font-family:SansB;font-size:28px;letter-spacing:.16em;text-transform:uppercase;color:var(--type)}
+.role{margin-top:8px;font-family:Sans;font-size:26px;letter-spacing:.10em;color:var(--quiet)}
+.role:empty{display:none}
+.bottom{flex:1 1 38%}
+.foot{padding-bottom:var(--foot)}
+.logo{height:48px;width:auto;display:block}
+/* feed 4:5 / 1:1 */
+.stage.r4x5{--foot:88px}
+.stage.r4x5 .top{flex-basis:22%}
+.stage.r4x5 .omark{font-size:170px}
+.stage.r4x5 .q{font-size:68px}
+.stage.r4x5 .who{margin-top:48px}
+.stage.r1x1{--foot:88px}
+.stage.r1x1 .top{flex-basis:18%}
+.stage.r1x1 .omark{font-size:150px}
+.stage.r1x1 .q{font-size:60px;margin-top:32px}
+.stage.r1x1 .who{margin-top:40px}
+.stage.r1x1 .role{font-size:24px}
+/* landscape link card */
+.stage.land{--mx:64px;--foot:48px}
+.stage.land .top{flex-basis:12%}
+.stage.land .omark{font-size:110px}
+.stage.land .q{font-size:46px;margin-top:24px;max-width:80%}
+.stage.land .who{margin-top:24px}
+.stage.land .name{font-size:22px}
+.stage.land .role{font-size:20px}
+.stage.land .logo{height:40px}
+</style></head><body>
+<div class="stage {{THEME_CLASS}} {{ORIENT}} {{RATIO_CLASS}}">
+  <div class="ov"></div>
+  <div class="col">
+    <div class="top"></div>
+    <div class="omark">&ldquo;</div>
+    <div class="q">{{quote}}</div>
+    <div class="who">
+      <div class="name">{{name}}</div>
+      <div class="role">{{role}}</div>
+    </div>
+    <div class="bottom"></div>
+    <div class="foot">
+      <img class="logo" src="{{ASSETS_BASE}}/assets/{{LOGO_FILE}}">
+    </div>
+  </div>
+</div></body></html>

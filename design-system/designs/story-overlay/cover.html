@@ -1,30 +1,46 @@
 <!-- SLIDE cover | LANE overlay | PHOTO required (hand-held or in-stillness)
      TOKENS:
        kicker   : text             | small-caps section label at the very top, e.g. "This week"
-       word     : text             | one single word (or short phrase) set in Cervanttis, centred, translucent over the photo
+       word     : text             | one single word (or short phrase) set in Lust, centred, translucent over the photo
        cta      : text             | lower-right link, e.g. "Read on →"
        photo    : image            | real hand-held or in-stillness plate from the Fig & Bloom asset library
-     PALETTE       : ink #1A1612 ground · white #FFFFFF translucent word · tan-1 #F0E5D0 chrome
+     PALETTE       : ink #000000 ground · white #FFFFFF translucent word · clay-tint #ECE6DF chrome
      TYPE          : Lust word + Neuzeit Grotesk kicker/CTA
      LANE RULE     : One word. If you need a sentence, use story-editorial. The lane is a moment, not a message.
 -->
 <!doctype html><html><head><meta charset="utf-8"><style>
 @font-face{font-family:Lust;src:url('{{ASSETS_BASE}}/fonts/Lust-Regular.otf')}
-@font-face{font-family:CervI;src:url('{{ASSETS_BASE}}/fonts/cervanttis.ttf')}
 @font-face{font-family:Sans;src:url('{{ASSETS_BASE}}/fonts/NeuzeitGro-Lig.otf')}
 @font-face{font-family:SansB;src:url('{{ASSETS_BASE}}/fonts/NeuzeitGro-Bol.otf')}
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{width:{{W}}px;height:{{H}}px;overflow:hidden}
-.stage{position:relative;width:{{W}}px;height:{{H}}px;background:#1A1612 url('{{photo}}') center/cover no-repeat;
-       --ink:#1A1612;--white:#FFFFFF;--tan-1:#F0E5D0;--tan-2:#B89A75}
-.kicker{position:absolute;left:88px;right:88px;top:120px;font-family:SansB;font-size:12px;letter-spacing:.32em;text-transform:uppercase;color:var(--white);text-align:center;opacity:.85}
-.word{position:absolute;left:0;right:0;top:0;bottom:0;display:flex;align-items:center;justify-content:center;font-family:Lust;font-size:220px;line-height:1;letter-spacing:-2px;color:var(--white);opacity:.55;text-align:center;padding:0 88px}
-
-.rule{position:absolute;left:88px;right:88px;bottom:200px;height:1px;background:var(--white);opacity:.35}
-.logo{position:absolute;left:88px;bottom:96px;height:48px}
-.cta{position:absolute;right:88px;bottom:104px;font-family:SansB;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--white)}
+.stage{position:relative;width:{{W}}px;height:{{H}}px;background:#000000 url('{{photo}}') center/cover no-repeat;
+       --ink:#000000;--white:#FFFFFF;--clay-tint:#ECE6DF;--clay:#D8CCBE;--mx:88px}
+.kicker{position:absolute;left:var(--mx);right:var(--mx);top:120px;font-family:SansB;font-size:28px;letter-spacing:.25em;text-transform:uppercase;color:var(--white);text-align:center;opacity:.85}
+.word{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:Lust;font-size:220px;line-height:1;letter-spacing:-2px;color:var(--white);opacity:.55;text-align:center;padding:0 var(--mx)}
+.rule{position:absolute;left:var(--mx);right:var(--mx);bottom:200px;height:1px;background:var(--white);opacity:.35}
+.logo{position:absolute;left:var(--mx);bottom:96px;height:48px}
+.cta{position:absolute;right:var(--mx);bottom:104px;font-family:SansB;font-size:26px;letter-spacing:.14em;text-transform:uppercase;color:var(--white)}
+/* feed 4:5 / 1:1 — tighter chrome, word scaled to the shorter frame */
+.stage.r4x5 .kicker{top:88px;font-size:26px}
+.stage.r4x5 .word{font-size:180px}
+.stage.r4x5 .rule{bottom:176px}
+.stage.r4x5 .logo{bottom:88px}
+.stage.r4x5 .cta{bottom:96px}
+.stage.r1x1 .kicker{top:88px;font-size:26px}
+.stage.r1x1 .word{font-size:160px}
+.stage.r1x1 .rule{bottom:168px}
+.stage.r1x1 .logo{bottom:88px}
+.stage.r1x1 .cta{bottom:96px}
+/* landscape link card */
+.stage.land{--mx:64px}
+.stage.land .kicker{top:48px;font-size:22px}
+.stage.land .word{font-size:120px}
+.stage.land .rule{bottom:116px}
+.stage.land .logo{bottom:48px;height:40px}
+.stage.land .cta{bottom:56px;font-size:22px}
 </style></head><body>
-<div class="stage">
+<div class="stage {{ORIENT}} {{RATIO_CLASS}}">
   <div class="kicker">{{kicker}}</div>
   <div class="word">{{word}}</div>
   <div class="rule"></div>

@@ -1,0 +1,14 @@
+{
+  "postName": "Studio note — hiring",
+  "design": "card-note",
+  "ratio": "1:1",
+  "slides": [
+    {
+      "slide": "cover",
+      "tokens": {
+        "line": "we're hiring",
+        "sub": "florists & drivers — melbourne studio"
+      }
+    }
+  ]
+}

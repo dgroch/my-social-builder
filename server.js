@@ -8,6 +8,7 @@ const path = require('path');
 const { buildSchema } = require('./lib/parseDesigns');
 const render = require('./lib/render');
 const designs = require('./lib/designs');
+const assets = require('./lib/assets');
 
 const PORT = process.env.PORT || 4321;
 const PUBLIC = path.join(__dirname, 'public');
@@ -19,6 +20,9 @@ const MIME = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css
 // -----------------------------------------------------------------------------
 const SAMPLE_PHOTO = 'https://brand-cdn.figandbloom.workers.dev/figandbloom/asset-manifest/2026/06/floral-arrangement-product-shot-indoor-studio-setting-tabletop-d-1BooMH.jpg';
 const SAMPLE_PHOTO_ALT = 'https://brand-cdn.figandbloom.workers.dev/figandbloom/asset-manifest/2026/06/floral-arrangement-indoors-likely-a-home-or-studio-setting-pink-1oJNWF.jpg';
+// Dark plates for the Good Weekend editorial slides — white type needs a dark region to sit on.
+const SAMPLE_PHOTO_DARK = 'https://brand-cdn.figandbloom.workers.dev/figandbloom/asset-manifest/2026/06/behind-the-scenes-floral-craft-floral-studio-or-workshop-in-sydn-1ZnUa2.jpg';
+const SAMPLE_PHOTO_MOODY = 'https://brand-cdn.figandbloom.workers.dev/figandbloom/asset-manifest/2026/06/still-life-abstract-indoor-on-a-wooden-floor-roses-roses-flowers-1opGMU.jpg';
 
 // Realistic sample data for every component. One block per (design, slide).
 const SAMPLE_TOKENS = {
@@ -70,6 +74,30 @@ const SAMPLE_TOKENS = {
     quote: 'We tie the stems before the morning is half done. We photograph them before the van goes.',
     attribution: 'Fig & Bloom — on the morning run', photo: SAMPLE_PHOTO, theme: 'dark'
   },
+  'story-editorial/feature': {
+    kicker: 'The journal',
+    headline: 'The morning run: how a bunch leaves the studio',
+    dek: 'From first cut to the courier’s tray — the hours you don’t see.',
+    link_hint: 'Slide for the story', photo: SAMPLE_PHOTO_DARK, theme: 'dark'
+  },
+  'story-editorial/pullquote': {
+    quote: 'We tie the stems before the morning is half done.',
+    name: 'Kellie', role: 'Head florist, Melbourne studio',
+    photo: SAMPLE_PHOTO_DARK, theme: 'dark'
+  },
+  'story-editorial/column': {
+    text: 'The buckets are filled before sunrise.<br><br>By eight the bench is a field of cut stems, and the first orders are already wrapped, named and waiting by the door.',
+    attribution: 'From the journal', align: 'right', panel: 'none', photo: SAMPLE_PHOTO_MOODY
+  },
+  'story-editorial/press': {
+    kicker: 'The morning run',
+    text: 'By the time the vans leave the studio, every bunch has been cut, conditioned and photographed — a small record of the morning it was made.',
+    link_hint: 'More at the link in bio', surface: 'white', photo: SAMPLE_PHOTO
+  },
+  'story-editorial/linkout': {
+    line: 'Head to the link in bio for the full story.',
+    note: 'New journal entries every week.', surface: 'white'
+  },
   'story-quote-soft/cover': {
     kicker: 'The studio', voice: 'a small, quiet room',
     headline: 'A knot of ribbon, a hand on the stems.',
@@ -84,6 +112,31 @@ const SAMPLE_TOKENS = {
   },
   'story-overlay/cover': {
     kicker: 'This week', word: 'HELD', cta: 'Read on →', photo: SAMPLE_PHOTO
+  },
+  'card-caption/cover': {
+    photo: SAMPLE_PHOTO, caption: 'the saturday slow bunch'
+  },
+  'card-statement-bars/cover': {
+    photo: SAMPLE_PHOTO_ALT, headline: 'flowers\nfirst.\neverything else\ncan wait'
+  },
+  'card-statement-split/cover': {
+    photo: SAMPLE_PHOTO, kicker: 'From the journal',
+    headline: 'Human\nconnections\nare deeply\nnurtured', attribution: 'Jean Houston'
+  },
+  'card-testimonial/cover': {
+    kicker: 'Kind words',
+    quote: 'Highly recommended! Excellent service, speed, product and communication.',
+    attribution: 'Darren L', motif: 'body-flower'
+  },
+  'card-quote-lineart/cover': {
+    quote: 'human connections are deeply nurtured in the field of a shared story.',
+    attribution: 'Jean Houston', theme: 'light', motif: 'body-flower'
+  },
+  'card-script-moment/cover': {
+    line: 'celebrate love', surface: 'clay', photo: ''
+  },
+  'card-note/cover': {
+    line: "we're hiring", sub: 'florists & drivers — melbourne studio', motif: 'hand-plant'
   }
 };
 
@@ -168,6 +221,12 @@ function validate(post) {
     if (!meta) { issues.push({ level: 'error', slide: i + 1, msg: 'Unknown slide: ' + s.slide }); errorCount++; return; }
     const declared = new Set([...meta.tokens.map(t => t.name), ...meta.levers.map(l => l.name)]);
     for (const k of Object.keys(s.tokens || {})) if (!declared.has(k)) { issues.push({ level: 'warning', slide: i + 1, msg: 'Unknown token "' + k + '" (ignored)' }); warningCount++; }
+    for (const t of meta.tokens) {
+      if (t.type === 'image' && assets.isQueryRef((s.tokens || {})[t.name])) {
+        issues.push({ level: 'warning', slide: i + 1, msg: t.name + ' = "' + s.tokens[t.name] + '" — resolves via asset-library semantic search at render time' });
+        warningCount++;
+      }
+    }
     try {
       const { leftover } = render.assembleSlide(schema, post.design, s.slide, s.tokens || {}, post.ratio);
       for (const lo of leftover) { issues.push({ level: 'error', slide: i + 1, msg: 'Unfilled ' + lo }); errorCount++; }
@@ -181,6 +240,10 @@ const server = http.createServer(async (req, res) => {
   const p = u.pathname;
   try {
     if (p === '/api/schema' && req.method === 'GET') return send(res, 200, buildSchema());
+    if (p === '/api/assets/search' && req.method === 'GET') {
+      try { return send(res, 200, await assets.searchAssets(u.searchParams.get('q') || '', u.searchParams.get('cursor') || undefined)); }
+      catch (e) { return send(res, 502, { error: 'asset-library', message: e.message }); }
+    }
     if (p === '/api/validate' && req.method === 'POST') return send(res, 200, validate((await readBody(req)).post));
     if (p === '/api/export' && req.method === 'POST') { const b = await readBody(req); return send(res, 200, { json: JSON.stringify(b.post, null, 2) }); }
     if (p === '/api/render' && req.method === 'POST') {

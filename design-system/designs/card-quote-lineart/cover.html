@@ -1,0 +1,41 @@
+<!-- SLIDE cover | LANE quote-lineart | PHOTO none
+     TOKENS:
+       quote       : text           | the line worth keeping — sentence case, 1–2 sentences
+       attribution : text, optional | who said it, set in Cervanttis beneath, e.g. "Jean Houston"
+     LEVERS:
+       theme       : enum light|dark | light = ink type on white; dark = white type on ink (seeds: Designs 5 & 4)
+       motif       : enum body-flower|face-1|face-2|front-face|hand-flower|hand-rose|hand-plant|body | the line-art figure behind the quote (assets/lineart/*.svg, rendered as a CSS mask)
+     VISUAL_ROLE  : a centred quote breathing over an oversized line-art figure
+     FOCAL        : the quote
+     PALETTE       : white or ink field · type in the opposite pole · line-art at low opacity
+     TYPE          : Lust quote + Cervanttis attribution (its own block, never inline). Chrome-free lane.
+-->
+<!doctype html><html><head><meta charset="utf-8"><style>
+@font-face{font-family:Lust;src:url('{{ASSETS_BASE}}/fonts/Lust-Regular.otf')}
+@font-face{font-family:CervI;src:url('{{ASSETS_BASE}}/fonts/cervanttis.ttf')}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:{{W}}px;height:{{H}}px;overflow:hidden}
+.stage{position:relative;width:{{W}}px;height:{{H}}px;background:#FFFFFF;--ink:#000000;--type:#000000;
+       --la:rgba(0,0,0,.16);overflow:hidden;display:flex;flex-direction:column;
+       align-items:center;justify-content:center;text-align:center}
+.stage.dark{background:#000000;--type:#FFFFFF;--la:rgba(255,255,255,.22)}
+/* the motif is a black-stroke SVG used as a stencil: the mask carries the drawing,
+   the background-color carries the colourway */
+.la{position:absolute;top:-4%;bottom:-6%;right:-14%;width:82%;background:var(--la);
+    -webkit-mask:url('{{ASSETS_BASE}}/assets/lineart/{{motif}}.svg') center/contain no-repeat;
+    mask:url('{{ASSETS_BASE}}/assets/lineart/{{motif}}.svg') center/contain no-repeat}
+.q{position:relative;font-family:Lust;font-size:64px;line-height:1.35;color:var(--type);max-width:76%}
+.attr{position:relative;font-family:CervI;font-size:44px;color:var(--type);margin-top:40px}
+/* story 9:16 */
+.stage.r9x16 .q{font-size:72px;max-width:80%}
+.stage.r9x16 .la{right:-18%;width:96%}
+/* landscape */
+.stage.land .q{font-size:48px;max-width:64%}
+.stage.land .attr{font-size:36px;margin-top:24px}
+.stage.land .la{right:-6%;width:46%}
+</style></head><body>
+<div class="stage {{THEME_CLASS}} {{ORIENT}} {{RATIO_CLASS}}">
+  <div class="la"></div>
+  <div class="q">{{quote}}</div>
+  <div class="attr">{{attribution}}</div>
+</div></body></html>

@@ -178,12 +178,12 @@ const server = http.createServer(async (req, res) => {
         return send(res, 200, { campaign: rec, rationale: campaign.rationale, validations, model, usage });
       } catch (e) { return send(res, 502, { error: 'generate', message: e.message }); }
     }
-    const cm = p.match(/^\/api\/campaigns\/([^/]+)(?:\/posts\/([^/]+)(\/feedback|\/status|\/post)?)?$/);
+    const cm = p.match(/^\/api\/campaigns\/([^/]+)(?:\/posts\/([^/]+)(\/feedback|\/status|\/post|\/revise)?)?$/);
     if (cm) {
       const [, id, postId, action] = cm;
       try {
         if (!postId) {
-          if (req.method === 'GET') return send(res, 200, campaigns.get(id));
+          if (req.method === 'GET') return send(res, 200, Object.assign({ canGenerate: generate.hasKey() }, campaigns.get(id)));
           if (req.method === 'PUT') return send(res, 200, campaigns.update(id, await readBody(req)));
           if (req.method === 'DELETE') return send(res, 200, campaigns.remove(id));
         } else {
@@ -191,8 +191,24 @@ const server = http.createServer(async (req, res) => {
           if (action === '/feedback' && req.method === 'POST') return send(res, 200, campaigns.addFeedback(id, postId, b.text));
           if (action === '/status' && req.method === 'POST') return send(res, 200, campaigns.setStatus(id, postId, b.status));
           if (action === '/post' && req.method === 'PUT') return send(res, 200, campaigns.setPost(id, postId, b.post));
+          // Close the loop on reviewer feedback: Claude revises the post against every
+          // unaddressed note, the body is swapped in, and the post returns to pending.
+          if (action === '/revise' && req.method === 'POST') {
+            if (!generate.hasKey()) return send(res, 501, { error: 'no_api_key', message: 'Revision needs ANTHROPIC_API_KEY on the server.' });
+            // a note sent with the revise call is recorded first, so it survives even if the revision fails
+            if ((b.text || '').trim()) campaigns.addFeedback(id, postId, b.text.trim());
+            const rec = campaigns.get(id);
+            const notes = campaigns.pendingFeedback(rec, postId).map(f => f.text);
+            if (!notes.length) return send(res, 400, { error: 'no_feedback', message: 'No unaddressed feedback on this post.' });
+            const current = (rec.posts.find(x => x.id === postId) || rec.posts[Number(postId)]).post;
+            const { post: revised, usage } = await generate.revisePost(current, notes, rec.brief);
+            const v = validate(revised);
+            if (!v.ok) return send(res, 502, { error: 'revision_invalid', message: 'Claude returned a post that fails validation: ' + v.issues.filter(i => i.level === 'error').map(i => i.msg).join('; '), validation: v });
+            const updated = campaigns.applyRevision(id, postId, revised);
+            return send(res, 200, { campaign: updated, validation: v, usage });
+          }
         }
-      } catch (e) { return send(res, e.message.startsWith('Unknown') ? 404 : 400, { error: 'campaigns', message: e.message }); }
+      } catch (e) { return send(res, e.message.startsWith('Unknown') ? 404 : (e.code === 'NO_API_KEY' ? 501 : 502), { error: 'campaigns', message: e.message }); }
     }
 
     if (p === '/api/designs' && req.method === 'GET') return send(res, 200, { designs: designs.list() });

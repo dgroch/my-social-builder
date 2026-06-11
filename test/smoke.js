@@ -143,6 +143,14 @@ const campaigns = require('../lib/campaigns');
   assert.strictEqual(campaigns.list()[0].approved, 1, 'list aggregates');
   campaigns.setPost(rec.id, back.posts[0].id, sampleEditorial);
   assert.strictEqual(campaigns.get(rec.id).posts[0].status, 'pending', 'edited post resets to pending');
+  // revision flow: feedback → applyRevision marks it addressed, post back to pending
+  campaigns.addFeedback(rec.id, back.posts[0].id, 'make the plate moodier');
+  assert.strictEqual(campaigns.pendingFeedback(campaigns.get(rec.id), back.posts[0].id).length, 2, 'pending feedback counted');
+  campaigns.applyRevision(rec.id, back.posts[0].id, sampleGoodWeekend);
+  const revised = campaigns.get(rec.id);
+  assert.strictEqual(revised.posts[0].status, 'pending', 'revision resets to pending');
+  assert(revised.posts[0].feedback.every(f => f.addressedAt), 'revision marks feedback addressed');
+  assert.strictEqual(campaigns.pendingFeedback(revised, back.posts[0].id).length, 0, 'no pending after revision');
   campaigns.remove(rec.id);
   assert.strictEqual(campaigns.list().length, 0, 'campaign removed');
 }

@@ -490,17 +490,36 @@ async function openCampaign(id) {
     edit.onclick = () => load(p.post, { campId: c.id, postId: p.id });
     btns.append(approve, edit);
     meta.append(btns);
-    const fb = el('textarea', { placeholder: 'Feedback — saved for the agent to act on…' });
-    const send = el('button', { class: 'savebtn' }, 'Request changes');
+    const fb = el('textarea', { placeholder: c.canGenerate ? 'Feedback — Claude revises the post against it…' : 'Feedback — saved for the agent to act on…' });
+    const send = el('button', { class: 'savebtn' }, c.canGenerate ? 'Request changes — Claude revises' : 'Request changes');
+    const note = el('span', { class: 'sub' }, '');
+    const revise = async (text) => {
+      send.disabled = true;
+      note.textContent = 'Claude is revising… (~30–60s)';
+      try {
+        const r = await fetch(`/api/campaigns/${c.id}/posts/${p.id}/revise`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ text }) });
+        const d = await r.json();
+        if (!r.ok) { note.textContent = '✕ ' + (d.message || d.error); send.disabled = false; return; }
+        openCampaign(c.id);
+      } catch (e) { note.textContent = '✕ ' + e.message; send.disabled = false; }
+    };
     send.onclick = async () => {
-      if (!fb.value.trim()) return;
-      await fetch(`/api/campaigns/${c.id}/posts/${p.id}/feedback`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ text: fb.value.trim() }) });
+      const text = fb.value.trim();
+      if (!text) return;
+      if (c.canGenerate) return revise(text);
+      await fetch(`/api/campaigns/${c.id}/posts/${p.id}/feedback`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ text }) });
       openCampaign(c.id);
     };
-    meta.append(fb, send);
+    meta.append(fb, send, note);
+    const unaddressed = p.feedback.filter(f => !f.addressedAt);
+    if (c.canGenerate && unaddressed.length) {
+      const redo = el('button', { class: 'savebtn' }, `Revise with Claude (${unaddressed.length} note${unaddressed.length > 1 ? 's' : ''} waiting)`);
+      redo.onclick = () => { send.disabled = true; redo.disabled = true; note.textContent = 'Claude is revising… (~30–60s)'; revise(''); };
+      meta.append(redo);
+    }
     if (p.feedback.length) {
       const fl = el('div', { class: 'fb-list' });
-      p.feedback.forEach(f => fl.append(el('div', { class: 'fb-item' }, f.text)));
+      p.feedback.forEach(f => fl.append(el('div', { class: 'fb-item' + (f.addressedAt ? ' done' : '') }, (f.addressedAt ? '✓ ' : '') + f.text)));
       meta.append(fl);
     }
     card.append(meta);

@@ -116,3 +116,4 @@ pre.json{background:#1c1a17;color:#e8e2da;padding:16px;border-radius:10px;overfl
 .status.s-pending{background:#f3eee6;color:var(--char)}
 .fb-list{margin-top:6px;display:flex;flex-direction:column;gap:6px}
 .fb-item{font-size:12px;background:#fdf4e3;border-radius:8px;padding:6px 10px;color:#6d5712}
+.fb-item.done{background:#eaf3ec;color:#476b52;text-decoration:none;opacity:.8}

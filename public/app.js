@@ -493,11 +493,19 @@ async function openCampaign(id) {
     meta.append(status);
     const btns = el('div', { class: 'actions' });
     const approve = el('button', {}, '✓ Approve');
-    approve.onclick = async () => { await fetch(`/api/campaigns/${c.id}/posts/${p.id}/status`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ status: 'approved' }) }); toast('✓ Approved'); openCampaign(c.id); };
+    approve.onclick = async () => { await fetch(`/api/campaigns/${c.id}/posts/${p.id}/status`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ status: 'approved' }) }); toast('✓ Approved — preparing downloads'); openCampaign(c.id); };
     const edit = el('button', {}, 'Open in editor');
     edit.onclick = () => load(p.post, { campId: c.id, postId: p.id });
     btns.append(approve, edit);
     meta.append(btns);
+    // production downloads — plain GET links through the render cache; the first
+    // tap renders the set @2x (slower on a cold box), repeats are instant
+    const dls = el('div', { class: 'dl-row' }, el('span', { class: 'sub' }, 'Download @2x: '));
+    p.post.slides.forEach((s, i) => {
+      dls.append(el('a', { class: 'dl-link', href: `/api/campaigns/${c.id}/posts/${p.id}/slide-${i + 1}.png?v=${p.previewV || ''}` },
+        p.post.slides.length > 1 ? `slide ${i + 1}` : 'PNG'));
+    });
+    meta.append(dls);
     const fb = el('textarea', { placeholder: c.canGenerate ? 'Feedback — Claude revises the post against it…' : 'Feedback — saved for the agent to act on…' });
     const send = el('button', { class: 'savebtn' }, c.canGenerate ? 'Request changes — Claude revises' : 'Request changes');
     const note = el('span', { class: 'sub' }, '');

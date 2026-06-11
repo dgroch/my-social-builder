@@ -161,3 +161,6 @@ button.busy{opacity:.7;cursor:progress}
 .review-thumb-wrap{position:relative;width:170px;min-height:120px;background:#efe9e0;border-radius:8px;align-self:flex-start}
 .review-thumb{width:100%;border-radius:8px;cursor:zoom-in;display:block}
 .status.s-revising{background:#fdf4e3;color:#8a6d1a;border-color:#efdfb5}
+.dl-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;font-size:12px}
+.dl-link{color:var(--accent);font-weight:600;text-decoration:none;border:1px solid var(--line);border-radius:999px;padding:3px 10px;background:#fff}
+.dl-link:hover{background:#f3eee6}

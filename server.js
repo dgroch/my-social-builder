@@ -196,6 +196,27 @@ const server = http.createServer(async (req, res) => {
         return send(res, 200, { campaign: rec, rationale: campaign.rationale, validations, model, usage });
       } catch (e) { return send(res, 502, { error: 'generate', message: e.message }); }
     }
+    // Campaign post slide download — the production @2x PNG as a plain GET, served
+    // through the render cache. The whole post renders once; every slide after that
+    // (and every repeat download) is a cache hit.
+    const dl = p.match(/^\/api\/campaigns\/([^/]+)\/posts\/([^/]+)\/slide-(\d+)\.png$/);
+    if (dl && req.method === 'GET') {
+      try {
+        const rec = await campaigns.get(dl[1]);
+        const cp = rec.posts.find(x => x.id === dl[2]) || rec.posts[Number(dl[2])];
+        const n = Number(dl[3]);
+        if (!cp || !cp.post.slides[n - 1]) return send(res, 404, { error: 'not found' });
+        const out = await render.renderPost(cp.post, { scale: 2 });
+        const s = out.slices[n - 1];
+        const stem = (cp.post.postName || cp.post.design).replace(/[^\w-]+/g, '-').slice(0, 60);
+        res.writeHead(200, {
+          'Content-Type': 'image/png',
+          'Content-Disposition': `attachment; filename="${stem}-${String(n).padStart(2, '0')}-${s.slide}.png"`,
+          'Cache-Control': 'public, max-age=31536000, immutable'
+        });
+        return res.end(s.png);
+      } catch (e) { return send(res, e.message.startsWith('Unknown') ? 404 : 500, { error: 'download', message: e.message }); }
+    }
     // Campaign post preview — a real GET image URL the browser caches. Renders the
     // FIRST slide only at 0.5 scale (a thumbnail never needs the whole carousel) and
     // is served immutable: the client versions the URL with ?v=<content hash>, so a
@@ -228,7 +249,16 @@ const server = http.createServer(async (req, res) => {
         } else {
           const b = await readBody(req);
           if (action === '/feedback' && req.method === 'POST') return send(res, 200, await campaigns.addFeedback(id, postId, b.text));
-          if (action === '/status' && req.method === 'POST') return send(res, 200, await campaigns.setStatus(id, postId, b.status));
+          if (action === '/status' && req.method === 'POST') {
+            const updated = await campaigns.setStatus(id, postId, b.status);
+            // approval signals intent to ship — pre-warm the production @2x render so
+            // the download links are instant by the time the reviewer reaches for them
+            if (b.status === 'approved') {
+              const cp = updated.posts.find(x => x.id === postId) || updated.posts[Number(postId)];
+              if (cp) render.renderPost(cp.post, { scale: 2 }).catch(() => {});
+            }
+            return send(res, 200, updated);
+          }
           if (action === '/post' && req.method === 'PUT') return send(res, 200, await campaigns.setPost(id, postId, b.post));
           // Close the loop on reviewer feedback: Claude revises the post against every
           // unaddressed note, the body is swapped in, and the post returns to pending.

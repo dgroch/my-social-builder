@@ -194,6 +194,8 @@ async function notionDriverTests() {
         if (!page) return out(404, { message: 'not found' });
         const props = JSON.parse(JSON.stringify(page.properties));
         props['Data'].id = 'DataPropId';
+        // real Notion truncates rich_text properties to 25 items on the page object
+        if (props['Data'].rich_text && props['Data'].rich_text.length > 25) props['Data'].rich_text = props['Data'].rich_text.slice(0, 25);
         return out(200, { id: m[1], archived: page.archived, properties: props, created_time: 'c', last_edited_time: 'u' });
       }
       if (m && req.method === 'PATCH') {
@@ -241,6 +243,13 @@ async function notionDriverTests() {
     rec.name = 'Renamed';
     await store.update('campaign', rec);
     assert.strictEqual((await store.get('campaign', 'camp_n1')).name, 'Renamed', 'notion update');
+    // >25-chunk record (~57KB) — exercises the property-item pagination fallback
+    const big = { id: 'camp_n2', name: 'Big', brief: '', source: 'api',
+      posts: [{ id: 'cpost_b', status: 'pending', feedback: [], post: { postName: 'b'.repeat(55000), design: 'card-note', ratio: '1:1', slides: [] } }],
+      createdAt: 'c', updatedAt: 'u' };
+    await store.create('campaign', big);
+    assert.strictEqual((await store.get('campaign', 'camp_n2')).posts[0].post.postName.length, 55000, 'notion round-trips a >25-chunk record via property items');
+    await store.remove('campaign', 'camp_n2');
     await store.remove('campaign', 'camp_n1');
     assert.strictEqual((await store.list('campaign')).length, 0, 'notion archive removes from list');
     await assert.rejects(() => store.get('campaign', 'camp_n1'), /Unknown campaign/, 'archived record 404s');

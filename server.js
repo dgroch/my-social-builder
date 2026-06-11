@@ -3,6 +3,7 @@
 // inside render.js so the schema/validate/designs endpoints work even without Chromium.
 
 const http = require('http');
+const crypto = require('crypto');
 const fs = require('fs');
 const path = require('path');
 const { buildSchema } = require('./lib/parseDesigns');
@@ -195,12 +196,33 @@ const server = http.createServer(async (req, res) => {
         return send(res, 200, { campaign: rec, rationale: campaign.rationale, validations, model, usage });
       } catch (e) { return send(res, 502, { error: 'generate', message: e.message }); }
     }
+    // Campaign post preview — a real GET image URL the browser caches. Renders the
+    // FIRST slide only at 0.5 scale (a thumbnail never needs the whole carousel) and
+    // is served immutable: the client versions the URL with ?v=<content hash>, so a
+    // revised post gets a new URL and stale thumbnails are impossible.
+    const pv = p.match(/^\/api\/campaigns\/([^/]+)\/posts\/([^/]+)\/preview\.png$/);
+    if (pv && req.method === 'GET') {
+      try {
+        const rec = await campaigns.get(pv[1]);
+        const cp = rec.posts.find(x => x.id === pv[2]) || rec.posts[Number(pv[2])];
+        if (!cp) return send(res, 404, { error: 'not found' });
+        const first = Object.assign({}, cp.post, { slides: cp.post.slides.slice(0, 1) });
+        const out = await render.renderPost(first, { scale: 0.5 });
+        res.writeHead(200, { 'Content-Type': 'image/png', 'Cache-Control': 'public, max-age=31536000, immutable' });
+        return res.end(out.slices[0].png);
+      } catch (e) { return send(res, e.message.startsWith('Unknown') ? 404 : 500, { error: 'preview', message: e.message }); }
+    }
     const cm = p.match(/^\/api\/campaigns\/([^/]+)(?:\/posts\/([^/]+)(\/feedback|\/status|\/post|\/revise)?)?$/);
     if (cm) {
       const [, id, postId, action] = cm;
       try {
         if (!postId) {
-          if (req.method === 'GET') return send(res, 200, Object.assign({ canGenerate: generate.hasKey() }, await campaigns.get(id)));
+          if (req.method === 'GET') {
+            const rec = await campaigns.get(id);
+            // previewV: content hash per post — versions the preview.png URL
+            for (const cp of rec.posts) cp.previewV = crypto.createHash('sha256').update(JSON.stringify(cp.post)).digest('hex').slice(0, 16);
+            return send(res, 200, Object.assign({ canGenerate: generate.hasKey() }, rec));
+          }
           if (req.method === 'PUT') return send(res, 200, await campaigns.update(id, await readBody(req)));
           if (req.method === 'DELETE') return send(res, 200, await campaigns.remove(id));
         } else {

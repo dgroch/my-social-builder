@@ -437,21 +437,20 @@ async function loadCampaigns() {
   });
 }
 
-const PREVIEW_CACHE = new Map(); // postJSON -> dataURI of slide 1
-
-async function previewPost(p, target, holder) {
-  const key = JSON.stringify(p);
+// Campaign previews are plain GET image URLs (server renders slide 1, content-hash
+// versioned, cached server-side and by the browser) — no long fetches to time out
+// on mobile, and a revised post gets a new ?v so thumbnails can't go stale.
+function previewPost(campId, p, target, holder) {
   if (holder) holder.classList.add('loading');
-  if (PREVIEW_CACHE.has(key)) { target.src = PREVIEW_CACHE.get(key); if (holder) holder.classList.remove('loading'); return; }
-  try {
-    const r = await fetch('/api/render', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ post: p, scale: 0.5 }) });
-    if (!r.ok) throw new Error('render failed');
-    const { slices } = await r.json();
-    const uri = 'data:image/png;base64,' + slices[0].pngBase64;
-    PREVIEW_CACHE.set(key, uri);
-    target.src = uri;
-  } catch (e) { target.alt = '✕ ' + e.message; target.classList.add('failed'); }
-  finally { if (holder) holder.classList.remove('loading'); }
+  target.loading = 'lazy';
+  target.onload = () => { if (holder) holder.classList.remove('loading'); };
+  target.onerror = () => {
+    if (holder) holder.classList.remove('loading');
+    target.alt = '✕ preview failed — tap to retry';
+    target.classList.add('failed');
+    target.onclick = e => { e.stopPropagation(); target.classList.remove('failed'); if (holder) holder.classList.add('loading'); target.src = target.src.split('&r=')[0] + '&r=' + Date.now(); };
+  };
+  target.src = `/api/campaigns/${campId}/posts/${p.id}/preview.png?v=${p.previewV || ''}`;
 }
 
 async function openCampaign(id) {
@@ -468,14 +467,14 @@ async function openCampaign(id) {
     const cell = el('div', { class: 'ig-cell' });
     const img = el('img');
     cell.append(img); grid.append(cell);
-    previewPost(p.post, img, cell);
+    previewPost(id, p, img, cell);
     img.onclick = () => openLightbox(img.src, p.post.postName);
   });
   const sbox = $('#campStories'); sbox.innerHTML = '';
   if (stories.length) {
     sbox.append(el('h3', { class: 'gridlabel' }, 'Stories'));
     const row = el('div', { class: 'story-row' });
-    stories.forEach(p => { const cell = el('div', { class: 'ig-cell story' }); const img = el('img'); cell.append(img); row.append(cell); previewPost(p.post, img, cell); img.onclick = () => openLightbox(img.src, p.post.postName); });
+    stories.forEach(p => { const cell = el('div', { class: 'ig-cell story' }); const img = el('img'); cell.append(img); row.append(cell); previewPost(id, p, img, cell); img.onclick = () => openLightbox(img.src, p.post.postName); });
     sbox.append(row);
   }
 
@@ -485,7 +484,7 @@ async function openCampaign(id) {
     const thumbWrap = el('div', { class: 'review-thumb-wrap' });
     const img = el('img', { class: 'review-thumb' });
     thumbWrap.append(img);
-    previewPost(p.post, img, thumbWrap);
+    previewPost(id, p, img, thumbWrap);
     card.append(thumbWrap);
     const meta = el('div', { class: 'meta' });
     meta.append(el('div', { class: 'name' }, p.post.postName || p.post.design));
@@ -736,7 +735,6 @@ function wire() {
     await fetch(`/api/campaigns/${CAMPAIGN_REF.campId}/posts/${CAMPAIGN_REF.postId}/post`, {
       method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ post: post() })
     });
-    PREVIEW_CACHE.clear();
     toast('✓ Saved back to the campaign');
     showView('campaigns'); openCampaign(CAMPAIGN_REF.campId);
   };

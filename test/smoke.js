@@ -157,6 +157,10 @@ async function campaignTests() {
   assert.strictEqual(revised.posts[0].status, 'pending', 'revision resets to pending');
   assert(revised.posts[0].feedback.every(f => f.addressedAt), 'revision marks feedback addressed');
   assert.strictEqual(campaigns.pendingFeedback(revised, back.posts[0].id).length, 0, 'no pending after revision');
+  // append a post (the editor's "Add to campaign…" flow)
+  const grown = await campaigns.addPost(rec.id, sampleEditorial);
+  assert.strictEqual(grown.posts.length, 3, 'addPost appends');
+  assert.strictEqual(grown.posts[2].status, 'pending', 'appended post starts pending');
   await campaigns.remove(rec.id);
   assert.strictEqual((await campaigns.list()).length, 0, 'campaign removed');
 }

@@ -50,7 +50,11 @@ async function boot() {
   $('#ratio').onchange = e => { STATE.ratio = e.target.value; sync(); schedulePreview(); };
   $('#postName').oninput = e => { STATE.postName = e.target.value; sync(); };
   const draft = loadDraft();
-  if (draft) { applyPost(draft); toast('Draft restored'); }
+  if (draft) {
+    applyPost(draft.post || draft);
+    const at = draft.at ? new Date(draft.at).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }) : null;
+    toast('Draft restored' + (at ? ' from ' + at : '') + ' — discard via the ⋯ menu');
+  }
   else selectDesign(ds.value);
   loadDesigns();
 }
@@ -61,14 +65,21 @@ let draftTimer = null;
 function saveDraft() {
   clearTimeout(draftTimer);
   draftTimer = setTimeout(() => {
-    try { localStorage.setItem(DRAFT_KEY, JSON.stringify(post())); } catch {}
+    try { localStorage.setItem(DRAFT_KEY, JSON.stringify({ post: post(), at: Date.now() })); } catch {}
   }, 400);
 }
 function loadDraft() {
   try {
     const d = JSON.parse(localStorage.getItem(DRAFT_KEY) || 'null');
-    return (d && d.design && SCHEMA.designs[d.design]) ? d : null;
+    const p = d && (d.post || d);
+    return (p && p.design && SCHEMA.designs[p.design]) ? d : null;
   } catch { return null; }
+}
+function discardDraft() {
+  try { localStorage.removeItem(DRAFT_KEY); } catch {}
+  STATE.postName = ''; $('#postName').value = '';
+  selectDesign($('#design').value);
+  toast('Draft discarded — starting fresh');
 }
 
 function selectDesign(id) {
@@ -122,6 +133,7 @@ function renderStrip() {
     const tools = el('div', { class: 'sc-tools' });
     if (i > 0) { const b = el('button', { title: 'Move earlier' }, '‹'); b.onclick = e => { e.stopPropagation(); [STATE.slides[i - 1], STATE.slides[i]] = [STATE.slides[i], STATE.slides[i - 1]]; STATE.active = i - 1; renderEditor(); }; tools.append(b); }
     if (i < STATE.slides.length - 1) { const b = el('button', { title: 'Move later' }, '›'); b.onclick = e => { e.stopPropagation(); [STATE.slides[i + 1], STATE.slides[i]] = [STATE.slides[i], STATE.slides[i + 1]]; STATE.active = i + 1; renderEditor(); }; tools.append(b); }
+    { const b = el('button', { title: 'Duplicate slide' }, '⧉'); b.onclick = e => { e.stopPropagation(); STATE.slides.splice(i + 1, 0, { slide: s.slide, tokens: Object.assign({}, s.tokens) }); STATE.active = i + 1; renderEditor(); }; tools.append(b); }
     if (STATE.slides.length > 1) {
       const b = el('button', { class: 'sc-del', title: 'Remove slide' }, '✕');
       b.onclick = e => {
@@ -221,10 +233,65 @@ async function runPreview() {
   }
 }
 
-// ---------- Asset library picker ----------
+// ---------- Photo input: upload + library search + thumbnail confirmation ----------
+async function decodeImage(file) {
+  try { return await createImageBitmap(file); } catch {}
+  return await new Promise((resolve, reject) => {
+    const u = URL.createObjectURL(file);
+    const im = new Image();
+    im.onload = () => resolve(im); im.onerror = () => reject(new Error('undecodable'));
+    im.src = u;
+  });
+}
+
+async function uploadPhoto(file, inp, onPick) {
+  if (file.size > 15 * 1024 * 1024) { toast('That image is over 15MB — export a smaller copy first.', false); return; }
+  let img;
+  try { img = await decodeImage(file); }
+  catch { toast("Couldn't read that image. (HEIC converts in Safari — or export a JPEG.)", false); return; }
+  const w = img.width || img.naturalWidth, h = img.height || img.naturalHeight;
+  const scale = Math.min(1, 4000 / Math.max(w, h));
+  const canvas = document.createElement('canvas');
+  canvas.width = Math.round(w * scale); canvas.height = Math.round(h * scale);
+  canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
+  const blob = await new Promise(r => canvas.toBlob(r, 'image/jpeg', 0.88));
+  const dataUrl = await new Promise(r => { const fr = new FileReader(); fr.onload = () => r(fr.result); fr.readAsDataURL(blob); });
+  toast('Uploading photo…');
+  try {
+    const r = await fetch('/api/upload', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ dataBase64: dataUrl.split(',')[1] }) });
+    const d = await r.json();
+    if (!r.ok) { toast(d.message || 'Upload failed', false); return; }
+    inp.value = d.url;
+    inp.dispatchEvent(new Event('input'));
+    onPick();
+    toast(d.deduped ? '✓ Photo already uploaded — reusing it' : '✓ Photo uploaded');
+  } catch (e) { toast('Upload failed: ' + e.message, false); }
+}
+
 function assetPicker(inp, onPick) {
   const box = el('div', { class: 'asset-picker' });
-  const q = el('input', { placeholder: 'Describe the shot — e.g. moody bouquet on dark wood' });
+  // thumbnail confirmation whenever the field holds a URL
+  const thumb = el('img', { class: 'photo-thumb', style: 'display:none', alt: '' });
+  const setThumb = () => {
+    const v = inp.value.trim();
+    if (/^https?:\/\//.test(v)) { thumb.src = v; thumb.style.display = ''; }
+    else thumb.style.display = 'none';
+  };
+  inp.addEventListener('input', setThumb);
+  setThumb();
+  // upload: file picker + drag-drop anywhere on the picker block
+  const fileInp = el('input', { type: 'file', accept: 'image/*,.heic', style: 'display:none' });
+  fileInp.onchange = () => { if (fileInp.files[0]) uploadPhoto(fileInp.files[0], inp, () => { onPick(); setThumb(); }); fileInp.value = ''; };
+  const upBtn = el('button', { type: 'button' }, 'Upload photo');
+  upBtn.onclick = () => fileInp.click();
+  box.ondragover = e => { e.preventDefault(); box.classList.add('drag'); };
+  box.ondragleave = () => box.classList.remove('drag');
+  box.ondrop = e => {
+    e.preventDefault(); box.classList.remove('drag');
+    const f = e.dataTransfer.files && e.dataTransfer.files[0];
+    if (f) uploadPhoto(f, inp, () => { onPick(); setThumb(); });
+  };
+  const q = el('input', { placeholder: 'or describe the shot — e.g. moody bouquet on dark wood' });
   const btn = el('button', { type: 'button' }, 'Search assets');
   const grid = el('div', { class: 'asset-grid' });
   const run = async () => {
@@ -247,11 +314,44 @@ function assetPicker(inp, onPick) {
   };
   btn.onclick = run;
   q.onkeydown = e => { if (e.key === 'Enter') { e.preventDefault(); run(); } };
-  box.append(el('div', { class: 'asset-row' }, [q, btn]), grid);
+  box.append(thumb, fileInp, el('div', { class: 'asset-row' }, [upBtn, q, btn]), grid);
   return box;
 }
 
-function post() { return { postName: STATE.postName || 'Untitled', design: STATE.design, ratio: STATE.ratio, slides: STATE.slides }; }
+// ---------- "Add to campaign…" picker (any editor post → any campaign) ----------
+async function addToCampaignPicker() {
+  const { campaigns } = await (await fetch('/api/campaigns')).json();
+  const modal = el('div', { class: 'lib-modal' });
+  const card = el('div', { class: 'picker-card' });
+  card.append(el('h3', {}, 'Add this post to…'));
+  const list = el('div', { class: 'picker-list' });
+  const choose = async (campId) => {
+    modal.remove();
+    const r = await fetch(`/api/campaigns/${campId}/posts`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ post: post() }) });
+    if (r.ok) toast('✓ Added to the campaign'); else toast('Failed: ' + ((await r.json()).message || r.status), false);
+  };
+  campaigns.forEach(c => {
+    const b = el('button', {}, `${c.name} (${c.postCount} post${c.postCount === 1 ? '' : 's'})`);
+    b.onclick = () => choose(c.id);
+    list.append(b);
+  });
+  const nb = el('button', { class: 'newcamp' }, '＋ New campaign named after this post');
+  nb.onclick = async () => {
+    modal.remove();
+    const r = await fetch('/api/campaigns', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name: post().postName, posts: [post()] }) });
+    if (r.ok) toast('✓ Campaign created'); else toast('Failed: ' + ((await r.json()).message || r.status), false);
+  };
+  list.append(nb);
+  card.append(list);
+  const close = el('button', { class: 'x' }, '✕ close');
+  close.onclick = () => modal.remove();
+  modal.append(card, close);
+  modal.onclick = e => { if (e.target === modal) modal.remove(); };
+  document.body.append(modal);
+}
+
+function defaultName() { return 'Untitled — ' + new Date().toLocaleDateString('en-AU', { day: 'numeric', month: 'short' }); }
+function post() { return { postName: STATE.postName || defaultName(), design: STATE.design, ratio: STATE.ratio, slides: STATE.slides }; }
 function sync() { $('#panel-json').textContent = JSON.stringify(post(), null, 2); saveDraft(); }
 
 async function validate() {
@@ -262,38 +362,51 @@ async function validate() {
   return v.ok;
 }
 
+// Full render runs slide-by-slide: real progress ("Rendering 2 of 5…"), per-slide
+// timeout, and one bad slide fails alone instead of taking the set down. Each slide
+// is content-addressed server-side, so re-rendering after editing one slide only
+// pays for that slide.
 async function renderSet() {
   const btn = $('#btnRender');
   if (btn.disabled) return;
   if (!(await validate())) { showTab('preview'); return; }
   showTab('preview');
-  btn.disabled = true; btn.textContent = `Rendering ${STATE.slides.length} slide${STATE.slides.length > 1 ? 's' : ''}…`; btn.classList.add('busy');
-  $('#results').innerHTML = '<p class="muted">Rendering the full set @2x — sit tight…</p>';
-  try {
-    const r = await fetch('/api/render', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ post: post() }) });
-    if (!r.ok) { $('#results').innerHTML = ''; await validate(); return; }
-    LAST = await r.json();
-    const out = $('#results'); out.innerHTML = '';
-    LAST.slices.forEach(s => {
-      const fig = el('figure');
-      const img = el('img', { src: 'data:image/png;base64,' + s.pngBase64 });
-      fig.append(img);
-      const px = `${s.w * (LAST.scale || 2)}×${s.h * (LAST.scale || 2)}`;
-      const a = el('a', { download: `${String(s.index).padStart(2, '0')}-${s.slide}.png`, href: 'data:image/png;base64,' + s.pngBase64 }, 'download');
-      fig.append(el('figcaption', {}, [document.createTextNode(`${s.slide} · ${px}px (@${LAST.scale || 2}x)`), a]));
-      if (s.overflow) fig.append(el('div', { class: 'figwarn' }, '⚠ Copy overflows this slide and is clipped — shorten it before shipping.'));
-      (s.failedAssets || []).slice(0, 2).forEach(u => fig.append(el('div', { class: 'figwarn' }, '⚠ An image failed to load: ' + u.split(' — ')[0].slice(0, 90))));
-      out.append(fig);
-    });
-    $('#btnZip').style.display = 'block';
-    const broken = LAST.slices.filter(s => s.overflow || (s.failedAssets || []).length).length;
-    toast(broken ? `Rendered with ${broken} warning${broken > 1 ? 's' : ''} — check before shipping` : '✓ Set rendered', !broken);
-  } catch (e) {
-    $('#results').innerHTML = '';
-    toast('Render failed: ' + e.message, false);
-  } finally {
-    btn.disabled = false; btn.textContent = 'Render'; btn.classList.remove('busy');
+  const total = STATE.slides.length;
+  btn.disabled = true; btn.classList.add('busy');
+  const out = $('#results'); out.innerHTML = '';
+  LAST = { scale: 2, slices: [] };
+  let failures = 0, warnings = 0;
+  for (let i = 0; i < total; i++) {
+    btn.textContent = `Rendering ${i + 1} of ${total}…`;
+    const one = Object.assign({}, post(), { slides: [STATE.slides[i]] });
+    const fig = el('figure');
+    fig.append(el('div', { class: 'fig-pending' }, `Rendering slide ${i + 1} (${STATE.slides[i].slide})…`));
+    out.append(fig);
+    let s = null, err = null;
+    try {
+      const r = await fetch('/api/render', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ post: one }), signal: AbortSignal.timeout(120000) });
+      const d = await r.json();
+      if (!r.ok) throw new Error(((d.validation || {}).issues || [{ msg: d.message }])[0].msg || 'render failed');
+      s = d.slices[0]; s.index = i + 1;
+    } catch (e) { err = e; }
+    fig.innerHTML = '';
+    if (err) {
+      failures++;
+      fig.append(el('div', { class: 'figwarn' }, `✕ Slide ${i + 1} (${STATE.slides[i].slide}) failed: ${err.name === 'TimeoutError' ? 'timed out after 2 minutes' : err.message}`));
+      continue;
+    }
+    LAST.slices.push(s);
+    const img = el('img', { src: 'data:image/png;base64,' + s.pngBase64 });
+    fig.append(img);
+    const a = el('a', { download: `${String(s.index).padStart(2, '0')}-${s.slide}.png`, href: 'data:image/png;base64,' + s.pngBase64 }, 'download');
+    fig.append(el('figcaption', {}, [document.createTextNode(`${s.slide} · ${s.w * 2}×${s.h * 2}px (@2x)`), a]));
+    if (s.overflow) { warnings++; fig.append(el('div', { class: 'figwarn' }, '⚠ Copy overflows this slide and is clipped — shorten it before shipping.')); }
+    (s.failedAssets || []).slice(0, 2).forEach(u => { warnings++; fig.append(el('div', { class: 'figwarn' }, '⚠ Image failed to load — ' + u.split(' — ')[0].slice(0, 90))); });
   }
+  btn.disabled = false; btn.textContent = 'Render'; btn.classList.remove('busy');
+  if (LAST.slices.length) $('#btnZip').style.display = 'block';
+  if (failures) toast(`${failures} slide${failures > 1 ? 's' : ''} failed — the rest rendered`, false);
+  else toast(warnings ? `Rendered with ${warnings} warning${warnings > 1 ? 's' : ''} — check before shipping` : '✓ Set rendered', !warnings);
 }
 
 async function zipAll() {
@@ -422,7 +535,7 @@ async function generateCampaign() {
 async function loadCampaigns() {
   const box = $('#campaignList');
   const { campaigns } = await (await fetch('/api/campaigns')).json();
-  if (!campaigns.length) { box.className = 'muted'; box.textContent = 'No campaigns yet — compose one above, or have an agent POST a set for review.'; return; }
+  if (!campaigns.length) { box.className = 'muted'; box.textContent = 'No campaigns yet — compose one above. (Campaigns can also arrive via the API — see the README.)'; return; }
   box.className = 'designList'; box.innerHTML = '';
   campaigns.forEach(c => {
     const item = el('div', { class: 'item' });
@@ -747,6 +860,8 @@ function wire() {
     showView('campaigns'); openCampaign(CAMPAIGN_REF.campId);
   };
   $('#btnSample').onclick = () => { load(SAMPLE); toast('Sample loaded'); };
+  $('#btnAddCamp').onclick = addToCampaignPicker;
+  $('#btnDiscard').onclick = () => { if (confirm('Discard the current draft and start fresh?')) discardDraft(); };
   document.querySelectorAll('.tab').forEach(t => t.onclick = () => showTab(t.dataset.tab));
 }
 

@@ -170,6 +170,39 @@ const server = http.createServer(async (req, res) => {
       }
       catch (e) { return send(res, 500, { error: 'render', message: e.message }); }
     }
+    // Image upload — content-addressed under DATA_DIR/uploads, served at /uploads/<sha>.<ext>.
+    // This is the bridge until the asset library grows its upload path (see the Notion spec):
+    // storage is the builder's own disk (ephemeral on deploy), but URLs are content-addressed,
+    // so re-uploading the same photo after a wipe heals every post that referenced it.
+    if (p === '/api/upload' && req.method === 'POST') {
+      const b = await readBody(req);
+      if (!b.dataBase64) return send(res, 400, { error: 'upload', message: 'dataBase64 required' });
+      let buf;
+      try { buf = Buffer.from(b.dataBase64, 'base64'); } catch { return send(res, 400, { error: 'upload', message: 'invalid base64' }); }
+      if (buf.length > 15 * 1024 * 1024) return send(res, 413, { error: 'upload', message: 'Image is over 15MB — export a smaller copy and try again.' });
+      const magic = buf.slice(0, 12);
+      const ext = magic[0] === 0xFF && magic[1] === 0xD8 ? 'jpg'
+        : magic[0] === 0x89 && magic[1] === 0x50 ? 'png'
+        : magic.slice(8, 12).toString() === 'WEBP' ? 'webp' : null;
+      if (!ext) return send(res, 415, { error: 'upload', message: 'Only JPEG, PNG or WebP can be uploaded (HEIC converts in the browser on Safari).' });
+      const sha = crypto.createHash('sha256').update(buf).digest('hex').slice(0, 20);
+      const dir = path.join(process.env.DATA_DIR || path.join(__dirname, 'data'), 'uploads');
+      fs.mkdirSync(dir, { recursive: true });
+      const name = sha + '.' + ext;
+      const fp = path.join(dir, name);
+      const deduped = fs.existsSync(fp);
+      if (!deduped) fs.writeFileSync(fp, buf);
+      const proto = (req.headers['x-forwarded-proto'] || 'http').split(',')[0];
+      const host = req.headers['x-forwarded-host'] || req.headers.host;
+      return send(res, deduped ? 200 : 201, { url: `${proto}://${host}/uploads/${name}`, deduped, bytes: buf.length });
+    }
+    const up = p.match(/^\/uploads\/([a-f0-9]{20}\.(?:jpg|png|webp))$/);
+    if (up && req.method === 'GET') {
+      const fp = path.join(process.env.DATA_DIR || path.join(__dirname, 'data'), 'uploads', up[1]);
+      if (!fs.existsSync(fp)) return send(res, 404, { error: 'not found' });
+      res.writeHead(200, { 'Content-Type': 'image/' + (up[1].endsWith('.jpg') ? 'jpeg' : up[1].split('.').pop()), 'Cache-Control': 'public, max-age=31536000, immutable' });
+      return res.end(fs.readFileSync(fp));
+    }
     // Try-on catalog — "try different templates on for size": one representative
     // photo-bearing slide per design, with sample copy and the slots a user's own
     // photo + line drop into. The client substitutes and renders each at scale 0.5.
@@ -211,6 +244,16 @@ const server = http.createServer(async (req, res) => {
         const rec = await campaigns.create({ name: b.name || campaign.name, brief: b.brief, source: 'generated', posts: campaign.posts });
         return send(res, 200, { campaign: rec, rationale: campaign.rationale, validations, model, usage });
       } catch (e) { return send(res, 502, { error: 'generate', message: e.message }); }
+    }
+    // Append one post to a campaign (the editor's "Add to campaign…" picker)
+    const ap = p.match(/^\/api\/campaigns\/([^/]+)\/posts$/);
+    if (ap && req.method === 'POST') {
+      try {
+        const b = await readBody(req);
+        if (!b.post) return send(res, 400, { error: 'campaigns', message: 'post required' });
+        const pinned = (await pinPostPhotos([b.post]))[0];
+        return send(res, 200, await campaigns.addPost(ap[1], pinned));
+      } catch (e) { return send(res, e.message.startsWith('Unknown') ? 404 : 400, { error: 'campaigns', message: e.message }); }
     }
     // Campaign post slide download — the production @2x PNG as a plain GET, served
     // through the render cache. The whole post renders once; every slide after that

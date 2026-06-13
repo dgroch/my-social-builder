@@ -11,9 +11,11 @@
        cta     : text  | footer CTA — "Next →" mid-deck, "Read the guide →" on the last interior
        photo   : image, optional | faint ground plate; omit for flat clay-tint
        voice   : text, optional  | Cervanttis voice line — its own block, never inline
+     LEVERS:
+       font : enum editorial|script | Font pairing — editorial = Lust pills + Neuzeit body; script = Neuzeit pills + Cervanttis body.
      NOTE        : exactly three sections by design — keeps the rhythm even. Do not add a fourth.
      PALETTE       : clay-tint #ECE6DF surface · ink #000000 type · clay #D8CCBE pill stroke
-     TYPE          : Lust display + Cervanttis voice line + Neuzeit Grotesk sans
+     TYPE          : font lever — editorial (default): Lust pills + Neuzeit body · script: Neuzeit pills + Cervanttis body
 -->
 <!doctype html><html><head><meta charset="utf-8"><style>
 @font-face{font-family:Lust;src:url('{{ASSETS_BASE}}/fonts/Lust-Regular.otf')}
@@ -33,8 +35,16 @@ html,body{width:{{W}}px;height:{{H}}px;overflow:hidden}
 .voice:empty{display:none}
 .secs{flex:1;display:flex;flex-direction:column;min-height:0;padding:24px 0}
 .sec{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
-.pill{display:inline-block;border:2px solid #D8CCBE;border-radius:999px;padding:14px 34px;font-family:Sans;font-size:24px;letter-spacing:.18em;text-transform:uppercase;color:#000000;background:rgba(236,230,223,.85)}
-.q{margin-top:28px;font-family:CervI;font-size:34px;line-height:1.3;color:#000000;max-width:100%}
+.pill{display:inline-block;border:2px solid #D8CCBE;border-radius:999px;padding:14px 34px;font-family:Lust;font-size:24px;letter-spacing:.18em;text-transform:uppercase;color:#000000;background:rgba(236,230,223,.85)}
+.q{margin-top:28px;font-family:Sans;font-size:34px;line-height:1.3;color:#000000;max-width:100%}
+/* font lever — base above is `editorial` (Lust pills + Neuzeit body), the default and the
+   unknown-value fallback; `script` restores the original Neuzeit pills + Cervanttis body.
+   Casing per pairing: editorial sets Lust pills in Title Case and the Neuzeit body in
+   sentence case (as authored); script keeps the original tracked-caps pills (base .pill). */
+.stage[data-font="editorial"] .pill{text-transform:capitalize}
+.stage[data-font="editorial"] .q{text-transform:none}
+.stage[data-font="script"] .pill{font-family:Sans}
+.stage[data-font="script"] .q{font-family:CervI}
 .div{height:1px;background:#D8CCBE}
 .foot{padding-top:0}
 .frule{height:2px;background:#000000;margin-bottom:24px}
@@ -51,7 +61,7 @@ html,body{width:{{W}}px;height:{{H}}px;overflow:hidden}
 .stage.r9x16 .pill{font-size:26px}
 .stage.r9x16 .q{font-size:40px}
 </style></head><body>
-<div class="stage {{ORIENT}} {{RATIO_CLASS}}">
+<div class="stage {{ORIENT}} {{RATIO_CLASS}}" data-font="{{font}}">
   <div class="ov"></div>
   <div class="col">
     <div class="mast"><span class="kicker">{{kicker}}</span><span class="idx">{{index}}</span></div>
@@ -73,3 +83,4 @@ html,body{width:{{W}}px;height:{{H}}px;overflow:hidden}
     </div>
   </div>
 </div></body></html>
+

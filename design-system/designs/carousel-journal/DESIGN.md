@@ -11,7 +11,7 @@ The first locked design in the Fig & Bloom social system. Type-led, restrained, 
 |---|---|---|---|
 | `cover` | required | opener / hook | Headline owns the upper third; plate is supporting. `theme` lever: light or dark. |
 | `intro` | optional (faint) | lede / story | Serif lede + body paragraph + a bridge line into the examples. Sets up the bullets. |
-| `interior` | optional (faint) | body / proof | Exactly three sample-message sections. Copy leads. Repeatable. |
+| `interior` | optional (faint) | body / proof | Exactly three sample-message sections. Copy leads. Repeatable. `font` lever: editorial or script. |
 | `closing` | required (darkened) | closer | Centred brand mark + italic sign-off line over a moody plate. |
 
 Recommended sequence: `cover → intro → interior → interior → closing`. The cover carries the date; content pages number from `01` (intro). Add/remove interiors as the copy needs; keep one cover, one closing.
@@ -28,10 +28,19 @@ Recommended sequence: `cover → intro → interior → interior → closing`. T
 
 **cover** — `kicker`, `index`, `headline` (markdown), `cta`, `photo` (image); lever `theme: light|dark`
 **intro** — `kicker`, `index`, `lede` (markdown), `body`, `lead_in`, `cta`, `photo` (image, optional)
-**interior** — `kicker`, `index`, `label_1..3`, `quote_1..3`, `cta`, `photo` (image, optional)
+**interior** — `kicker`, `index`, `label_1..3`, `quote_1..3`, `cta`, `photo` (image, optional); lever `font: editorial|script`
 **closing** — `end_line` (markdown), `cta`, `url`, `photo` (image)
 
 `headline`, `lede` and `end_line` accept one inline marker: wrap a word in `*asterisks*` for the italic display serif, and `<br>` for a controlled line break. Body tokens are plain text (`<br><br>` for a paragraph break).
+
+## Font lever (interior)
+
+The `interior` slide's pill/body pairing is selectable:
+
+- `editorial` (**default**) → pills in **Lust** (serif), quote/body in **Neuzeit Grotesk** (sans). The corrected, magazine baseline.
+- `script` → pills in **Neuzeit Grotesk**, quote/body in **Cervanttis** (script). The original pairing.
+
+Casing follows the pairing: `editorial` sets the Lust pills in **Title Case** and the Neuzeit body in **sentence case** (as authored — not forced lowercase or capitalised); `script` keeps the original tracked **ALL-CAPS** pills. Sizes, spacing, colours and layout are identical across both. The "Cervanttis is lowercase" rule applies only under `script` (where the body is Cervanttis). A missing or unknown value falls back to `editorial`. The lever is the base style, so older posts that don't set `font` now render `editorial`; pin `font: "script"` to keep the previous look.
 
 ## Theme lever (cover)
 

@@ -6,7 +6,8 @@ const http = require('http');
 const crypto = require('crypto');
 const fs = require('fs');
 const path = require('path');
-const { buildSchema } = require('./lib/parseDesigns');
+const { buildSchema, loadManifest } = require('./lib/parseDesigns');
+const DS_VERSION = loadManifest().version;
 const render = require('./lib/render');
 const designs = require('./lib/designs');
 const assets = require('./lib/assets');
@@ -299,8 +300,9 @@ const server = http.createServer(async (req, res) => {
         if (!postId) {
           if (req.method === 'GET') {
             const rec = await campaigns.get(id);
-            // previewV: content hash per post — versions the preview.png URL
-            for (const cp of rec.posts) cp.previewV = crypto.createHash('sha256').update(JSON.stringify(cp.post)).digest('hex').slice(0, 16);
+            // previewV: content hash per post (+ design-system version, so a template
+            // change like a new lever busts the immutable browser-cached preview/download URLs)
+            for (const cp of rec.posts) cp.previewV = crypto.createHash('sha256').update(DS_VERSION + '\n' + JSON.stringify(cp.post)).digest('hex').slice(0, 16);
             return send(res, 200, Object.assign({ canGenerate: generate.hasKey() }, rec));
           }
           if (req.method === 'PUT') return send(res, 200, await campaigns.update(id, await readBody(req)));

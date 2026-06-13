@@ -1,6 +1,6 @@
 {
   "brand": "fig-and-bloom",
-  "version": "3.2.0",
+  "version": "3.3.0",
   "system": "Lust + Cervanttis + Neuzeit Grotesk on white / ink / clay-tint #ECE6DF / clay #D8CCBE. v3 adds the seed lanes (from the 2023 PSD kit, reconciled to this palette) and asset-library photo queries. v3.2 makes every story lane truly multi-ratio (relational layout, all four ratios) and builds out the Good Weekend editorial set (feature / pullquote / column / press / linkout). See design-system/SYSTEM.md.",
   "ratios": {
     "4:5": {
@@ -197,7 +197,13 @@
           "template": "interior.html",
           "photo": "none",
           "role": "body",
-          "repeatable": true
+          "repeatable": true,
+          "levers": {
+            "font": [
+              "editorial",
+              "script"
+            ]
+          }
         },
         "closing": {
           "template": "closing.html",

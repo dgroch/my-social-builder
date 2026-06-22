@@ -1,7 +1,7 @@
 {
   "brand": "fig-and-bloom",
-  "version": "3.3.0",
-  "system": "Lust + Cervanttis + Neuzeit Grotesk on white / ink / clay-tint #ECE6DF / clay #D8CCBE. v3 adds the seed lanes (from the 2023 PSD kit, reconciled to this palette) and asset-library photo queries. v3.2 makes every story lane truly multi-ratio (relational layout, all four ratios) and builds out the Good Weekend editorial set (feature / pullquote / column / press / linkout). See design-system/SYSTEM.md.",
+  "version": "3.4.0",
+  "system": "Lust + Cervanttis + Neuzeit Grotesk on white / ink / clay-tint #ECE6DF / clay #D8CCBE. v3 adds the seed lanes (from the 2023 PSD kit, reconciled to this palette) and asset-library photo queries. v3.2 makes every story lane truly multi-ratio (relational layout, all four ratios) and builds out the Good Weekend editorial set (feature / pullquote / column / press / linkout). v3.4 expands carousel-journal into a full editorial blog carousel: new statement / quote / photo-statement slide types (theme levers clay|dark|light), an editorial cover layout, an author-card closing, and automatic NN/NN pagination on the body slides. See design-system/SYSTEM.md.",
   "ratios": {
     "4:5": {
       "w": 1080,
@@ -171,9 +171,13 @@
       "requiresPlate": true,
       "recommendedSequence": [
         "cover",
-        "intro",
-        "interior",
-        "interior",
+        "statement",
+        "statement",
+        "photo-statement",
+        "quote",
+        "statement",
+        "statement",
+        "photo-statement",
         "closing"
       ],
       "slides": {
@@ -185,6 +189,10 @@
             "theme": [
               "light",
               "dark"
+            ],
+            "layout": [
+              "masthead",
+              "editorial"
             ]
           }
         },
@@ -192,6 +200,36 @@
           "template": "intro.html",
           "photo": "optional",
           "role": "lede"
+        },
+        "statement": {
+          "template": "statement.html",
+          "photo": "none",
+          "role": "body",
+          "repeatable": true,
+          "levers": {
+            "theme": [
+              "clay",
+              "dark",
+              "light"
+            ]
+          }
+        },
+        "quote": {
+          "template": "quote.html",
+          "photo": "none",
+          "role": "pull_quote",
+          "levers": {
+            "theme": [
+              "dark",
+              "clay",
+              "light"
+            ]
+          }
+        },
+        "photo-statement": {
+          "template": "photo-statement.html",
+          "photo": "required",
+          "role": "photo_statement"
         },
         "interior": {
           "template": "interior.html",
@@ -208,7 +246,13 @@
         "closing": {
           "template": "closing.html",
           "photo": "required",
-          "role": "closer"
+          "role": "closer",
+          "levers": {
+            "theme": [
+              "dark",
+              "light"
+            ]
+          }
         }
       }
     },

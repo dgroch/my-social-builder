@@ -120,7 +120,7 @@ function validate(post) {
       }
     }
     try {
-      const { leftover } = render.assembleSlide(schema, post.design, s.slide, s.tokens || {}, post.ratio);
+      const { leftover } = render.assembleSlide(schema, post.design, s.slide, s.tokens || {}, post.ratio, { index: i + 1, total: (post.slides || []).length });
       for (const lo of leftover) { issues.push({ level: 'error', slide: i + 1, msg: 'Unfilled ' + lo }); errorCount++; }
     } catch (e) { issues.push({ level: 'error', slide: i + 1, msg: e.message }); errorCount++; }
   });

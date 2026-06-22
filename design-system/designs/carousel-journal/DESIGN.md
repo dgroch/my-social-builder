@@ -9,12 +9,22 @@ The first locked design in the Fig & Bloom social system. Type-led, restrained, 
 
 | Slide | Photo | Role | Notes |
 |---|---|---|---|
-| `cover` | required | opener / hook | Headline owns the upper third; plate is supporting. `theme` lever: light or dark. |
-| `intro` | optional (faint) | lede / story | Serif lede + body paragraph + a bridge line into the examples. Sets up the bullets. |
-| `interior` | optional (faint) | body / proof | Exactly three sample-message sections. Copy leads. Repeatable. `font` lever: editorial or script. |
-| `closing` | required (darkened) | closer | Centred brand mark + italic sign-off line over a moody plate. |
+| `cover` | required | opener / hook | `layout` lever: `masthead` (default — headline upper third, voice, foot logo/CTA) or `editorial` (foot-anchored headline + kicker rule + standfirst + byline, like the reference opener). `theme` lever: light or dark. |
+| `statement` | none | body / single statement | One serif headline + an optional sans body. The workhorse editorial slide. Repeatable. `theme` lever: `clay` (default), `dark`, `light`. Shows automatic `NN / NN` pagination. |
+| `quote` | none | pull-quote | Oversized opening glyph + centred serif quote + attribution. No quote marks in the token (the glyph is chrome). `theme` lever: `dark` (default), `clay`, `light`. Pagination top-right. |
+| `photo-statement` | required | photo-statement | Full-bleed plate, foot-anchored kicker + serif headline + optional standfirst over a bottom scrim. No masthead. Pagination top-right. |
+| `intro` | optional (faint) | lede / story | Serif lede + body paragraph + a bridge line. (Tips/triad register.) |
+| `interior` | optional (faint) | body / proof | Exactly three sample-message sections. Repeatable. `font` lever: editorial or script. (Tips/triad register.) |
+| `closing` | required | closer | `theme` lever: `dark` (default — centred brand mark + sign-off over a moody plate) or `light` (warm-ground author-card closer: kicker, serif headline, body, hairline, avatar + author name/role, "Read the full entry", URL, logo). |
 
-Recommended sequence: `cover → intro → interior → interior → closing`. The cover carries the date; content pages number from `01` (intro). Add/remove interiors as the copy needs; keep one cover, one closing.
+Two registers:
+
+- **Editorial blog carousel (8–10 slides):** `cover (editorial/dark) → statement (clay) → statement (dark) → photo-statement → quote (dark) → statement (clay) → statement (dark) → photo-statement → closing (light)`. This is the recommended sequence and the default for blog / guide / explainer promotion. See `examples/blog4-pink-carousel-4x5.json`.
+- **Tips / triad carousel:** `cover (masthead) → intro → interior → interior → closing (dark)`. Use when the post is a short list of tips. See `examples/flower-card-carousel-4x5.json`.
+
+### Pagination
+
+Non-cover body slides (`statement`, `quote`, `photo-statement`) show an automatic `NN / NN` marker top-right, derived from the slide's position in the deck — it is **not** a token. The cover and closing carry the masthead / logo instead.
 
 ## Grid (all slides)
 
@@ -26,12 +36,15 @@ Recommended sequence: `cover → intro → interior → interior → closing`. T
 
 ## Tokens
 
-**cover** — `kicker`, `index`, `headline` (markdown), `cta`, `photo` (image); lever `theme: light|dark`
+**cover** — `kicker`, `headline` (markdown), `photo` (image); `index`, `cta`, `voice`, `standfirst`, `byline` (optional); levers `theme: light|dark`, `layout: masthead|editorial`
+**statement** — `kicker`, `headline` (markdown); `body` (optional); lever `theme: clay|dark|light`
+**quote** — `quote` (markdown), `attribution`; lever `theme: dark|clay|light`
+**photo-statement** — `kicker`, `headline` (markdown), `photo` (image); `standfirst` (optional)
 **intro** — `kicker`, `index`, `lede` (markdown), `body`, `lead_in`, `cta`, `photo` (image, optional)
 **interior** — `kicker`, `index`, `label_1..3`, `quote_1..3`, `cta`, `photo` (image, optional); lever `font: editorial|script`
-**closing** — `end_line` (markdown), `cta`, `url`, `photo` (image)
+**closing** — `url`, `photo` (image); `voice` (markdown), `cta`, `kicker`, `headline` (markdown), `body`, `avatar` (image), `author_name`, `author_role`, `read_label` (optional); lever `theme: dark|light`
 
-`headline`, `lede` and `end_line` accept one inline marker: wrap a word in `*asterisks*` for the italic display serif, and `<br>` for a controlled line break. Body tokens are plain text (`<br><br>` for a paragraph break).
+`headline`, `lede`, `quote` and `voice` accept one inline marker: wrap a word in `*asterisks*` for the italic display-serif accent, and `<br>` for a controlled line break. Body tokens are plain text (`<br><br>` for a paragraph break).
 
 ## Font lever (interior)
 

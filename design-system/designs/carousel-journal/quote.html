@@ -1,0 +1,45 @@
+<!-- SLIDE quote | LANE journal | PHOTO none
+     TOKENS:
+       quote       : text, markdown | the pull-quote; wrap a word in *asterisks* for an italic-serif accent; <br> for line breaks. No quote marks — the glyph is chrome.
+       attribution : text           | who said it, e.g. "— Kellie, Fig & Bloom"
+     LEVERS:
+       theme       : enum dark|clay|light | dark = white on ink; clay = ink on clay-tint; light = ink on white
+     VISUAL_ROLE  : pull-quote — a held line, the breath in the deck
+     FOCAL        : the centred serif quote beneath an oversized opening glyph
+     PAGINATION   : automatic "NN / NN" top-right (deck position) — not a token
+     PALETTE       : ink #000000 · clay-tint #ECE6DF · clay #D8CCBE · white #FFFFFF
+     TYPE          : Lust display quote + Neuzeit Grotesk sans attribution
+-->
+<!doctype html><html><head><meta charset="utf-8"><style>
+@font-face{font-family:Lust;src:url('{{ASSETS_BASE}}/fonts/Lust-Regular.otf')}
+@font-face{font-family:Sans;src:url('{{ASSETS_BASE}}/fonts/NeuzeitGro-Lig.otf')}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:{{W}}px;height:{{H}}px;overflow:hidden}
+.stage{position:relative;width:{{W}}px;height:{{H}}px;background:#000000;
+       --ink:#FFFFFF;--glyph:rgba(216,204,190,.55);--attr:#D8CCBE;--page:rgba(255,255,255,.45);
+       --mx:120px;--my:88px}
+.stage[data-theme="clay"]{background:#ECE6DF;--ink:#000000;--glyph:rgba(0,0,0,.18);--attr:#000000;--page:rgba(0,0,0,.45)}
+.stage[data-theme="light"]{background:#FFFFFF;--ink:#000000;--glyph:rgba(0,0,0,.16);--attr:#000000;--page:rgba(0,0,0,.45)}
+.col{position:relative;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:var(--my) var(--mx)}
+.page{position:absolute;top:var(--my);right:var(--mx);font-family:Sans;font-size:24px;letter-spacing:.18em;color:var(--page)}
+.glyph{font-family:Lust;font-size:200px;line-height:.6;color:var(--glyph)}
+.q{margin-top:24px;font-family:Lust;font-size:60px;line-height:1.2;letter-spacing:-.5px;color:var(--ink);max-width:820px}
+.q i{font-style:normal}
+.attr{margin-top:56px;font-family:Sans;font-size:24px;letter-spacing:.18em;text-transform:uppercase;color:var(--attr)}
+/* square feed */
+.stage.r1x1 .glyph{font-size:160px}
+.stage.r1x1 .q{font-size:50px}
+/* story 9:16 */
+.stage.r9x16{--my:160px}
+.stage.r9x16 .glyph{font-size:240px}
+.stage.r9x16 .q{font-size:68px}
+.stage.r9x16 .attr{font-size:26px}
+</style></head><body>
+<div class="stage {{ORIENT}} {{RATIO_CLASS}}" data-theme="{{theme}}">
+  <div class="page">{{PAGINATION}}</div>
+  <div class="col">
+    <div class="glyph">&ldquo;</div>
+    <div class="q">{{quote}}</div>
+    <div class="attr">{{attribution}}</div>
+  </div>
+</div></body></html>

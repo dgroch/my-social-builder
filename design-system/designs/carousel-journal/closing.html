@@ -1,9 +1,18 @@
-<!-- SLIDE closing | LANE journal | PHOTO required (darkened)
+<!-- SLIDE closing | LANE journal | PHOTO required
      TOKENS:
-       voice    : text, markdown | brand sign-off line (Cervanttis voice line) (e.g. "For the moment they feel what you meant.")
-       cta      : text           | pill CTA, e.g. "Read the guide →"
-       url      : text           | display URL, e.g. "figandbloom.com/journal"
-       photo    : image          | hero plate URL — same plate as the cover for continuity
+       voice       : text, markdown, optional | dark layout: brand sign-off line (Cervanttis voice line)
+       cta         : text, optional  | dark layout: pill CTA, e.g. "Read the guide →"
+       url         : text           | display URL, e.g. "figandbloom.com.au" (both layouts)
+       photo       : image          | hero plate URL — same plate as the cover for continuity (dark: darkened; light: faint ground)
+       kicker      : text, optional  | light layout: sans kicker, e.g. "The Point of View"
+       headline    : text, markdown, optional | light layout: serif sign-off headline; *word* = italic accent; <br> for line breaks
+       body        : text, optional  | light layout: a short sans paragraph
+       avatar      : image, optional | light layout: author headshot (shown as a circle)
+       author_name : text, optional  | light layout: author name, e.g. "Kellie"
+       author_role : text, optional  | light layout: author role, e.g. "Co-founder, Fig & Bloom"
+       read_label  : text, optional  | light layout: label above the URL, e.g. "Read the full entry"
+     LEVERS:
+       theme       : enum dark|light | dark (default) = the centred sign-off over a moody plate; light = the author-card closer on a warm ground
      PALETTE       : ink #000000 ground · white #FFFFFF type · clay-tint #ECE6DF secondary
      TYPE          : Lust display + Cervanttis voice line + Neuzeit Grotesk sans
 -->
@@ -31,8 +40,41 @@ html,body{width:{{W}}px;height:{{H}}px;overflow:hidden}
 .stage.r9x16 .voice{font-size:48px}
 .stage.r9x16 .url{font-size:26px}
 .stage.r9x16 .tail{flex-basis:20%}
+
+/* ---- light author-card layout (theme:light) — scoped; the dark layout above is untouched.
+   A clean, solid warm surface (no photo ground) so the author card and type read crisply. ---- */
+.lcol{display:none}
+.stage[data-theme="light"]{background:#ECE6DF}
+.stage[data-theme="light"] .ov{background:transparent}
+.stage[data-theme="light"] .col{display:none}
+.stage[data-theme="light"] .lcol{display:flex;flex-direction:column;justify-content:space-between;align-items:flex-start;text-align:left;height:100%;padding:88px;--mx:88px}
+.lkicker{font-family:Sans;font-size:26px;letter-spacing:.26em;text-transform:uppercase;color:#000000}
+.lkrule{width:56px;height:2px;background:#000000;margin-top:22px}
+.lh{margin-top:36px;font-family:Lust;font-size:64px;line-height:1.08;letter-spacing:-.5px;color:#000000}
+.lh:empty{display:none}
+.lh i{font-style:normal}
+.lbody{margin-top:32px;max-width:820px;font-family:Sans;font-size:30px;line-height:1.5;color:rgba(0,0,0,.62)}
+.lbody:empty{display:none}
+.lbot{width:100%}
+.lhair{height:1px;background:#D8CCBE;width:100%}
+.author{display:flex;align-items:center;gap:28px;margin-top:40px}
+.avatar{width:118px;height:118px;border-radius:999px;object-fit:cover;display:block;background:#D8CCBE}
+.avatar[src=""],.avatar:not([src]){display:none}
+.aname{font-family:Lust;font-size:38px;line-height:1.1;color:#000000}
+.arole{margin-top:8px;font-family:Sans;font-size:24px;letter-spacing:.04em;color:rgba(0,0,0,.6)}
+.read{margin-top:44px;font-family:Sans;font-size:24px;letter-spacing:.2em;text-transform:uppercase;color:#000000}
+.read:empty{display:none}
+.lurl{margin-top:18px;font-family:Sans;font-size:24px;letter-spacing:.14em;color:rgba(0,0,0,.6)}
+.llogo{margin-top:40px;height:64px;width:auto;display:block}
+/* square feed */
+.stage[data-theme="light"].r1x1 .lh{font-size:54px}
+.stage[data-theme="light"].r1x1 .avatar{width:100px;height:100px}
+/* story 9:16 */
+.stage[data-theme="light"].r9x16 .lcol{padding:160px 88px}
+.stage[data-theme="light"].r9x16 .lh{font-size:76px}
+.stage[data-theme="light"].r9x16 .lbody{font-size:32px}
 </style></head><body>
-<div class="stage {{ORIENT}} {{RATIO_CLASS}}">
+<div class="stage {{ORIENT}} {{RATIO_CLASS}}" data-theme="{{theme}}">
   <div class="ov"></div>
   <div class="col">
     <img class="logo" src="{{ASSETS_BASE}}/assets/logo_h_white.png">
@@ -41,5 +83,26 @@ html,body{width:{{W}}px;height:{{H}}px;overflow:hidden}
     <span class="cpill">{{cta}}</span>
     <div class="url">{{url}}</div>
     <div class="tail"></div>
+  </div>
+  <div class="lcol">
+    <div class="ltop">
+      <div class="lkicker">{{kicker}}</div>
+      <div class="lkrule"></div>
+      <div class="lh">{{headline}}</div>
+      <div class="lbody">{{body}}</div>
+    </div>
+    <div class="lbot">
+      <div class="lhair"></div>
+      <div class="author">
+        <img class="avatar" src="{{avatar}}">
+        <div class="ameta">
+          <div class="aname">{{author_name}}</div>
+          <div class="arole">{{author_role}}</div>
+        </div>
+      </div>
+      <div class="read">{{read_label}}</div>
+      <div class="lurl">{{url}}</div>
+      <img class="llogo" src="{{ASSETS_BASE}}/assets/logo_h_black.png">
+    </div>
   </div>
 </div></body></html>

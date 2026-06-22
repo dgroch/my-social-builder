@@ -1,0 +1,49 @@
+<!-- SLIDE statement | LANE journal | PHOTO none
+     TOKENS:
+       kicker   : text             | sans kicker label above the rule, e.g. "What I Notice First"
+       headline : text, markdown   | the single serif statement; wrap a word in *asterisks* for an italic-serif accent; <br> for line breaks
+       body     : text, optional   | a short sans paragraph beneath the headline; <br><br> for a paragraph break
+     LEVERS:
+       theme    : enum clay|dark|light | clay = ink on clay-tint; dark = white on ink; light = ink on white
+     VISUAL_ROLE  : body / single statement — the workhorse editorial slide
+     FOCAL        : headline owns the middle; the body is supporting
+     PAGINATION   : automatic "NN / NN" top-right (deck position) — not a token
+     PALETTE       : ink #000000 · clay-tint #ECE6DF · clay #D8CCBE · white #FFFFFF
+     TYPE          : Lust display headline + Neuzeit Grotesk sans kicker/body
+-->
+<!doctype html><html><head><meta charset="utf-8"><style>
+@font-face{font-family:Lust;src:url('{{ASSETS_BASE}}/fonts/Lust-Regular.otf')}
+@font-face{font-family:Sans;src:url('{{ASSETS_BASE}}/fonts/NeuzeitGro-Lig.otf')}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:{{W}}px;height:{{H}}px;overflow:hidden}
+.stage{position:relative;width:{{W}}px;height:{{H}}px;background:#ECE6DF;
+       --ink:#000000;--kick:#000000;--rule:#000000;--body:rgba(0,0,0,.62);--page:rgba(0,0,0,.45);
+       --mx:88px;--my:88px}
+.stage[data-theme="dark"]{background:#000000;--ink:#FFFFFF;--kick:#D8CCBE;--rule:#D8CCBE;--body:rgba(255,255,255,.66);--page:rgba(255,255,255,.45)}
+.stage[data-theme="light"]{background:#FFFFFF}
+.col{position:relative;height:100%;display:flex;flex-direction:column;justify-content:center;padding:var(--my) var(--mx)}
+.page{position:absolute;top:var(--my);right:var(--mx);font-family:Sans;font-size:24px;letter-spacing:.18em;color:var(--page)}
+.kicker{font-family:Sans;font-size:26px;letter-spacing:.26em;text-transform:uppercase;color:var(--kick)}
+.krule{width:56px;height:2px;background:var(--rule);margin-top:22px}
+.h{margin-top:40px;font-family:Lust;font-size:78px;line-height:1.06;letter-spacing:-1px;color:var(--ink)}
+.h i{font-style:normal}
+.body{margin-top:48px;max-width:860px;font-family:Sans;font-size:30px;line-height:1.5;color:var(--body)}
+.body:empty{display:none}
+/* square feed */
+.stage.r1x1 .h{font-size:66px}
+.stage.r1x1 .body{font-size:28px;margin-top:36px}
+/* story 9:16 */
+.stage.r9x16{--my:160px}
+.stage.r9x16 .kicker{font-size:28px}
+.stage.r9x16 .h{font-size:100px}
+.stage.r9x16 .body{font-size:32px}
+</style></head><body>
+<div class="stage {{ORIENT}} {{RATIO_CLASS}}" data-theme="{{theme}}">
+  <div class="page">{{PAGINATION}}</div>
+  <div class="col">
+    <div class="kicker">{{kicker}}</div>
+    <div class="krule"></div>
+    <div class="h">{{headline}}</div>
+    <div class="body">{{body}}</div>
+  </div>
+</div></body></html>

@@ -5,8 +5,13 @@ carousels and statics — from locked design-system templates. v3 ships **14 lan
 story/carousel set plus seven `card-*` statics reconciled from the 2023 PSD seed kit (`/seeds`),
 each rendering at 1:1, 4:5, 9:16 and 1.91:1. Pick a design + ratio, fill the
 tokens in a form that **generates itself from the templates**, render a production-accurate PNG
-**set** with Puppeteer, and **download** it (per-slide or a `.zip`). Companion to the
-`social-post-builder` skill in `dgroch/skills`, which writes the same `post.json` this app renders.
+**set** with Puppeteer, and **download** it (per-slide or a `.zip`).
+
+Two companion skills in `dgroch/skills` sit either side of this app — a **two-skill split**:
+**`social-post-builder`** *writes* the `post.json` this app renders, and
+**`editorial-carousel-craft`** *sets the editorial bar and critiques* the rendered set, returning
+its notes through the campaign feedback loop (below). This app owns the lanes, fonts, ratios and
+render; the skills never render.
 
 This is the social-media counterpart to `my-email-builder`: same template-driven philosophy,
 same `*.json`-is-the-interchange contract, same auto-syncing form.
@@ -130,12 +135,17 @@ test/smoke.js             guardrails: schema parses; sample assembles with zero 
 | GET/PUT/DELETE | `/api/designs/:id` | — / `{post}` | one saved post |
 | POST | `/api/designs/:id/clone` | `{name?}` | a copy |
 
-**Agent loop (journey 2):** compose posts → `POST /api/campaigns` → human reviews in the UI →
-`GET /api/campaigns/:id` → act on `posts[*].feedback` / `status` → `PUT …/posts/:postId/post`
-with the revision (status resets to `pending`) → repeat until everything is `approved`.
+**Agent loop (journey 2):** compose posts → `POST /api/campaigns` → review (a human in the UI, or
+an agent running the `editorial-carousel-craft` rubric over the rendered set) → `GET /api/campaigns/:id`
+→ act on `posts[*].feedback` / `status` → `PUT …/posts/:postId/post` with the revision (status resets
+to `pending`) → repeat until everything is `approved`. The whole loop is agent-drivable with no human
+in the seat: `POST …/posts/:postId/feedback {text}` records a critique (and flips the post to
+`changes_requested`), and `POST …/posts/:postId/status {status}` flips it to `approved` — this is the
+**agent-critique path** `editorial-carousel-craft` uses to return its notes.
 
-`post.json` = `{ postName, design, ratio, slides:[{slide, tokens}] }`. See the skill's
-`references/post-schema.md`.
+`post.json` = `{ postName, design, ratio, slides:[{slide, tokens}] }`. Token names are authoritative
+in `GET /api/schema` (generated from the template headers) — read it, don't hand-guess; the skills'
+`references/builder-integration.md` documents the same contract.
 
 ## Adding a design / lane
 

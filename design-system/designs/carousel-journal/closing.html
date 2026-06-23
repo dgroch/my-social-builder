@@ -5,7 +5,7 @@
        url         : text           | display URL, e.g. "figandbloom.com.au" (both layouts)
        photo       : image          | hero plate URL — same plate as the cover for continuity (dark: darkened; light: faint ground)
        kicker      : text, optional  | light layout: sans kicker, e.g. "The Point of View"
-       headline    : text, markdown, optional | light layout: serif sign-off headline; *word* = italic accent; <br> for line breaks
+       headline    : text, markdown, optional | light layout: serif sign-off headline; _word_ = Cervanttis italic emphasis (use rarely); *word* = legacy serif accent; <br> for line breaks
        body        : text, optional  | light layout: a short sans paragraph
        avatar      : image, optional | light layout: author headshot (shown as a circle)
        author_name : text, optional  | light layout: author name, e.g. "Kellie"
@@ -20,7 +20,7 @@
 @font-face{font-family:Lust;src:url('{{ASSETS_BASE}}/fonts/Lust-Regular.otf')}
 @font-face{font-family:CervI;src:url('{{ASSETS_BASE}}/fonts/cervanttis.ttf')}
 @font-face{font-family:Sans;src:url('{{ASSETS_BASE}}/fonts/NeuzeitGro-Lig.otf')}
-*{margin:0;padding:0;box-sizing:border-box}
+*{margin:0;padding:0;box-sizing:border-box;font-synthesis:none}
 html,body{width:{{W}}px;height:{{H}}px;overflow:hidden}
 .stage{position:relative;width:{{W}}px;height:{{H}}px;background:#000000 url('{{photo}}') center/cover no-repeat;--mx:120px}
 .ov{position:absolute;inset:0;background:rgba(0,0,0,.72)}
@@ -53,6 +53,7 @@ html,body{width:{{W}}px;height:{{H}}px;overflow:hidden}
 .lh{margin-top:36px;font-family:Lust;font-size:64px;line-height:1.08;letter-spacing:-.5px;color:#000000}
 .lh:empty{display:none}
 .lh i{font-style:normal}
+.lh em{font-family:CervI;font-style:normal;font-weight:400}
 .lbody{margin-top:32px;max-width:820px;font-family:Sans;font-size:30px;line-height:1.5;color:rgba(0,0,0,.62)}
 .lbody:empty{display:none}
 .lbot{width:100%}

@@ -5,6 +5,8 @@
 
 The first locked design in the Fig & Bloom social system. Type-led, restrained, warm — the editorial counterpart to a sale ad. Built on a strict margin grid with a render-and-critique discipline (see `references/design-discipline.md`).
 
+> **Editorial bar + critique rubric:** see the `editorial-carousel-craft` skill in `dgroch/skills`. Run its seven-axis rubric (hook, hierarchy, restraint, rhythm, image craft, finish, honesty) on the *rendered* set before approval, and return the notes through the campaign feedback loop.
+
 ## Slides
 
 | Slide | Photo | Role | Notes |
@@ -44,7 +46,7 @@ Non-cover body slides (`statement`, `quote`, `photo-statement`) show an automati
 **interior** — `kicker`, `index`, `label_1..3`, `quote_1..3`, `cta`, `photo` (image, optional); lever `font: editorial|script`
 **closing** — `url`, `photo` (image); `voice` (markdown), `cta`, `kicker`, `headline` (markdown), `body`, `avatar` (image), `author_name`, `author_role`, `read_label` (optional); lever `theme: dark|light`
 
-`headline`, `lede`, `quote` and `voice` accept one inline marker: wrap a word in `*asterisks*` for the italic display-serif accent, and `<br>` for a controlled line break. Body tokens are plain text (`<br><br>` for a paragraph break).
+**Inline emphasis (markdown tokens).** Wrap the **turn word** in `_underscores_` to set it in the **Cervanttis italic** display face — the brand's real italic, and the *only* sanctioned emphasis. Use it rarely (≤ 3 across a deck), per the editorial standard. `*asterisks*` is a legacy serif accent (renders roman) kept for back-compat. `<br>` is a controlled line break. `font-synthesis:none` is set lane-wide, so a missing slant is never faked. Body tokens are plain text (`<br><br>` for a paragraph break).
 
 ## Font lever (interior)
 

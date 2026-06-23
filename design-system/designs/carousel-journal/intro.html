@@ -2,7 +2,7 @@
      TOKENS:
        kicker  : text            | masthead label, e.g. "New Post"
        index   : text            | slide index, e.g. "01"
-       lede    : text, markdown  | opening serif statement; *word* = italic accent; <br> for line breaks
+       lede    : text, markdown  | opening serif statement; _word_ = Cervanttis italic emphasis (use rarely); *word* = legacy serif accent; <br> for line breaks
        body    : text            | the story paragraph (sans body); <br><br> for a paragraph break
        lead_in : text            | italic-serif bridge into the examples, e.g. "A few to borrow, by moment —"
        cta     : text            | footer CTA, e.g. "Next →"
@@ -15,7 +15,7 @@
 @font-face{font-family:Lust;src:url('{{ASSETS_BASE}}/fonts/Lust-Regular.otf')}
 @font-face{font-family:CervI;src:url('{{ASSETS_BASE}}/fonts/cervanttis.ttf')}
 @font-face{font-family:Sans;src:url('{{ASSETS_BASE}}/fonts/NeuzeitGro-Lig.otf')}
-*{margin:0;padding:0;box-sizing:border-box}
+*{margin:0;padding:0;box-sizing:border-box;font-synthesis:none}
 html,body{width:{{W}}px;height:{{H}}px;overflow:hidden}
 .stage{position:relative;width:{{W}}px;height:{{H}}px;background:#ECE6DF url('{{photo}}') center/cover no-repeat;
        --mx:88px;--my:88px}
@@ -29,6 +29,7 @@ html,body{width:{{W}}px;height:{{H}}px;overflow:hidden}
 .voice:empty{display:none}
 .lede{margin-top:96px;font-family:Lust;font-size:52px;line-height:1.18;letter-spacing:-.5px;color:#000000}
 .lede i{font-style:normal}
+.lede em{font-family:CervI;font-style:normal;font-weight:400}
 .voice:not(:empty) + .lede{margin-top:40px}
 .body{margin-top:64px;max-width:856px;font-family:Sans;font-size:30px;line-height:1.5;color:#000000}
 .lead{margin-top:auto;padding-top:40px;margin-bottom:64px;font-family:CervI;font-size:36px;color:#000000}

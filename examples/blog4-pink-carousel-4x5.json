@@ -7,7 +7,7 @@
       "slide": "cover",
       "tokens": {
         "kicker": "Fig&Bloom · The Journal",
-        "headline": "The Case for *Pink*",
+        "headline": "The Case for _Pink_",
         "standfirst": "Why the colour everyone is told to outgrow is the one I keep coming back to.",
         "byline": "Words — Kellie, Co-founder",
         "photo": "samples/osaka_45.png",
@@ -19,7 +19,7 @@
       "slide": "statement",
       "tokens": {
         "kicker": "Where it starts",
-        "headline": "Everyone thinks pink is the *easy* choice.",
+        "headline": "Everyone thinks pink is the easy choice.",
         "body": "It’s the first colour we’re handed and the first we’re told to grow out of. Somewhere between a child’s bedroom and grown-up good taste, pink gets quietly retired.",
         "theme": "clay"
       }
@@ -28,7 +28,7 @@
       "slide": "statement",
       "tokens": {
         "kicker": "What changed",
-        "headline": "Then you see it done *properly*.",
+        "headline": "Then you see it done properly.",
         "body": "Not bubblegum, not blush by default. A pink with depth — coral leaning to rust, the soft chalk of a garden rose, a stem so deep it reads almost brown. Pink with the volume turned down.",
         "theme": "dark"
       }
@@ -37,7 +37,7 @@
       "slide": "photo-statement",
       "tokens": {
         "kicker": "The Osaka",
-        "headline": "Soft, but not *sweet*.",
+        "headline": "Soft, but not sweet.",
         "standfirst": "One palette, many tones — the range a single colour can hold when you let it.",
         "photo": "samples/osaka_45.png"
       }
@@ -45,7 +45,7 @@
     {
       "slide": "quote",
       "tokens": {
-        "quote": "Pink isn’t a mood.<br>It’s a whole *register*.",
+        "quote": "Pink isn’t a mood.<br>It’s a whole _register_.",
         "attribution": "— Kellie, Fig & Bloom",
         "theme": "dark"
       }
@@ -54,7 +54,7 @@
       "slide": "statement",
       "tokens": {
         "kicker": "How I use it",
-        "headline": "Build it from the *deepest* tone first.",
+        "headline": "Build it from the deepest tone first.",
         "body": "Start dark and work back toward the light, the way you’d layer a painting. The pale tones read as highlights then — earned, not assumed.",
         "theme": "clay"
       }
@@ -63,7 +63,7 @@
       "slide": "statement",
       "tokens": {
         "kicker": "The mistake",
-        "headline": "One pink, repeated, reads *flat*.",
+        "headline": "One pink, repeated, reads flat.",
         "body": "It’s tone on tone that gives pink its richness. Three or four shades of the one colour will always feel considered beside a single, even pink.",
         "theme": "dark"
       }
@@ -72,7 +72,7 @@
       "slide": "photo-statement",
       "tokens": {
         "kicker": "The Fig & Bloom way",
-        "headline": "One colour. Many *tones*.",
+        "headline": "One colour. Many tones.",
         "standfirst": "Composed, not assembled.",
         "photo": "samples/osaka_45.png"
       }
@@ -82,7 +82,7 @@
       "tokens": {
         "theme": "light",
         "kicker": "The point of view",
-        "headline": "Pink, taken *seriously*.",
+        "headline": "Pink, taken _seriously_.",
         "body": "It was never the colour that needed growing out of. It was the way we were using it.",
         "avatar": "https://cdn.shopify.com/s/files/1/0657/8723/2489/files/kellie-signoff-headshot-v2.jpg",
         "author_name": "Kellie",

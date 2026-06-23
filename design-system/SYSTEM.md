@@ -11,7 +11,7 @@ This is a *craft layer*. It sits on top of a brand's own guide. The brand guide 
 | Role | Font | Source file | When to use |
 |---|---|---|---|
 | **Display / headline (serif)** | **Lust** (Yellow Design Studio) | `Lust-Regular.otf` | The hero headline. The "X is the moment." declaration. The word on overlay lanes. Set large, set alone, set confidently. |
-| **Voice / comment (script italic)** | **Cervanttis** (House Industries) | `cervanttis.ttf` | A small "voice" line that sits **separately** to the Lust line — never as inline italic within a sentence. Used as: a kicker-voice above the headline, a product tagline under the name, a sign-off, a "soft" pull-quote on its own, an attribution. Think "handwritten margin note" — *not* italicised word mid-sentence. |
+| **Voice / comment (script italic)** | **Cervanttis** (House Industries) | `cervanttis.ttf` | Primary use is a small "voice" line that sits **separately** to the Lust line: a kicker-voice above the headline, a product tagline under the name, a sign-off, a "soft" pull-quote on its own, an attribution. Think "handwritten margin note". **One exception (editorial lanes):** the rare *turn-word* emphasis inside a display line may be set in Cervanttis via the `_word_` inline marker — the brand's real italic display face, used in place of a faux slant (Lust has no italic). Keep it scarce (≤ 3 across a deck); never synthesise a slant, and never use Cervanttis for ordinary inline emphasis outside this turn-word moment. |
 | **Body / UI / kicker (sans)** | **Neuzeit Grotesk** (URW) | `NeuzeitGro-Lig.otf` (Light) · `NeuzeitGro-Bol.otf` (Bold) | Body copy. CTA text. Kicker. Price. Caption. Button label. Caption stack. Light for prose, Bold for the action moment. |
 
 **The Cervanttis rule (this is the one that gets broken most):**
@@ -182,7 +182,7 @@ The system ships **14 lanes**. Each lives at `design-system/designs/<id>/` with 
 
 | ID | Lane | Format | Slides | Use case |
 |---|---|---|---|---|
-| `carousel-journal` | The Journal | Carousel | 5 | Blog / guide / editorial explainer |
+| `carousel-journal` | The Journal | Carousel | 5–10 | Blog / guide / editorial explainer (cover · statement · quote · photo-statement · intro · interior · closing). Editorial bar + critique: the `editorial-carousel-craft` skill. |
 | `story-studio` | The Studio | Story | 1 | Workshop moments, hands at work |
 | `story-promo` | Promo | Story | 1 | New product / range refresh |
 | `story-gift` | Gift | Story | 2 | The act of giving |

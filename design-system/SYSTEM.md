@@ -10,8 +10,8 @@ This is a *craft layer*. It sits on top of a brand's own guide. The brand guide 
 
 | Role | Font | Source file | When to use |
 |---|---|---|---|
-| **Display / headline (serif)** | **Lust** (Yellow Design Studio) | `Lust-Regular.otf` | The hero headline. The "X is the moment." declaration. The word on overlay lanes. Set large, set alone, set confidently. |
-| **Voice / comment (script italic)** | **Cervanttis** (House Industries) | `cervanttis.ttf` | A small "voice" line that sits **separately** to the Lust line — never as inline italic within a sentence. Used as: a kicker-voice above the headline, a product tagline under the name, a sign-off, a "soft" pull-quote on its own, an attribution. Think "handwritten margin note" — *not* italicised word mid-sentence. |
+| **Display / headline (serif)** | **Lust** (Yellow Design Studio) | `Lust-Regular.otf` (+ `Lust-Italic.otf` when licensed) | The hero headline. The "X is the moment." declaration. The word on overlay lanes. Set large, set alone, set confidently. **Inline emphasis (editorial lanes):** the rare *turn word* inside a display line is set in **italic Lust** via the `_word_` marker — keep it scarce (≤ 3 across a deck). The repo ships Lust Regular only, so the italic is a synthesised oblique until the licensed `Lust-Italic.otf` is dropped in `fonts/`; the lane CSS (`font-synthesis:style` on the emphasis span only) picks up the real italic automatically once present. |
+| **Voice / comment (script italic)** | **Cervanttis** (House Industries) | `cervanttis.ttf` | A small "voice" line that sits **separately** to the Lust line — **never as inline italic within a sentence.** Used as: a kicker-voice above the headline, a product tagline under the name, a sign-off, a "soft" pull-quote on its own, an attribution. Think "handwritten margin note" — *not* an italicised word mid-sentence (that is italic Lust's job; see above). |
 | **Body / UI / kicker (sans)** | **Neuzeit Grotesk** (URW) | `NeuzeitGro-Lig.otf` (Light) · `NeuzeitGro-Bol.otf` (Bold) | Body copy. CTA text. Kicker. Price. Caption. Button label. Caption stack. Light for prose, Bold for the action moment. |
 
 **The Cervanttis rule (this is the one that gets broken most):**
@@ -182,7 +182,7 @@ The system ships **14 lanes**. Each lives at `design-system/designs/<id>/` with 
 
 | ID | Lane | Format | Slides | Use case |
 |---|---|---|---|---|
-| `carousel-journal` | The Journal | Carousel | 5 | Blog / guide / editorial explainer |
+| `carousel-journal` | The Journal | Carousel | 5–10 | Blog / guide / editorial explainer (cover · statement · quote · photo-statement · intro · interior · closing). Editorial bar + critique: the `editorial-carousel-craft` skill. |
 | `story-studio` | The Studio | Story | 1 | Workshop moments, hands at work |
 | `story-promo` | Promo | Story | 1 | New product / range refresh |
 | `story-gift` | Gift | Story | 2 | The act of giving |

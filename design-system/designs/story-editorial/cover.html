@@ -1,7 +1,7 @@
 <!-- SLIDE cover | LANE editorial | PHOTO required
      TOKENS:
        kicker     : text             | small-caps section label, e.g. "The journal" or "From the studio"
-       quote      : text, markdown   | the editorial line, set large in Lust; <br> for controlled line breaks
+       quote      : text, markdown   | the editorial line, set large in Lust; _word_ = italic-Lust emphasis (use rarely); <br> for controlled line breaks
        attribution: text             | small sans attribution under the quote, e.g. "Fig & Bloom — on hand-tied mornings"
        photo      : image            | real dark-plate photo from the Fig & Bloom asset library (rustic, hands, studio, in-stillness)
        voice      : text, optional   | Cervanttis voice line — its own block, never inline
@@ -16,7 +16,7 @@
 @font-face{font-family:CervI;src:url('{{ASSETS_BASE}}/fonts/cervanttis.ttf')}
 @font-face{font-family:Sans;src:url('{{ASSETS_BASE}}/fonts/NeuzeitGro-Lig.otf')}
 @font-face{font-family:SansB;src:url('{{ASSETS_BASE}}/fonts/NeuzeitGro-Bol.otf')}
-*{margin:0;padding:0;box-sizing:border-box}
+*{margin:0;padding:0;box-sizing:border-box;font-synthesis:none}
 html,body{width:{{W}}px;height:{{H}}px;overflow:hidden}
 .stage{position:relative;width:{{W}}px;height:{{H}}px;background:#000000 url('{{photo}}') center/cover no-repeat;
        --ink:#000000;--white:#FFFFFF;--clay-tint:#ECE6DF;--clay:#D8CCBE;--rule:#D8CCBE;
@@ -34,6 +34,7 @@ html,body{width:{{W}}px;height:{{H}}px;overflow:hidden}
 .voice:empty{display:none}
 .quote{margin-top:24px;font-family:Lust;font-size:76px;line-height:1.18;letter-spacing:-.5px;color:var(--type)}
 .quote i{font-style:normal}
+.quote em{font-style:italic;font-synthesis:style}
 .spacer{flex:1}
 .attr{font-family:Sans;font-size:24px;letter-spacing:.16em;text-transform:uppercase;color:var(--quiet)}
 .attr:empty{display:none}

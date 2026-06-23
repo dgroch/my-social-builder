@@ -1,7 +1,7 @@
 <!-- SLIDE statement | LANE journal | PHOTO none
      TOKENS:
        kicker   : text             | sans kicker label above the rule, e.g. "What I Notice First"
-       headline : text, markdown   | the single serif statement; wrap a word in *asterisks* for an italic-serif accent; <br> for line breaks
+       headline : text, markdown   | the single serif statement; wrap the turn word in _underscores_ for the italic-Lust emphasis (use rarely); *asterisks* = legacy roman accent; <br> for line breaks
        body     : text, optional   | a short sans paragraph beneath the headline; <br><br> for a paragraph break
      LEVERS:
        theme    : enum clay|dark|light | clay = ink on clay-tint; dark = white on ink; light = ink on white
@@ -14,7 +14,7 @@
 <!doctype html><html><head><meta charset="utf-8"><style>
 @font-face{font-family:Lust;src:url('{{ASSETS_BASE}}/fonts/Lust-Regular.otf')}
 @font-face{font-family:Sans;src:url('{{ASSETS_BASE}}/fonts/NeuzeitGro-Lig.otf')}
-*{margin:0;padding:0;box-sizing:border-box}
+*{margin:0;padding:0;box-sizing:border-box;font-synthesis:none}
 html,body{width:{{W}}px;height:{{H}}px;overflow:hidden}
 .stage{position:relative;width:{{W}}px;height:{{H}}px;background:#ECE6DF;
        --ink:#000000;--kick:#000000;--rule:#000000;--body:rgba(0,0,0,.62);--page:rgba(0,0,0,.45);
@@ -27,6 +27,7 @@ html,body{width:{{W}}px;height:{{H}}px;overflow:hidden}
 .krule{width:56px;height:2px;background:var(--rule);margin-top:22px}
 .h{margin-top:40px;font-family:Lust;font-size:78px;line-height:1.06;letter-spacing:-1px;color:var(--ink)}
 .h i{font-style:normal}
+.h em{font-style:italic;font-synthesis:style}
 .body{margin-top:48px;max-width:860px;font-family:Sans;font-size:30px;line-height:1.5;color:var(--body)}
 .body:empty{display:none}
 /* square feed */

@@ -1,6 +1,6 @@
 <!-- SLIDE quote | LANE journal | PHOTO none
      TOKENS:
-       quote       : text, markdown | the pull-quote; wrap a word in *asterisks* for an italic-serif accent; <br> for line breaks. No quote marks — the glyph is chrome.
+       quote       : text, markdown | the pull-quote; wrap the turn word in _underscores_ for the italic-Lust emphasis (use rarely); *asterisks* = legacy roman accent; <br> for line breaks. No quote marks — the glyph is chrome.
        attribution : text           | who said it, e.g. "— Kellie, Fig & Bloom"
      LEVERS:
        theme       : enum dark|clay|light | dark = white on ink; clay = ink on clay-tint; light = ink on white
@@ -13,7 +13,7 @@
 <!doctype html><html><head><meta charset="utf-8"><style>
 @font-face{font-family:Lust;src:url('{{ASSETS_BASE}}/fonts/Lust-Regular.otf')}
 @font-face{font-family:Sans;src:url('{{ASSETS_BASE}}/fonts/NeuzeitGro-Lig.otf')}
-*{margin:0;padding:0;box-sizing:border-box}
+*{margin:0;padding:0;box-sizing:border-box;font-synthesis:none}
 html,body{width:{{W}}px;height:{{H}}px;overflow:hidden}
 .stage{position:relative;width:{{W}}px;height:{{H}}px;background:#000000;
        --ink:#FFFFFF;--glyph:rgba(216,204,190,.55);--attr:#D8CCBE;--page:rgba(255,255,255,.45);
@@ -25,6 +25,7 @@ html,body{width:{{W}}px;height:{{H}}px;overflow:hidden}
 .glyph{font-family:Lust;font-size:200px;line-height:.6;color:var(--glyph)}
 .q{margin-top:24px;font-family:Lust;font-size:60px;line-height:1.2;letter-spacing:-.5px;color:var(--ink);max-width:820px}
 .q i{font-style:normal}
+.q em{font-style:italic;font-synthesis:style}
 .attr{margin-top:56px;font-family:Sans;font-size:24px;letter-spacing:.18em;text-transform:uppercase;color:var(--attr)}
 /* square feed */
 .stage.r1x1 .glyph{font-size:160px}

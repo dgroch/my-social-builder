@@ -46,7 +46,7 @@ Non-cover body slides (`statement`, `quote`, `photo-statement`) show an automati
 **interior** — `kicker`, `index`, `label_1..3`, `quote_1..3`, `cta`, `photo` (image, optional); lever `font: editorial|script`
 **closing** — `url`, `photo` (image); `voice` (markdown), `cta`, `kicker`, `headline` (markdown), `body`, `avatar` (image), `author_name`, `author_role`, `read_label` (optional); lever `theme: dark|light`
 
-**Inline emphasis (markdown tokens).** Wrap the **turn word** in `_underscores_` to set it in the **Cervanttis italic** display face — the brand's real italic, and the *only* sanctioned emphasis. Use it rarely (≤ 3 across a deck), per the editorial standard. `*asterisks*` is a legacy serif accent (renders roman) kept for back-compat. `<br>` is a controlled line break. `font-synthesis:none` is set lane-wide, so a missing slant is never faked. Body tokens are plain text (`<br><br>` for a paragraph break).
+**Inline emphasis (markdown tokens).** Wrap the **turn word** in `_underscores_` to set it in **italic Lust** — the *only* sanctioned inline emphasis. Use it rarely (≤ 3 across a deck), per the editorial standard. Cervanttis stays an accent/voice face only — never an italicised word inside a sentence. `*asterisks*` is a legacy accent (renders roman) kept for back-compat. `<br>` is a controlled line break. The repo ships Lust Regular only, so the italic is a synthesised oblique until the licensed `Lust-Italic.otf` is added to `design-system/fonts/`; the CSS picks up the real italic automatically once present. Body tokens are plain text (`<br><br>` for a paragraph break).
 
 ## Font lever (interior)
 

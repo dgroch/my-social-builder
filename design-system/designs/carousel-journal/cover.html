@@ -2,7 +2,7 @@
      TOKENS:
        kicker     : text             | masthead label, e.g. "The Journal" or "Fig&Bloom · The Journal"
        index      : text, optional   | issue/index marker, e.g. "01" or "June 2026" (masthead layout); leave empty on editorial
-       headline   : text, markdown   | main headline; wrap the turn word in _underscores_ for the Cervanttis italic emphasis (use rarely); *asterisks* = legacy serif accent
+       headline   : text, markdown   | main headline; wrap the turn word in _underscores_ for the italic-Lust emphasis (use rarely); *asterisks* = legacy roman accent
        cta        : text, optional   | footer call-to-action (masthead layout), e.g. "Read the guide →"
        photo      : image            | hero plate URL — a real named Fig & Bloom design (Osaka, Marseille, …)
        voice      : text, optional   | Cervanttis voice line — its own block, never inline (masthead layout)
@@ -37,7 +37,7 @@ html,body{width:{{W}}px;height:{{H}}px;overflow:hidden}
 .voice:empty{display:none}
 .h{margin-top:96px;font-family:Lust;font-size:88px;line-height:1.04;letter-spacing:-1px;color:var(--ink)}
 .h i{font-style:normal}
-.h em{font-family:CervI;font-style:normal;font-weight:400}
+.h em{font-style:italic;font-synthesis:style}
 .voice:not(:empty) + .h{margin-top:40px}
 .foot{margin-top:auto;padding-top:40px}
 .frule{height:2px;background:var(--rule);margin-bottom:24px}

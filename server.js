@@ -104,23 +104,26 @@ function validate(post) {
   (post.slides || []).forEach((s, i) => {
     const meta = d.slides[s.slide];
     if (!meta) { issues.push({ level: 'error', slide: i + 1, msg: 'Unknown slide: ' + s.slide }); errorCount++; return; }
+    // levers may live in `tokens` or a sibling `levers` object — validate against the merged
+    // view so the same rules apply wherever a client put them (mirrors the renderer).
+    const vals = render.slideValues(s);
     const declared = new Set([...meta.tokens.map(t => t.name), ...meta.levers.map(l => l.name)]);
-    for (const k of Object.keys(s.tokens || {})) if (!declared.has(k)) { issues.push({ level: 'warning', slide: i + 1, msg: 'Unknown token "' + k + '" (ignored)' }); warningCount++; }
+    for (const k of Object.keys(vals)) if (!declared.has(k)) { issues.push({ level: 'warning', slide: i + 1, msg: 'Unknown token "' + k + '" (ignored)' }); warningCount++; }
     // one rulebook: a required token that's missing OR empty is an error here, not just at render
     for (const t of meta.tokens) {
       if (!t.optional) {
-        const v = (s.tokens || {})[t.name];
+        const v = vals[t.name];
         if (v == null || String(v).trim() === '') { issues.push({ level: 'error', slide: i + 1, msg: 'Required field "' + t.name + '" is empty' }); errorCount++; }
       }
     }
     for (const t of meta.tokens) {
-      if (t.type === 'image' && assets.isQueryRef((s.tokens || {})[t.name])) {
-        issues.push({ level: 'warning', slide: i + 1, msg: t.name + ' = "' + s.tokens[t.name] + '" — resolves via asset-library semantic search at render time' });
+      if (t.type === 'image' && assets.isQueryRef(vals[t.name])) {
+        issues.push({ level: 'warning', slide: i + 1, msg: t.name + ' = "' + vals[t.name] + '" — resolves via asset-library semantic search at render time' });
         warningCount++;
       }
     }
     try {
-      const { leftover } = render.assembleSlide(schema, post.design, s.slide, s.tokens || {}, post.ratio, { index: i + 1, total: (post.slides || []).length });
+      const { leftover } = render.assembleSlide(schema, post.design, s.slide, vals, post.ratio, { index: i + 1, total: (post.slides || []).length });
       for (const lo of leftover) { issues.push({ level: 'error', slide: i + 1, msg: 'Unfilled ' + lo }); errorCount++; }
     } catch (e) { issues.push({ level: 'error', slide: i + 1, msg: e.message }); errorCount++; }
   });

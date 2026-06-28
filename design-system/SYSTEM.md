@@ -278,6 +278,27 @@ editorial, all produce distinct output).
 
 ---
 
+## v3.6.1 — levers honoured wherever a client puts them
+
+A slide's **levers** may arrive in either of two shapes, and the renderer now accepts both:
+
+- **inside `tokens`** — what the builder UI writes (it folds each lever `<select>` into the
+  token map), and
+- **in a sibling `levers` object** — `{ slide, tokens: {…}, levers: { theme: "dark" } }`, the
+  natural shape for schema-driven API clients and the agent, since `/api/schema` lists a slide's
+  `tokens` and `levers` as **separate** arrays.
+
+Previously only `tokens` was read, so a lever set in a separate `levers` object was silently
+dropped and fell back to its first enum value. On the `cover` that meant `theme:"dark"` rendered
+as `light` (ink type on the un-darkened plate — A/B renders came back byte-identical) and
+`layout:"editorial"` fell back to `masthead` (no standfirst / byline). The renderer
+(`lib/render.js`) and the validator (`/api/validate`) now merge the two via a shared
+`slideValues(slide)` helper (`{ ...tokens, ...levers }`, the explicit `levers` object winning on
+conflict). No token, lever or enum names changed; decks that already carried levers inside
+`tokens` are unaffected.
+
+---
+
 ## Photo sourcing — the asset library contract
 
 Every `photo` token accepts three forms:

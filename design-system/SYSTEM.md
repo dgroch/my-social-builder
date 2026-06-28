@@ -256,6 +256,28 @@ is a lift, not a rescue.
 
 ---
 
+## v3.6 — carousel-journal template fixes
+
+Two presentation-only fixes on the `carousel-journal` lane, surfaced during the *Australian Flower
+Calendar* deck. **No token, lever or enum changes** — every saved deck keeps validating unchanged.
+
+**1. The dark `closing` sign-off is now the hero.** The Cervanttis `voice` line previously sat
+small (44px) and top-anchored just under the foot logo, leaving a large void above the bottom
+CTA/URL — it read as an afterthought. v3.6 sets it ~2× larger (88px, 80px on 1:1, 100px on 9:16)
+and optically centres it over the darkened plate (a flex spacer above and below). A soft
+`text-shadow` lifts it off the plate for contrast — the shadow does the work, not a heavier wash.
+The foot logo (top) and the CTA pill + display URL (foot) are retained; the warm-ground
+`light` author-card layout is untouched.
+
+**2. The `cover` `theme` + `layout` levers, confirmed wired.** The `dark` theme correctly renders
+white type on a darkened plate (scrim overlay + light kicker / headline / index / voice / foot logo)
+distinct from `light` (ink type on the un-darkened plate), and the `layout: editorial` value renders
+the foot-anchored headline + kicker rule + standfirst + byline as documented (distinct from
+`masthead`). Both behave per the schema help; verified by A/B render (light vs dark, and masthead vs
+editorial, all produce distinct output).
+
+---
+
 ## Photo sourcing — the asset library contract
 
 Every `photo` token accepts three forms:

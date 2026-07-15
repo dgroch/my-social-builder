@@ -151,6 +151,7 @@ This is the anti-regression mechanism. Producing the file is step one, not the f
 - [ ] All type sits on the grid; shared left/right margins.
 - [ ] ≤ 3 type sizes, all from the scale.
 - [ ] Cervanttis is **never** used as inline italic within a Lust sentence. It is its own line, with breathing room.
+- [ ] A Cervanttis line stacked above other copy reserves its descender depth (`--cerv-descent-clear`) — no descender (j g y p q) touches the block beneath. Verify on the rendered PNG, not from `overflow` (`npm run test:descender`).
 - [ ] Spacing uses the rhythm tokens (`8/16/24/40/64/96`); gaps look intentional.
 - [ ] Negative space is composed — no accidental dead zones.
 - [ ] Critical content and CTA clear of platform safe zones (top 14% / bottom 20% on stories).
@@ -298,6 +299,46 @@ conflict). No token, lever or enum names changed; decks that already carried lev
 `tokens` are unaffected.
 
 ---
+
+## v3.6.2 — the script role is descender-safe by construction
+
+A silent, long-standing bug across every lane that stacks a **Cervanttis** line above other
+copy. Cervanttis is a deep-descender face: its glyphs drop to **~0.806em below the baseline**
+(`|glyph yMin| ÷ 1000 upm`, read from `cervanttis.ttf`) — far past the descent a `1.2`–`1.25`
+line-box reserves (~0.52em). So whenever a script line carried a descender (**j g y p q**) and
+sat directly above another block, the loop of the glyph fell out of its own line-box and landed
+on the copy beneath — the `j` in *"the journal"* sitting on the sub line of `card-note`, the
+`voice` line's descenders touching the Lust headline on the story/journal covers.
+
+The render's `overflow` check never caught it: the glyph overflows its **own line-box**, not the
+card, so the stage never scrolls and `overflow` stays `false` on a visibly broken slide. This is
+the QA hole the fix also closes (below).
+
+**The fix — reserve the descent, don't shrink the type.** Each script line that stacks above
+another text block now reserves the descender's overflow as padding *below* the block:
+
+```
+--cerv-descent-clear: 0.29em;   /* = the ~0.806em true descent − the ~0.52em a 1.2 line-box
+                                   already reserves; em-relative, so it scales with the script
+                                   size at every ratio. */
+.line / .voice { padding-bottom: var(--cerv-descent-clear); }
+```
+
+The descender now resolves inside its own block, and the next block's own rhythm-token margin
+stays the gap the layout intends — the script line becomes *"its own line, with breathing room
+above and below"* by construction, not by the copywriter avoiding certain letters. The rendered
+size and weight of Cervanttis are unchanged; only the space below the block grows. Applied to:
+`card-note` (`line`→`sub`) and the `voice` line on `carousel-journal` (cover / intro / interior),
+`story-promo`, `story-gift` (intro / closing), `story-studio`, `story-editorial`,
+`story-quote-soft`. Lone or last script lines (`card-script-moment`, `card-caption` caption,
+`card-quote-lineart` attribution, the `carousel-journal` `closing` hero voice centred between
+spacers) have nothing beneath them and are untouched.
+
+**The class is no longer silent.** `test/descender-intrusion.js` (`npm run test:descender`)
+renders every stacked-script slide at every supported ratio with a descender-heavy voice line,
+reads the rasterised pixels back through a canvas, and asserts the script block's lowest ink
+clears the highest ink of the block beneath it. It fails on the pre-v3.6.2 templates and passes
+after. Presentation-only; no token, lever or enum changes — every saved deck keeps validating.
 
 ## Photo sourcing — the asset library contract
 

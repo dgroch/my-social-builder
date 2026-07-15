@@ -15,6 +15,9 @@
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{width:{{W}}px;height:{{H}}px;overflow:hidden}
 .stage{position:relative;width:{{W}}px;height:{{H}}px;--ink:#000000;background:#ECE6DF;
+       /* Cervanttis descender clearance — see the .line rule below. Reserved as a token so
+          every ratio inherits it (it is em-relative, so it scales with the script size). */
+       --cerv-descent-clear:0.29em;
        display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
 .stage::after{content:"";position:absolute;inset:0;pointer-events:none;
   background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/><feColorMatrix type='saturate' values='0'/></filter><rect width='240' height='240' filter='url(%23n)' opacity='0.06'/></svg>")}
@@ -22,7 +25,15 @@ html,body{width:{{W}}px;height:{{H}}px;overflow:hidden}
 .la{width:340px;height:300px;margin-bottom:48px;background:rgba(0,0,0,.88);
     -webkit-mask:url('{{ASSETS_BASE}}/assets/lineart/{{motif}}.svg') center/contain no-repeat;
     mask:url('{{ASSETS_BASE}}/assets/lineart/{{motif}}.svg') center/contain no-repeat}
-.line{font-family:CervI;font-size:76px;color:var(--ink);max-width:82%;line-height:1.2}
+/* Cervanttis descends ~0.806em below the baseline (|glyph yMin| ÷ 1000 upm, read from
+   cervanttis.ttf) — far past its line-box (a 1.2 line-box reserves only ~0.52em of descent),
+   so a descender (j g y p q) drops out of the line and onto the sub beneath. Reserve the
+   ~0.29em overflow below the script line so the glyph resolves inside its own block; the
+   sub's own margin-top then stays the gap the layout intends. This makes the script role
+   descender-safe by construction (SYSTEM.md: "its own line, with breathing room below"),
+   not reliant on the copy avoiding certain letters. */
+.line{font-family:CervI;font-size:76px;color:var(--ink);max-width:82%;line-height:1.2;
+      padding-bottom:var(--cerv-descent-clear)}
 .sub{font-family:Sans;font-size:28px;letter-spacing:.04em;color:var(--ink);margin-top:24px;opacity:.85}
 .stage.r9x16 .la{width:420px;height:380px;margin-bottom:64px}
 .stage.r9x16 .line{font-size:88px}

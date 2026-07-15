@@ -18,6 +18,15 @@
 @font-face{font-family:SansB;src:url('{{ASSETS_BASE}}/fonts/NeuzeitGro-Bol.otf')}
 *{margin:0;padding:0;box-sizing:border-box;font-synthesis:none}
 html,body{width:{{W}}px;height:{{H}}px;overflow:hidden}
+
+/* Cervanttis descender clearance (shared script-role rule) — Cervanttis descends ~0.806em
+   below the baseline (|glyph yMin| / 1000 upm, from cervanttis.ttf), well past its 1.25
+   line-box (~0.52em of descent), so a descender (j g y p q) drops out of the voice line and
+   onto the block beneath. Reserve the ~0.29em overflow below the script block; the next
+   block’s own margin then stays the gap the layout intends. em-relative, so it holds at every
+   ratio. See design-system/SYSTEM.md (the Cervanttis rule: its own line, breathing room). */
+.stage{--cerv-descent-clear:0.29em}
+.voice:not(:empty){padding-bottom:var(--cerv-descent-clear)}
 .stage{position:relative;width:{{W}}px;height:{{H}}px;background:#000000 url('{{photo}}') center/cover no-repeat;
        --ink:#000000;--white:#FFFFFF;--clay-tint:#ECE6DF;--clay:#D8CCBE;--rule:#D8CCBE;
        --type:#FFFFFF;--quiet:#ECE6DF;--mx:88px;--foot:96px;

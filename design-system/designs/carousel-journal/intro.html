@@ -8,6 +8,8 @@
        cta     : text            | footer CTA, e.g. "Next →"
        photo   : image, optional | faint ground plate; omit for flat clay-tint
        voice   : text, optional  | Cervanttis voice line — its own block, never inline
+     LEVERS:
+       lockup  : enum wordmark|full | wordmark (default) = Fig & Bloom only — For Moment Makers is a lens, not a slogan, and must not sit on the image; full = the current lockup with the tagline, for the rare case that wants it
      PALETTE       : clay-tint #ECE6DF surface · ink #000000 type · clay #D8CCBE accents
      TYPE          : Lust display + Cervanttis voice line + Neuzeit Grotesk sans
 -->
@@ -72,7 +74,7 @@ html,body{width:{{W}}px;height:{{H}}px;overflow:hidden}
     <div class="foot">
       <div class="frule"></div>
       <div class="footrow">
-        <img class="logo" src="{{ASSETS_BASE}}/assets/logo_h_black.png">
+        <img class="logo" src="{{ASSETS_BASE}}/assets/{{LOGO_FILE}}">
         <div class="read">{{cta}}</div>
       </div>
     </div>

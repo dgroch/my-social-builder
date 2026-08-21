@@ -113,7 +113,7 @@ public/                   editor UI (index.html, app.js, style.css)
 design-system/            bundled template library: manifest, fonts, assets, designs/*
 examples/                 sample post.json
 test/smoke.js             guardrails: schema parses; sample assembles with zero unfilled tokens
-test/lockup-wordmark.js   journal cover lockup: default/wordmark has no FOR MOMENT MAKERS (`npm run test:lockup`)
+test/lockup-wordmark.js   journal cover/intro/interior/closing lockup: default/wordmark has no FOR MOMENT MAKERS (`npm run test:lockup`)
 ```
 
 ## API
@@ -158,9 +158,9 @@ in `GET /api/schema` (generated from the template headers) — read it, don't ha
 ## Tests
 
 `npm test` — zero-dependency runner: asserts the schema parses and the sample post assembles every
-slide with zero unfilled tokens. `npm run test:lockup` renders a 4:5 masthead light journal cover
-and fails if FOR MOMENT MAKERS appears when `lockup` is `wordmark` or omitted. (Render-path/Puppeteer
-is also exercised by `npm start` → Render.)
+slide with zero unfilled tokens. `npm run test:lockup` renders the official CoS journal frames
+(cover, intro, interior, closing) and fails if FOR MOMENT MAKERS appears when `lockup` is
+`wordmark` or omitted. (Render-path/Puppeteer is also exercised by `npm start` → Render.)
 
 ## Fonts
 

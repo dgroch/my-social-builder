@@ -1,0 +1,17 @@
+{
+  "postName": "After the funeral — journal closing (dark, wordmark)",
+  "design": "carousel-journal",
+  "ratio": "4:5",
+  "slides": [
+    {
+      "slide": "closing",
+      "tokens": {
+        "voice": "Once the service has ended, the kinder destination is the house.",
+        "cta": "Read the guide",
+        "url": "figandbloom.com",
+        "photo": "samples/osaka_45.png",
+        "theme": "dark"
+      }
+    }
+  ]
+}

@@ -104,12 +104,20 @@ for (const f of ['logo_h_black_wordmark.png', 'logo_h_white_wordmark.png']) {
 
 console.log('OK — lockup schema, assemble defaults, and wordmark assets.');
 
-async function taglineInk(page, fileUrl) {
+function pngDataUrl(name) {
+  return 'data:image/png;base64,' + fs.readFileSync(path.join(ASSETS, name)).toString('base64');
+}
+
+async function taglineInk(page, dataUrl) {
   // Count non-transparent pixels in the lockup's tagline band. Wordmark crops
   // clear this band; the historical lockup (the CoS source) is full of ink.
-  return page.evaluate(async (fileUrl, box) => {
+  return page.evaluate(async (dataUrl, box) => {
     const img = new Image();
-    await new Promise((res, rej) => { img.onload = res; img.onerror = rej; img.src = fileUrl; });
+    await new Promise((res, rej) => {
+      img.onload = res;
+      img.onerror = () => rej(new Error('failed to load logo png'));
+      img.src = dataUrl;
+    });
     const c = document.createElement('canvas');
     c.width = img.naturalWidth; c.height = img.naturalHeight;
     const ctx = c.getContext('2d', { willReadFrequently: true });
@@ -120,16 +128,14 @@ async function taglineInk(page, fileUrl) {
     let ink = 0;
     for (let i = 0; i < d.length; i += 4) if (d[i + 3] > 16) ink++;
     return { ink, w: c.width, h: c.height };
-  }, fileUrl, TAGLINE);
+  }, dataUrl, TAGLINE);
 }
 
 async function rasterCheck(browser) {
   const page = await browser.newPage();
   // Asset-level: the crop must have removed the slogan; the source lockup still has it.
-  const black = 'file://' + path.join(ASSETS, 'logo_h_black.png');
-  const word = 'file://' + path.join(ASSETS, 'logo_h_black_wordmark.png');
-  const fullInk = await taglineInk(page, black);
-  const wordInk = await taglineInk(page, word);
+  const fullInk = await taglineInk(page, pngDataUrl('logo_h_black.png'));
+  const wordInk = await taglineInk(page, pngDataUrl('logo_h_black_wordmark.png'));
   assert(fullInk.ink > 1000, `full lockup must keep tagline ink (got ${fullInk.ink})`);
   assert.strictEqual(wordInk.ink, 0, `wordmark crop must have zero tagline ink (got ${wordInk.ink})`);
   await page.close();

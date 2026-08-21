@@ -1,13 +1,18 @@
 'use strict';
-// Guard: a carousel-journal cover (4:5, masthead, light) must not put
-// FOR MOMENT MAKERS on the plate when lockup is wordmark or omitted.
-// The slogan is baked into logo_h_{black,white}.png (759×173). The cover
-// stamps {{LOGO_FILE}}; without a lockup lever the renderer always picked
-// those files from theme. This test fails on that CoS frame (full lockup
-// on a masthead light cover) and passes on wordmark / default.
+// Official CoS fail frame: 4:5 masthead light cover
+//   THE JOURNAL / chrome test / Birthday flowers
+//   FOR MOMENT MAKERS stamped under Fig & Bloom on the plate.
+// That slogan is baked into logo_h_{black,white}.png (759×173). The cover
+// stamps {{LOGO_FILE}}; without a lockup lever the renderer only picked
+// black/white from theme — which produced this frame.
 //
-// Run stand-alone:  CHROMIUM_PATH=/path/to/chrome node test/lockup-wordmark.js
-// Or: npm run test:lockup
+// This test uses that exact chrome as the fail case:
+//   lockup=full        → must still look like the CoS frame (slogan present)
+//   lockup omitted /
+//   lockup=wordmark    → must NOT look like it (slogan absent)
+// Hiding the footer via layout=editorial is not a fix and fails here.
+//
+// Run:  CHROMIUM_PATH=/path/to/chrome npm run test:lockup
 // Assemble + asset checks are zero-dep; the raster check needs Chromium.
 
 const assert = require('assert');
@@ -22,15 +27,9 @@ const SLOGAN_RE = /FOR\s+MOMENT\s+MAKERS/i;
 // Tagline band on the 759×173 lockup (see crop): lower-right of the canvas.
 const TAGLINE = { x: 348, y: 140 };
 
-const COVER = {
-  kicker: 'After the funeral',
-  voice: 'the kinder destination',
-  headline: 'Send it to the house',
-  cta: 'Read the guide',
-  photo: 'samples/osaka_45.png',
-  theme: 'light',
-  layout: 'masthead'
-};
+// Official CoS fail-frame chrome — same tokens as the proof example.
+const example = require('../examples/journal-cover-masthead-light-4x5.json');
+const COVER = Object.assign({}, example.slides[0].tokens);
 
 function logoFileFrom(html) {
   const m = html.match(/class="logo"[^>]*src="[^"]+\/assets\/([^"?]+)/);
@@ -50,6 +49,18 @@ assert(lockup, 'cover declares lockup lever');
 assert.deepStrictEqual(lockup.values, ['wordmark', 'full'], 'lockup enum is wordmark|full');
 assert.strictEqual(lockup.values[0], 'wordmark', 'wordmark is the default (first enum value)');
 
+// Official CoS copy on the example (THE JOURNAL / chrome test / Birthday flowers)
+assert.strictEqual(example.design, 'carousel-journal');
+assert.strictEqual(example.ratio, '4:5');
+assert.strictEqual(example.slides[0].slide, 'cover');
+assert.strictEqual(COVER.kicker, 'The Journal');
+assert.strictEqual(COVER.voice, 'chrome test');
+assert.strictEqual(COVER.headline, 'Birthday flowers');
+assert.strictEqual(COVER.cta, 'Read the guide');
+assert.strictEqual(COVER.theme, 'light');
+assert.strictEqual(COVER.layout, 'masthead', 'CoS frame is masthead — do not hide the footer');
+assert.strictEqual(COVER.lockup, undefined, 'example omits lockup (default wordmark)');
+
 // omitted / default / explicit wordmark all stamp the wordmark file
 for (const extra of [{}, { lockup: 'wordmark' }]) {
   const { html, leftover } = assembleCover(schema, extra);
@@ -57,13 +68,18 @@ for (const extra of [{}, { lockup: 'wordmark' }]) {
   assert.strictEqual(logoFileFrom(html), 'logo_h_black_wordmark.png',
     `lockup=${extra.lockup || '(omitted)'} must use the black wordmark`);
   assert(!SLOGAN_RE.test(html), 'assembled HTML must not spell out the slogan');
+  assert(html.includes('data-layout="masthead"'), 'footer stays on masthead');
+  assert(!/data-layout="editorial"/.test(html), 'must not hide the footer via layout=editorial');
+  assert(html.includes('class="foot"'), 'masthead footer (plate lockup) is present');
+  assert(html.includes('Birthday flowers'), 'official CoS headline is on the cover');
 }
 
-// lockup=full keeps the historical lockup (the CoS source file)
+// lockup=full is the official CoS fail frame (slogan on the plate)
 {
   const { html, leftover } = assembleCover(schema, { lockup: 'full' });
   assert.strictEqual(leftover.length, 0, `unfilled: ${leftover}`);
   assert.strictEqual(logoFileFrom(html), 'logo_h_black.png', 'lockup=full keeps logo_h_black.png');
+  assert(html.includes('data-layout="masthead"'), 'CoS fail frame is still masthead');
 }
 
 // dark theme follows the same split
@@ -88,21 +104,7 @@ for (const f of ['logo_h_black_wordmark.png', 'logo_h_white_wordmark.png']) {
   assert(fs.existsSync(path.join(ASSETS, f)), `wordmark asset ${f} exists`);
 }
 
-// example omits lockup so the default (wordmark) is what Journal drafts get
-{
-  const example = require('../examples/journal-cover-masthead-light-4x5.json');
-  assert.strictEqual(example.design, 'carousel-journal');
-  assert.strictEqual(example.ratio, '4:5');
-  const s = example.slides[0];
-  assert.strictEqual(s.slide, 'cover');
-  assert.strictEqual(s.tokens.theme, 'light');
-  assert.strictEqual(s.tokens.layout, 'masthead');
-  assert.strictEqual(s.tokens.lockup, undefined, 'example omits lockup (default wordmark)');
-  const { html } = assembleSlide(schema, example.design, s.slide, s.tokens, example.ratio);
-  assert.strictEqual(logoFileFrom(html), 'logo_h_black_wordmark.png');
-}
-
-console.log('OK — lockup schema, assemble defaults, and wordmark assets.');
+console.log('OK — lockup schema, official CoS chrome, assemble defaults, and wordmark assets.');
 
 function pngDataUrl(name) {
   return 'data:image/png;base64,' + fs.readFileSync(path.join(ASSETS, name)).toString('base64');
@@ -110,7 +112,7 @@ function pngDataUrl(name) {
 
 async function taglineInk(page, dataUrl) {
   // Count non-transparent pixels in the lockup's tagline band. Wordmark crops
-  // clear this band; the historical lockup (the CoS source) is full of ink.
+  // clear this band; the historical lockup (the official CoS source) is full of ink.
   return page.evaluate(async (dataUrl, box) => {
     const img = new Image();
     await new Promise((res, rej) => {
@@ -133,7 +135,6 @@ async function taglineInk(page, dataUrl) {
 
 async function rasterCheck(browser) {
   const page = await browser.newPage();
-  // Asset-level: the crop must have removed the slogan; the source lockup still has it.
   const fullInk = await taglineInk(page, pngDataUrl('logo_h_black.png'));
   const wordInk = await taglineInk(page, pngDataUrl('logo_h_black_wordmark.png'));
   assert(fullInk.ink > 1000, `full lockup must keep tagline ink (got ${fullInk.ink})`);
@@ -141,9 +142,9 @@ async function rasterCheck(browser) {
   await page.close();
 
   const cases = [
-    { name: 'omitted (default)', extra: {}, expectFile: 'logo_h_black_wordmark.png', expectSlogan: false },
+    { name: 'omitted (default wordmark)', extra: {}, expectFile: 'logo_h_black_wordmark.png', expectSlogan: false },
     { name: 'lockup=wordmark', extra: { lockup: 'wordmark' }, expectFile: 'logo_h_black_wordmark.png', expectSlogan: false },
-    { name: 'lockup=full (CoS frame)', extra: { lockup: 'full' }, expectFile: 'logo_h_black.png', expectSlogan: true }
+    { name: 'lockup=full (official CoS fail)', extra: { lockup: 'full' }, expectFile: 'logo_h_black.png', expectSlogan: true }
   ];
 
   for (const c of cases) {
@@ -156,30 +157,48 @@ async function rasterCheck(browser) {
     await pg.goto('file://' + file, { waitUntil: 'networkidle0' });
     await pg.evaluateHandle('document.fonts.ready');
     const info = await pg.evaluate(async (box) => {
-      const img = document.querySelector('.logo');
-      if (!img) return { src: null, ink: null };
-      if (!img.complete) await new Promise((res, rej) => { img.onload = res; img.onerror = rej; });
-      const src = (img.currentSrc || img.src || '').split('/').pop();
-      const c = document.createElement('canvas');
-      c.width = img.naturalWidth; c.height = img.naturalHeight;
-      const ctx = c.getContext('2d', { willReadFrequently: true });
-      ctx.drawImage(img, 0, 0);
-      const x0 = box.x, y0 = box.y, w = c.width - x0, ht = c.height - y0;
+      const stage = document.querySelector('.stage');
+      const foot = document.querySelector('.foot');
+      const logo = document.querySelector('.logo');
+      const voice = document.querySelector('.voice');
+      const headline = document.querySelector('.h');
+      if (!logo) return { src: null, ink: null };
+      if (!logo.complete) await new Promise((res, rej) => { logo.onload = res; logo.onerror = rej; });
+      const src = (logo.currentSrc || logo.src || '').split('/').pop();
+      const cnv = document.createElement('canvas');
+      cnv.width = logo.naturalWidth; cnv.height = logo.naturalHeight;
+      const ctx = cnv.getContext('2d', { willReadFrequently: true });
+      ctx.drawImage(logo, 0, 0);
+      const x0 = box.x, y0 = box.y, w = cnv.width - x0, ht = cnv.height - y0;
       const d = ctx.getImageData(x0, y0, w, ht).data;
       let ink = 0;
       for (let i = 0; i < d.length; i += 4) if (d[i + 3] > 16) ink++;
-      return { src, ink, nw: img.naturalWidth, nh: img.naturalHeight };
+      const footStyle = foot ? getComputedStyle(foot) : null;
+      return {
+        src, ink,
+        layout: stage && stage.getAttribute('data-layout'),
+        footDisplay: footStyle && footStyle.display,
+        footH: foot ? foot.getBoundingClientRect().height : 0,
+        voice: voice && voice.textContent.trim(),
+        headline: headline && headline.textContent.trim()
+      };
     }, TAGLINE);
     await pg.close();
     fs.rmSync(tmp, { recursive: true, force: true });
+    assert.strictEqual(info.layout, 'masthead', `${c.name} must stay masthead (not editorial)`);
+    assert.notStrictEqual(info.footDisplay, 'none', `${c.name} must not hide the footer`);
+    assert(info.footH > 0, `${c.name} masthead footer must paint`);
+    assert.strictEqual(info.voice, 'chrome test', `${c.name} official CoS voice`);
+    assert.strictEqual(info.headline, 'Birthday flowers', `${c.name} official CoS headline`);
     assert.strictEqual(info.src, c.expectFile, `${c.name} loaded ${info.src}`);
     if (c.expectSlogan) {
-      assert(info.ink > 1000, `${c.name} must show FOR MOMENT MAKERS (${info.ink} tagline px) — this is the CoS frame`);
+      assert(info.ink > 1000,
+        `${c.name} is the official CoS fail frame and must show FOR MOMENT MAKERS (${info.ink} tagline px)`);
     } else {
       assert.strictEqual(info.ink, 0,
-        `${c.name} must not show FOR MOMENT MAKERS on the plate (${info.ink} tagline px) — would fail on the CoS frame`);
+        `${c.name} must not look like the official CoS fail frame (${info.ink} tagline px)`);
     }
-    console.log(`OK  ${c.name.padEnd(24)} file=${info.src} taglineInk=${info.ink}`);
+    console.log(`OK  ${c.name.padEnd(34)} file=${info.src} taglineInk=${info.ink} layout=${info.layout}`);
   }
 }
 
@@ -198,7 +217,7 @@ if (require.main === module) {
     }
     try {
       await rasterCheck(browser);
-      console.log('ALL CLEAR — default/wordmark covers have no FOR MOMENT MAKERS; lockup=full still can.');
+      console.log('ALL CLEAR — official CoS chrome: default/wordmark has no FOR MOMENT MAKERS; lockup=full still looks like the fail frame.');
     } finally {
       await browser.close();
     }

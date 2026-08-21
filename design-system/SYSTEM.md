@@ -360,8 +360,11 @@ footer is not a fix (that layout is a different cover).
 
 `lib/render.js` derives `LOGO_FILE` from `theme` (colour) + `lockup` (file). Slides that do not
 declare the lever keep `logo_h_*.png`, so other designs are untouched. Guard:
-`test/lockup-wordmark.js` (`npm run test:lockup`) fails if FOR MOMENT MAKERS appears on a
-default / `wordmark` masthead cover, and still allows `lockup: full`.
+`test/lockup-wordmark.js` (`npm run test:lockup`) uses the official CoS fail frame
+(4:5 masthead light: THE JOURNAL / chrome test / Birthday flowers) — it fails if
+FOR MOMENT MAKERS appears when `lockup` is omitted or `wordmark`, and still allows
+`lockup: full` to look like that frame. Hiding the footer via `layout: editorial` is
+not a fix and fails the check.
 
 ## Photo sourcing — the asset library contract
 

@@ -71,8 +71,8 @@ for (const [name, sample] of samples) {
   assert.deepStrictEqual(lockup.values, ['wordmark', 'full'], 'lockup = wordmark|full');
   assert.strictEqual(lockup.values[0], 'wordmark', 'wordmark is the default');
   const coverTokens = {
-    kicker: 'After the funeral', voice: 'the kinder destination',
-    headline: 'Send it to the house', cta: 'Read the guide',
+    kicker: 'The Journal', voice: 'chrome test',
+    headline: 'Birthday flowers', cta: 'Read the guide',
     photo: 'samples/osaka_45.png', theme: 'light', layout: 'masthead'
   };
   const logoOf = html => (html.match(/class="logo"[^>]*src="[^"]+\/assets\/([^"?]+)/) || [])[1];

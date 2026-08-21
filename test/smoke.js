@@ -8,6 +8,7 @@ const { buildSchema } = require('../lib/parseDesigns');
 const { assembleSlide } = require('../lib/render');
 
 const sampleJournal  = require('../examples/flower-card-carousel-4x5.json');
+const sampleJournalCover = require('../examples/journal-cover-masthead-light-4x5.json');
 const sampleStudio   = require('../examples/story-studio-9x16.json');
 const samplePromo    = require('../examples/story-promo-9x16.json');
 const sampleGift     = require('../examples/story-gift-9x16.json');
@@ -41,6 +42,7 @@ for (const [d, l] of designChecks) {
 // --- assembly (no unfilled tokens) ---
 const samples = [
   ['journal',       sampleJournal],
+  ['journal-cover', sampleJournalCover],
   ['studio',        sampleStudio],
   ['promo',         samplePromo],
   ['gift',          sampleGift],
@@ -58,6 +60,37 @@ for (const [name, sample] of samples) {
     assert.strictEqual(leftover.length, 0, `[${name}] slide ${s.slide} has unfilled tokens: ${leftover}`);
     checked++;
   }
+}
+
+// --- v3.6.3: carousel-journal cover lockup (wordmark default; no slogan on the plate) ---
+{
+  assert.strictEqual(schema.version, '3.6.3', 'schema version 3.6.3');
+  const cover = schema.designs['carousel-journal'].slides.cover;
+  const lockup = cover.levers.find(l => l.name === 'lockup');
+  assert(lockup, 'cover declares lockup lever');
+  assert.deepStrictEqual(lockup.values, ['wordmark', 'full'], 'lockup = wordmark|full');
+  assert.strictEqual(lockup.values[0], 'wordmark', 'wordmark is the default');
+  const coverTokens = {
+    kicker: 'After the funeral', voice: 'the kinder destination',
+    headline: 'Send it to the house', cta: 'Read the guide',
+    photo: 'samples/osaka_45.png', theme: 'light', layout: 'masthead'
+  };
+  const logoOf = html => (html.match(/class="logo"[^>]*src="[^"]+\/assets\/([^"?]+)/) || [])[1];
+  const omitted = assembleSlide(schema, 'carousel-journal', 'cover', coverTokens, '4:5');
+  assert.strictEqual(omitted.leftover.length, 0, `cover leftover: ${omitted.leftover}`);
+  assert.strictEqual(logoOf(omitted.html), 'logo_h_black_wordmark.png',
+    'omitting lockup stamps the wordmark (no FOR MOMENT MAKERS)');
+  const wordmark = assembleSlide(schema, 'carousel-journal', 'cover',
+    Object.assign({}, coverTokens, { lockup: 'wordmark' }), '4:5');
+  assert.strictEqual(logoOf(wordmark.html), 'logo_h_black_wordmark.png', 'lockup=wordmark uses wordmark file');
+  const full = assembleSlide(schema, 'carousel-journal', 'cover',
+    Object.assign({}, coverTokens, { lockup: 'full' }), '4:5');
+  assert.strictEqual(logoOf(full.html), 'logo_h_black.png', 'lockup=full keeps the historical lockup');
+  const fs = require('fs');
+  const path = require('path');
+  const assets = path.join(__dirname, '..', 'design-system', 'assets');
+  assert(fs.existsSync(path.join(assets, 'logo_h_black_wordmark.png')), 'black wordmark asset');
+  assert(fs.existsSync(path.join(assets, 'logo_h_white_wordmark.png')), 'white wordmark asset');
 }
 
 // --- v3 seed lanes present ---

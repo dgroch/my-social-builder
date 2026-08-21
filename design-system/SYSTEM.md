@@ -340,6 +340,29 @@ reads the rasterised pixels back through a canvas, and asserts the script block'
 clears the highest ink of the block beneath it. It fails on the pre-v3.6.2 templates and passes
 after. Presentation-only; no token, lever or enum changes — every saved deck keeps validating.
 
+---
+
+## v3.6.3 — journal cover lockup (wordmark default)
+
+The 759×173 horizontal lockups (`logo_h_black.png` / `logo_h_white.png`) bake **FOR MOMENT MAKERS**
+under Fig & Bloom. On a `carousel-journal` cover the plate stamps `{{LOGO_FILE}}`, and until
+this version `lib/render.js` only picked black vs white from `theme` — so a one-frame 4:5
+masthead light cover always put the slogan on the image. Brand rule: **For Moment Makers is a
+lens, not a slogan, and must not sit on the image.** Switching `layout: editorial` to hide the
+footer is not a fix (that layout is a different cover).
+
+**The lever.** `carousel-journal` `cover` gains `lockup: wordmark | full`.
+
+- `wordmark` (**default** — first enum value, so omitting the lever is wordmark) → Fig & Bloom
+  only. Files: `logo_h_black_wordmark.png` / `logo_h_white_wordmark.png`, cropped from the
+  existing lockups (the mark is not redrawn).
+- `full` → the historical lockup with the tagline, for the rare case that wants it.
+
+`lib/render.js` derives `LOGO_FILE` from `theme` (colour) + `lockup` (file). Slides that do not
+declare the lever keep `logo_h_*.png`, so other designs are untouched. Guard:
+`test/lockup-wordmark.js` (`npm run test:lockup`) fails if FOR MOMENT MAKERS appears on a
+default / `wordmark` masthead cover, and still allows `lockup: full`.
+
 ## Photo sourcing — the asset library contract
 
 Every `photo` token accepts three forms:

@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node server.js",
     "test": "node test/smoke.js",
-    "test:descender": "node test/descender-intrusion.js"
+    "test:descender": "node test/descender-intrusion.js",
+    "test:lockup": "node test/lockup-wordmark.js"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.104.1",

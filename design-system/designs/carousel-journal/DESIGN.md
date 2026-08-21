@@ -16,8 +16,8 @@ The first locked design in the Fig & Bloom social system. Type-led, restrained, 
 | `quote` | none | pull-quote | Oversized opening glyph + centred serif quote + attribution. No quote marks in the token (the glyph is chrome). `theme` lever: `dark` (default), `clay`, `light`. Pagination top-right. |
 | `photo-statement` | required | photo-statement | Full-bleed plate, foot-anchored kicker + serif headline + optional standfirst over a bottom scrim. No masthead. Pagination top-right. |
 | `intro` | optional (faint) | lede / story | Serif lede + body paragraph + a bridge line. (Tips/triad register.) `lockup` lever: `wordmark` (default) or `full`. Footer stamps `{{LOGO_FILE}}`. |
-| `interior` | optional (faint) | body / proof | Exactly three sample-message sections. Repeatable. `font` lever: editorial or script. `lockup` lever: `wordmark` (default) or `full`. Footer stamps `{{LOGO_FILE}}`. Official CoS fail: 4:5 AFTER THE FUNERAL / read the notice first / FAMILY FLOWERS ONLY, slogan under Bloom in the footer. |
-| `closing` | required | closer | `theme` lever: `dark` (default — centred brand mark + sign-off over a moody plate) or `light` (warm-ground author-card closer: kicker, serif headline, body, hairline, avatar + author name/role, "Read the full entry", URL, logo). `lockup` lever: `wordmark` (default) or `full` — honoured on both the dark plate logo and the light author-card logo. Official CoS fail: 4:5 dark closer, white Fig & Bloom + slogan, "Once the service has ended…". |
+| `interior` | optional (faint) | body / proof | Exactly three sample-message sections. Repeatable. `font` lever: editorial or script. `lockup` lever: `wordmark` (default) or `full`. Footer stamps `{{LOGO_FILE}}`. Official CoS fails: AFTER THE FUNERAL / FAMILY FLOWERS ONLY, and THE JOURNAL 02 / start from their taste / BRIGHT Marseille. |
+| `closing` | required | closer | `theme` lever: `dark` (default — centred brand mark + sign-off over a moody plate) or `light` (warm-ground author-card closer: kicker, serif headline, body, hairline, avatar + author name/role, "Read the full entry", URL, logo). `lockup` lever: `wordmark` (default) or `full` — honoured on both the dark plate logo and the light author-card logo. Official CoS fails: dark closer "Once the service has ended…" and "Shop the person, then the room." |
 
 Two registers:
 
@@ -75,11 +75,11 @@ Closing honours the lever on **both** themes: dark uses the white file on the pl
 
 Do **not** hide the masthead footer by switching `layout: editorial` to dodge the slogan — that layout is a different cover, not a lockup fix. The editorial layout has no footer logo, so `lockup` is a no-op there.
 
-Official CoS fail frames (slogan on the plate / footer):
+Official CoS fail frames (slogan on the plate / footer). Both packs must pass:
 
 - Cover — 4:5 masthead light: THE JOURNAL / chrome test / Birthday flowers. See `examples/journal-cover-masthead-light-4x5.json` (lockup omitted → wordmark).
-- Interior — 4:5: AFTER THE FUNERAL / read the notice first / FAMILY FLOWERS ONLY. See `examples/journal-interior-funeral-4x5.json`.
-- Closing — 4:5 dark: "Once the service has ended, the kinder destination is the house." See `examples/journal-closing-dark-4x5.json`.
+- Send it to the house — interior: AFTER THE FUNERAL / read the notice first / FAMILY FLOWERS ONLY (`examples/journal-interior-funeral-4x5.json`). Closing dark: "Once the service has ended, the kinder destination is the house." (`examples/journal-closing-dark-4x5.json`).
+- Birthday — interior: THE JOURNAL 02 / start from their taste / BRIGHT Marseille (`examples/journal-interior-birthday-4x5.json`). Closing dark: "Shop the person, then the room." (`examples/journal-closing-birthday-4x5.json`).
 
 `lockup: full` may still look like those frames.
 

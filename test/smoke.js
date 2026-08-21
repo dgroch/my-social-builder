@@ -11,6 +11,8 @@ const sampleJournal  = require('../examples/flower-card-carousel-4x5.json');
 const sampleJournalCover = require('../examples/journal-cover-masthead-light-4x5.json');
 const sampleJournalInterior = require('../examples/journal-interior-funeral-4x5.json');
 const sampleJournalClosing = require('../examples/journal-closing-dark-4x5.json');
+const sampleJournalInteriorBirthday = require('../examples/journal-interior-birthday-4x5.json');
+const sampleJournalClosingBirthday = require('../examples/journal-closing-birthday-4x5.json');
 const sampleStudio   = require('../examples/story-studio-9x16.json');
 const samplePromo    = require('../examples/story-promo-9x16.json');
 const sampleGift     = require('../examples/story-gift-9x16.json');
@@ -47,6 +49,8 @@ const samples = [
   ['journal-cover', sampleJournalCover],
   ['journal-interior', sampleJournalInterior],
   ['journal-closing', sampleJournalClosing],
+  ['journal-interior-birthday', sampleJournalInteriorBirthday],
+  ['journal-closing-birthday', sampleJournalClosingBirthday],
   ['studio',        sampleStudio],
   ['promo',         samplePromo],
   ['gift',          sampleGift],
@@ -110,6 +114,26 @@ for (const [name, sample] of samples) {
     Object.assign({}, sampleJournalClosing.slides[0].tokens, { lockup: 'full' }), '4:5');
   assert.strictEqual(logoOf(closingDarkFull.html, 'logo'), 'logo_h_white.png',
     'closing dark lockup=full keeps logo_h_white.png');
+
+  const birthdayInterior = assembleSlide(schema, 'carousel-journal', 'interior',
+    sampleJournalInteriorBirthday.slides[0].tokens, '4:5');
+  assert.strictEqual(birthdayInterior.leftover.length, 0, `birthday interior leftover: ${birthdayInterior.leftover}`);
+  assert.strictEqual(logoOf(birthdayInterior.html, 'logo'), 'logo_h_black_wordmark.png',
+    'birthday interior default stamps the wordmark');
+  const birthdayInteriorFull = assembleSlide(schema, 'carousel-journal', 'interior',
+    Object.assign({}, sampleJournalInteriorBirthday.slides[0].tokens, { lockup: 'full' }), '4:5');
+  assert.strictEqual(logoOf(birthdayInteriorFull.html, 'logo'), 'logo_h_black.png',
+    'birthday interior lockup=full keeps the historical lockup');
+
+  const birthdayClosing = assembleSlide(schema, 'carousel-journal', 'closing',
+    sampleJournalClosingBirthday.slides[0].tokens, '4:5');
+  assert.strictEqual(birthdayClosing.leftover.length, 0, `birthday closing leftover: ${birthdayClosing.leftover}`);
+  assert.strictEqual(logoOf(birthdayClosing.html, 'logo'), 'logo_h_white_wordmark.png',
+    'birthday closing default stamps the white wordmark');
+  const birthdayClosingFull = assembleSlide(schema, 'carousel-journal', 'closing',
+    Object.assign({}, sampleJournalClosingBirthday.slides[0].tokens, { lockup: 'full' }), '4:5');
+  assert.strictEqual(logoOf(birthdayClosingFull.html, 'logo'), 'logo_h_white.png',
+    'birthday closing lockup=full keeps logo_h_white.png');
 
   const closingLightTokens = {
     kicker: 'The Point of View', headline: 'A note from the studio',

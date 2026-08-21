@@ -5,9 +5,12 @@
 //   THE JOURNAL / chrome test / Birthday flowers
 //   FOR MOMENT MAKERS stamped under Fig & Bloom on the plate.
 // Interior / closing (v3.6.4): those slides hardcoded logo_h_*.png, so a
-// three-up still showed the slogan after the cover was fixed.
-//   Interior 02 light: AFTER THE FUNERAL / read the notice first / FAMILY FLOWERS ONLY
-//   Closing dark: "Once the service has ended, the kinder destination is the house."
+// three-up still showed the slogan after the cover was fixed. Two official
+// CoS packs — both must pass:
+//   Send it to the house — interior 02: AFTER THE FUNERAL / FAMILY FLOWERS ONLY
+//     closing dark: "Once the service has ended, the kinder destination is the house."
+//   Birthday — interior 02: THE JOURNAL / start from their taste / BRIGHT Marseille
+//     closing dark: "Shop the person, then the room."
 // Intro shares the same footer lockup — wired so we do not bounce again.
 //
 // That slogan is baked into logo_h_{black,white}.png (759×173). Slides that
@@ -36,13 +39,17 @@ const SLOGAN_RE = /FOR\s+MOMENT\s+MAKERS/i;
 const TAGLINE = { x: 348, y: 140 };
 
 const coverExample = require('../examples/journal-cover-masthead-light-4x5.json');
-const interiorExample = require('../examples/journal-interior-funeral-4x5.json');
-const closingExample = require('../examples/journal-closing-dark-4x5.json');
+const interiorFuneral = require('../examples/journal-interior-funeral-4x5.json');
+const closingFuneral = require('../examples/journal-closing-dark-4x5.json');
+const interiorBirthday = require('../examples/journal-interior-birthday-4x5.json');
+const closingBirthday = require('../examples/journal-closing-birthday-4x5.json');
 const flowerCard = require('../examples/flower-card-carousel-4x5.json');
 
 const COVER = Object.assign({}, coverExample.slides[0].tokens);
-const INTERIOR = Object.assign({}, interiorExample.slides[0].tokens);
-const CLOSING_DARK = Object.assign({}, closingExample.slides[0].tokens);
+const INTERIOR = Object.assign({}, interiorFuneral.slides[0].tokens);
+const CLOSING_DARK = Object.assign({}, closingFuneral.slides[0].tokens);
+const INTERIOR_BIRTHDAY = Object.assign({}, interiorBirthday.slides[0].tokens);
+const CLOSING_BIRTHDAY = Object.assign({}, closingBirthday.slides[0].tokens);
 const INTRO = Object.assign({}, flowerCard.slides.find(s => s.slide === 'intro').tokens);
 const CLOSING_LIGHT = {
   kicker: 'The Point of View',
@@ -93,15 +100,30 @@ assert.strictEqual(COVER.theme, 'light');
 assert.strictEqual(COVER.layout, 'masthead', 'CoS frame is masthead — do not hide the footer');
 assert.strictEqual(COVER.lockup, undefined, 'example omits lockup (default wordmark)');
 
-// Official CoS interior / closing copy
+// Official CoS pack: Send it to the house
 assert.strictEqual(INTERIOR.kicker, 'After the funeral');
 assert.strictEqual(INTERIOR.index, '02');
 assert.strictEqual(INTERIOR.voice, 'read the notice first');
 assert.strictEqual(INTERIOR.label_1, 'FAMILY FLOWERS ONLY');
-assert.strictEqual(INTERIOR.lockup, undefined, 'interior example omits lockup (default wordmark)');
+assert.strictEqual(INTERIOR.lockup, undefined, 'funeral interior omits lockup (default wordmark)');
 assert.strictEqual(CLOSING_DARK.voice, 'Once the service has ended, the kinder destination is the house.');
 assert.strictEqual(CLOSING_DARK.theme, 'dark');
-assert.strictEqual(CLOSING_DARK.lockup, undefined, 'closing example omits lockup (default wordmark)');
+assert.strictEqual(CLOSING_DARK.lockup, undefined, 'funeral closing omits lockup (default wordmark)');
+
+// Official CoS pack: Birthday
+assert.strictEqual(INTERIOR_BIRTHDAY.kicker, 'The Journal');
+assert.strictEqual(INTERIOR_BIRTHDAY.index, '02');
+assert.strictEqual(INTERIOR_BIRTHDAY.voice, 'start from their taste');
+assert.strictEqual(INTERIOR_BIRTHDAY.label_1, 'BRIGHT');
+assert.strictEqual(INTERIOR_BIRTHDAY.quote_1, 'Marseille');
+assert.strictEqual(INTERIOR_BIRTHDAY.label_2, 'SOFT');
+assert.strictEqual(INTERIOR_BIRTHDAY.quote_2, 'Osaka');
+assert.strictEqual(INTERIOR_BIRTHDAY.label_3, 'QUIET WHITES');
+assert.strictEqual(INTERIOR_BIRTHDAY.quote_3, 'Pyrenees');
+assert.strictEqual(INTERIOR_BIRTHDAY.lockup, undefined, 'birthday interior omits lockup (default wordmark)');
+assert.strictEqual(CLOSING_BIRTHDAY.voice, 'Shop the person, then the room.');
+assert.strictEqual(CLOSING_BIRTHDAY.theme, 'dark');
+assert.strictEqual(CLOSING_BIRTHDAY.lockup, undefined, 'birthday closing omits lockup (default wordmark)');
 
 function assertWordmarkAssemble(slideId, tokens, cls, expectFile) {
   for (const extra of [{}, { lockup: 'wordmark' }]) {
@@ -126,8 +148,10 @@ assertWordmarkAssemble('cover', COVER, 'logo', 'logo_h_black_wordmark.png');
 }
 
 assertWordmarkAssemble('interior', INTERIOR, 'logo', 'logo_h_black_wordmark.png');
+assertWordmarkAssemble('interior', INTERIOR_BIRTHDAY, 'logo', 'logo_h_black_wordmark.png');
 assertWordmarkAssemble('intro', INTRO, 'logo', 'logo_h_black_wordmark.png');
 assertWordmarkAssemble('closing', CLOSING_DARK, 'logo', 'logo_h_white_wordmark.png');
+assertWordmarkAssemble('closing', CLOSING_BIRTHDAY, 'logo', 'logo_h_white_wordmark.png');
 assertWordmarkAssemble('closing', CLOSING_LIGHT, 'llogo', 'logo_h_black_wordmark.png');
 {
   const { html } = assemble('closing', CLOSING_DARK, {});
@@ -145,6 +169,14 @@ assertWordmarkAssemble('closing', CLOSING_LIGHT, 'llogo', 'logo_h_black_wordmark
 {
   const { html } = assemble('interior', INTERIOR, { lockup: 'full' });
   assert.strictEqual(logoFileFrom(html), 'logo_h_black.png', 'interior lockup=full keeps logo_h_black.png');
+}
+{
+  const { html } = assemble('interior', INTERIOR_BIRTHDAY, { lockup: 'full' });
+  assert.strictEqual(logoFileFrom(html), 'logo_h_black.png', 'birthday interior lockup=full keeps logo_h_black.png');
+}
+{
+  const { html } = assemble('closing', CLOSING_BIRTHDAY, { lockup: 'full' });
+  assert.strictEqual(logoFileFrom(html), 'logo_h_white.png', 'birthday closing lockup=full keeps logo_h_white.png');
 }
 {
   const { html } = assemble('intro', INTRO, { lockup: 'full' });
@@ -289,15 +321,21 @@ async function rasterCheck(browser) {
   }
 
   const bodyCases = [
-    { name: 'interior omitted (default wordmark)', slide: 'interior', tokens: INTERIOR, extra: {}, expectFile: 'logo_h_black_wordmark.png', expectSlogan: false },
-    { name: 'interior lockup=wordmark', slide: 'interior', tokens: INTERIOR, extra: { lockup: 'wordmark' }, expectFile: 'logo_h_black_wordmark.png', expectSlogan: false },
-    { name: 'interior lockup=full (CoS fail)', slide: 'interior', tokens: INTERIOR, extra: { lockup: 'full' }, expectFile: 'logo_h_black.png', expectSlogan: true },
+    { name: 'funeral interior omitted (default wordmark)', slide: 'interior', tokens: INTERIOR, extra: {}, expectFile: 'logo_h_black_wordmark.png', expectSlogan: false },
+    { name: 'funeral interior lockup=wordmark', slide: 'interior', tokens: INTERIOR, extra: { lockup: 'wordmark' }, expectFile: 'logo_h_black_wordmark.png', expectSlogan: false },
+    { name: 'funeral interior lockup=full (CoS fail)', slide: 'interior', tokens: INTERIOR, extra: { lockup: 'full' }, expectFile: 'logo_h_black.png', expectSlogan: true },
+    { name: 'birthday interior omitted (default wordmark)', slide: 'interior', tokens: INTERIOR_BIRTHDAY, extra: {}, expectFile: 'logo_h_black_wordmark.png', expectSlogan: false },
+    { name: 'birthday interior lockup=wordmark', slide: 'interior', tokens: INTERIOR_BIRTHDAY, extra: { lockup: 'wordmark' }, expectFile: 'logo_h_black_wordmark.png', expectSlogan: false },
+    { name: 'birthday interior lockup=full (CoS fail)', slide: 'interior', tokens: INTERIOR_BIRTHDAY, extra: { lockup: 'full' }, expectFile: 'logo_h_black.png', expectSlogan: true },
     { name: 'intro omitted (default wordmark)', slide: 'intro', tokens: INTRO, extra: {}, expectFile: 'logo_h_black_wordmark.png', expectSlogan: false },
     { name: 'intro lockup=wordmark', slide: 'intro', tokens: INTRO, extra: { lockup: 'wordmark' }, expectFile: 'logo_h_black_wordmark.png', expectSlogan: false },
     { name: 'intro lockup=full', slide: 'intro', tokens: INTRO, extra: { lockup: 'full' }, expectFile: 'logo_h_black.png', expectSlogan: true },
-    { name: 'closing dark omitted (default wordmark)', slide: 'closing', tokens: CLOSING_DARK, extra: {}, expectFile: 'logo_h_white_wordmark.png', expectSlogan: false },
-    { name: 'closing dark lockup=wordmark', slide: 'closing', tokens: CLOSING_DARK, extra: { lockup: 'wordmark' }, expectFile: 'logo_h_white_wordmark.png', expectSlogan: false },
-    { name: 'closing dark lockup=full (CoS fail)', slide: 'closing', tokens: CLOSING_DARK, extra: { lockup: 'full' }, expectFile: 'logo_h_white.png', expectSlogan: true },
+    { name: 'funeral closing omitted (default wordmark)', slide: 'closing', tokens: CLOSING_DARK, extra: {}, expectFile: 'logo_h_white_wordmark.png', expectSlogan: false },
+    { name: 'funeral closing lockup=wordmark', slide: 'closing', tokens: CLOSING_DARK, extra: { lockup: 'wordmark' }, expectFile: 'logo_h_white_wordmark.png', expectSlogan: false },
+    { name: 'funeral closing lockup=full (CoS fail)', slide: 'closing', tokens: CLOSING_DARK, extra: { lockup: 'full' }, expectFile: 'logo_h_white.png', expectSlogan: true },
+    { name: 'birthday closing omitted (default wordmark)', slide: 'closing', tokens: CLOSING_BIRTHDAY, extra: {}, expectFile: 'logo_h_white_wordmark.png', expectSlogan: false },
+    { name: 'birthday closing lockup=wordmark', slide: 'closing', tokens: CLOSING_BIRTHDAY, extra: { lockup: 'wordmark' }, expectFile: 'logo_h_white_wordmark.png', expectSlogan: false },
+    { name: 'birthday closing lockup=full (CoS fail)', slide: 'closing', tokens: CLOSING_BIRTHDAY, extra: { lockup: 'full' }, expectFile: 'logo_h_white.png', expectSlogan: true },
     { name: 'closing light omitted (default wordmark)', slide: 'closing', tokens: CLOSING_LIGHT, extra: {}, expectFile: 'logo_h_black_wordmark.png', expectSlogan: false },
     { name: 'closing light lockup=wordmark', slide: 'closing', tokens: CLOSING_LIGHT, extra: { lockup: 'wordmark' }, expectFile: 'logo_h_black_wordmark.png', expectSlogan: false },
     { name: 'closing light lockup=full', slide: 'closing', tokens: CLOSING_LIGHT, extra: { lockup: 'full' }, expectFile: 'logo_h_black.png', expectSlogan: true }
@@ -332,7 +370,7 @@ if (require.main === module) {
     }
     try {
       await rasterCheck(browser);
-      console.log('ALL CLEAR — official CoS chrome: default/wordmark has no FOR MOMENT MAKERS on cover/intro/interior/closing; lockup=full still looks like the fail frames.');
+      console.log('ALL CLEAR — official CoS chrome: default/wordmark has no FOR MOMENT MAKERS on cover/intro/interior/closing for both Send-it-to-the-house and Birthday packs; lockup=full still looks like the fail frames.');
     } finally {
       await browser.close();
     }

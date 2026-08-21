@@ -382,9 +382,10 @@ always take the black file.
 
 `lib/render.js` still derives `LOGO_FILE` from theme colour + lockup. Slides that
 do not declare the lever keep `logo_h_*.png`. Guard: `test/lockup-wordmark.js`
-now also raster-checks the official CoS interior and closing fail frames
-(AFTER THE FUNERAL / kinder destination) plus intro — default/wordmark
-`taglineInk=0`; `lockup=full` still has the slogan. Cover behaviour is unchanged.
+raster-checks both official CoS packs — Send it to the house (AFTER THE FUNERAL /
+kinder destination) and Birthday (start from their taste / Shop the person, then
+the room.) — plus intro. Default/wordmark `taglineInk=0` on interior and closing
+for each pack; `lockup=full` still has the slogan. Cover behaviour is unchanged.
 
 ## Photo sourcing — the asset library contract
 

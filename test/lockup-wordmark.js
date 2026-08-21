@@ -68,8 +68,9 @@ for (const extra of [{}, { lockup: 'wordmark' }]) {
   assert.strictEqual(logoFileFrom(html), 'logo_h_black_wordmark.png',
     `lockup=${extra.lockup || '(omitted)'} must use the black wordmark`);
   assert(!SLOGAN_RE.test(html), 'assembled HTML must not spell out the slogan');
-  assert(html.includes('data-layout="masthead"'), 'footer stays on masthead');
-  assert(!/data-layout="editorial"/.test(html), 'must not hide the footer via layout=editorial');
+  assert(/class="stage[^"]*" data-layout="masthead"/.test(html), 'footer stays on masthead');
+  assert(!/class="stage[^"]*" data-layout="editorial"/.test(html),
+    'must not hide the footer via layout=editorial');
   assert(html.includes('class="foot"'), 'masthead footer (plate lockup) is present');
   assert(html.includes('Birthday flowers'), 'official CoS headline is on the cover');
 }
@@ -79,7 +80,7 @@ for (const extra of [{}, { lockup: 'wordmark' }]) {
   const { html, leftover } = assembleCover(schema, { lockup: 'full' });
   assert.strictEqual(leftover.length, 0, `unfilled: ${leftover}`);
   assert.strictEqual(logoFileFrom(html), 'logo_h_black.png', 'lockup=full keeps logo_h_black.png');
-  assert(html.includes('data-layout="masthead"'), 'CoS fail frame is still masthead');
+  assert(/class="stage[^"]*" data-layout="masthead"/.test(html), 'CoS fail frame is still masthead');
 }
 
 // dark theme follows the same split

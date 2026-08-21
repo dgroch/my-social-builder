@@ -1,0 +1,19 @@
+{
+  "postName": "Birthday flowers — journal cover (masthead light, wordmark)",
+  "design": "carousel-journal",
+  "ratio": "4:5",
+  "slides": [
+    {
+      "slide": "cover",
+      "tokens": {
+        "kicker": "The Journal",
+        "voice": "chrome test",
+        "headline": "Birthday flowers",
+        "cta": "Read the guide",
+        "photo": "samples/osaka_45.png",
+        "theme": "light",
+        "layout": "masthead"
+      }
+    }
+  ]
+}

@@ -11,7 +11,7 @@ The first locked design in the Fig & Bloom social system. Type-led, restrained, 
 
 | Slide | Photo | Role | Notes |
 |---|---|---|---|
-| `cover` | required | opener / hook | `layout` lever: `masthead` (default — headline upper third, voice, foot logo/CTA) or `editorial` (foot-anchored headline + kicker rule + standfirst + byline, like the reference opener). `theme` lever: light or dark. |
+| `cover` | required | opener / hook | `layout` lever: `masthead` (default — headline upper third, voice, foot logo/CTA) or `editorial` (foot-anchored headline + kicker rule + standfirst + byline, like the reference opener). `theme` lever: light or dark. `lockup` lever: `wordmark` (default — Fig & Bloom only) or `full` (wordmark + For Moment Makers). Official CoS fail: 4:5 masthead light, THE JOURNAL / chrome test / Birthday flowers, slogan on the plate. |
 | `statement` | none | body / single statement | One serif headline + an optional sans body. The workhorse editorial slide. Repeatable. `theme` lever: `clay` (default), `dark`, `light`. Shows automatic `NN / NN` pagination. |
 | `quote` | none | pull-quote | Oversized opening glyph + centred serif quote + attribution. No quote marks in the token (the glyph is chrome). `theme` lever: `dark` (default), `clay`, `light`. Pagination top-right. |
 | `photo-statement` | required | photo-statement | Full-bleed plate, foot-anchored kicker + serif headline + optional standfirst over a bottom scrim. No masthead. Pagination top-right. |
@@ -38,7 +38,7 @@ Non-cover body slides (`statement`, `quote`, `photo-statement`) show an automati
 
 ## Tokens
 
-**cover** — `kicker`, `headline` (markdown), `photo` (image); `index`, `cta`, `voice`, `standfirst`, `byline` (optional); levers `theme: light|dark`, `layout: masthead|editorial`
+**cover** — `kicker`, `headline` (markdown), `photo` (image); `index`, `cta`, `voice`, `standfirst`, `byline` (optional); levers `theme: light|dark`, `layout: masthead|editorial`, `lockup: wordmark|full`
 **statement** — `kicker`, `headline` (markdown); `body` (optional); lever `theme: clay|dark|light`
 **quote** — `quote` (markdown), `attribution`; lever `theme: dark|clay|light`
 **photo-statement** — `kicker`, `headline` (markdown), `photo` (image); `standfirst` (optional)
@@ -59,10 +59,21 @@ Casing follows the pairing: `editorial` sets the Lust pills in **Title Case** an
 
 ## Theme lever (cover)
 
-- `light` → ink type directly on the plate (needs a plate with a clean upper wall). Logo: `logo_h_black.png`. No overlay.
-- `dark` → white type on a darkened plate (works on any plate). Logo: `logo_h_white.png`. Overlay `rgba(0,0,0,.60)`.
+- `light` → ink type directly on the plate (needs a plate with a clean upper wall). Logo colour: black. No overlay.
+- `dark` → white type on a darkened plate (works on any plate). Logo colour: white. Overlay `rgba(0,0,0,.60)`.
 
-The builder derives `THEME_CLASS` and `LOGO_FILE` from this lever — they are not separate tokens.
+The builder derives `THEME_CLASS` and `LOGO_FILE` from the `theme` + `lockup` levers — they are not separate tokens.
+
+## Lockup lever (cover)
+
+For Moment Makers is a **lens**, not a slogan, and **must not sit on the image**. The cover plate therefore defaults to the wordmark.
+
+- `wordmark` (**default**) → Fig & Bloom only. Files: `logo_h_black_wordmark.png` / `logo_h_white_wordmark.png` (cropped from the existing 759×173 lockups — the mark is not redrawn). Omit the lever and this is what you get.
+- `full` → the historical lockup, Fig & Bloom + FOR MOMENT MAKERS (`logo_h_black.png` / `logo_h_white.png`). Keep this for the rare case that explicitly wants the tagline on the plate.
+
+Do **not** hide the masthead footer by switching `layout: editorial` to dodge the slogan — that layout is a different cover, not a lockup fix. The editorial layout has no footer logo, so `lockup` is a no-op there.
+
+The official CoS fail frame is a 4:5 masthead light cover — THE JOURNAL / chrome test / Birthday flowers — with FOR MOMENT MAKERS under Fig & Bloom on the plate. See `examples/journal-cover-masthead-light-4x5.json` (same chrome, lockup omitted → wordmark). `lockup: full` may still look like that frame.
 
 ## Faint ground (intro + interior)
 

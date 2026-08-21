@@ -9,6 +9,10 @@ const { assembleSlide } = require('../lib/render');
 
 const sampleJournal  = require('../examples/flower-card-carousel-4x5.json');
 const sampleJournalCover = require('../examples/journal-cover-masthead-light-4x5.json');
+const sampleJournalInterior = require('../examples/journal-interior-funeral-4x5.json');
+const sampleJournalClosing = require('../examples/journal-closing-dark-4x5.json');
+const sampleJournalInteriorBirthday = require('../examples/journal-interior-birthday-4x5.json');
+const sampleJournalClosingBirthday = require('../examples/journal-closing-birthday-4x5.json');
 const sampleStudio   = require('../examples/story-studio-9x16.json');
 const samplePromo    = require('../examples/story-promo-9x16.json');
 const sampleGift     = require('../examples/story-gift-9x16.json');
@@ -43,6 +47,10 @@ for (const [d, l] of designChecks) {
 const samples = [
   ['journal',       sampleJournal],
   ['journal-cover', sampleJournalCover],
+  ['journal-interior', sampleJournalInterior],
+  ['journal-closing', sampleJournalClosing],
+  ['journal-interior-birthday', sampleJournalInteriorBirthday],
+  ['journal-closing-birthday', sampleJournalClosingBirthday],
   ['studio',        sampleStudio],
   ['promo',         samplePromo],
   ['gift',          sampleGift],
@@ -62,30 +70,97 @@ for (const [name, sample] of samples) {
   }
 }
 
-// --- v3.6.3: carousel-journal cover lockup (wordmark default; no slogan on the plate) ---
+// --- v3.6.4: carousel-journal lockup on every slide that stamps the logo ---
 {
-  assert.strictEqual(schema.version, '3.6.3', 'schema version 3.6.3');
-  const cover = schema.designs['carousel-journal'].slides.cover;
-  const lockup = cover.levers.find(l => l.name === 'lockup');
-  assert(lockup, 'cover declares lockup lever');
-  assert.deepStrictEqual(lockup.values, ['wordmark', 'full'], 'lockup = wordmark|full');
-  assert.strictEqual(lockup.values[0], 'wordmark', 'wordmark is the default');
+  assert.strictEqual(schema.version, '3.6.4', 'schema version 3.6.4');
+  const journal = schema.designs['carousel-journal'].slides;
+  const logoOf = (html, cls) => (html.match(new RegExp('class="' + cls + '"[^>]*src="[^"]+\\/assets\\/([^"?]+)')) || [])[1];
+  for (const slide of ['cover', 'intro', 'interior', 'closing']) {
+    const lockup = journal[slide].levers.find(l => l.name === 'lockup');
+    assert(lockup, `${slide} declares lockup lever`);
+    assert.deepStrictEqual(lockup.values, ['wordmark', 'full'], `${slide} lockup = wordmark|full`);
+    assert.strictEqual(lockup.values[0], 'wordmark', `${slide} wordmark is the default`);
+  }
   const coverTokens = {
     kicker: 'The Journal', voice: 'chrome test',
     headline: 'Birthday flowers', cta: 'Read the guide',
     photo: 'samples/osaka_45.png', theme: 'light', layout: 'masthead'
   };
-  const logoOf = html => (html.match(/class="logo"[^>]*src="[^"]+\/assets\/([^"?]+)/) || [])[1];
   const omitted = assembleSlide(schema, 'carousel-journal', 'cover', coverTokens, '4:5');
   assert.strictEqual(omitted.leftover.length, 0, `cover leftover: ${omitted.leftover}`);
-  assert.strictEqual(logoOf(omitted.html), 'logo_h_black_wordmark.png',
+  assert.strictEqual(logoOf(omitted.html, 'logo'), 'logo_h_black_wordmark.png',
     'omitting lockup stamps the wordmark (no FOR MOMENT MAKERS)');
   const wordmark = assembleSlide(schema, 'carousel-journal', 'cover',
     Object.assign({}, coverTokens, { lockup: 'wordmark' }), '4:5');
-  assert.strictEqual(logoOf(wordmark.html), 'logo_h_black_wordmark.png', 'lockup=wordmark uses wordmark file');
+  assert.strictEqual(logoOf(wordmark.html, 'logo'), 'logo_h_black_wordmark.png', 'lockup=wordmark uses wordmark file');
   const full = assembleSlide(schema, 'carousel-journal', 'cover',
     Object.assign({}, coverTokens, { lockup: 'full' }), '4:5');
-  assert.strictEqual(logoOf(full.html), 'logo_h_black.png', 'lockup=full keeps the historical lockup');
+  assert.strictEqual(logoOf(full.html, 'logo'), 'logo_h_black.png', 'lockup=full keeps the historical lockup');
+
+  const interior = assembleSlide(schema, 'carousel-journal', 'interior', sampleJournalInterior.slides[0].tokens, '4:5');
+  assert.strictEqual(interior.leftover.length, 0, `interior leftover: ${interior.leftover}`);
+  assert.strictEqual(logoOf(interior.html, 'logo'), 'logo_h_black_wordmark.png',
+    'interior default stamps the wordmark');
+  const interiorFull = assembleSlide(schema, 'carousel-journal', 'interior',
+    Object.assign({}, sampleJournalInterior.slides[0].tokens, { lockup: 'full' }), '4:5');
+  assert.strictEqual(logoOf(interiorFull.html, 'logo'), 'logo_h_black.png',
+    'interior lockup=full keeps the historical lockup');
+
+  const closingDark = assembleSlide(schema, 'carousel-journal', 'closing', sampleJournalClosing.slides[0].tokens, '4:5');
+  assert.strictEqual(closingDark.leftover.length, 0, `closing leftover: ${closingDark.leftover}`);
+  assert.strictEqual(logoOf(closingDark.html, 'logo'), 'logo_h_white_wordmark.png',
+    'closing dark default stamps the white wordmark');
+  const closingDarkFull = assembleSlide(schema, 'carousel-journal', 'closing',
+    Object.assign({}, sampleJournalClosing.slides[0].tokens, { lockup: 'full' }), '4:5');
+  assert.strictEqual(logoOf(closingDarkFull.html, 'logo'), 'logo_h_white.png',
+    'closing dark lockup=full keeps logo_h_white.png');
+
+  const birthdayInterior = assembleSlide(schema, 'carousel-journal', 'interior',
+    sampleJournalInteriorBirthday.slides[0].tokens, '4:5');
+  assert.strictEqual(birthdayInterior.leftover.length, 0, `birthday interior leftover: ${birthdayInterior.leftover}`);
+  assert.strictEqual(logoOf(birthdayInterior.html, 'logo'), 'logo_h_black_wordmark.png',
+    'birthday interior default stamps the wordmark');
+  const birthdayInteriorFull = assembleSlide(schema, 'carousel-journal', 'interior',
+    Object.assign({}, sampleJournalInteriorBirthday.slides[0].tokens, { lockup: 'full' }), '4:5');
+  assert.strictEqual(logoOf(birthdayInteriorFull.html, 'logo'), 'logo_h_black.png',
+    'birthday interior lockup=full keeps the historical lockup');
+
+  const birthdayClosing = assembleSlide(schema, 'carousel-journal', 'closing',
+    sampleJournalClosingBirthday.slides[0].tokens, '4:5');
+  assert.strictEqual(birthdayClosing.leftover.length, 0, `birthday closing leftover: ${birthdayClosing.leftover}`);
+  assert.strictEqual(logoOf(birthdayClosing.html, 'logo'), 'logo_h_white_wordmark.png',
+    'birthday closing default stamps the white wordmark');
+  const birthdayClosingFull = assembleSlide(schema, 'carousel-journal', 'closing',
+    Object.assign({}, sampleJournalClosingBirthday.slides[0].tokens, { lockup: 'full' }), '4:5');
+  assert.strictEqual(logoOf(birthdayClosingFull.html, 'logo'), 'logo_h_white.png',
+    'birthday closing lockup=full keeps logo_h_white.png');
+
+  const closingLightTokens = {
+    kicker: 'The Point of View', headline: 'A note from the studio',
+    body: 'The house is the kinder destination.',
+    author_name: 'Kellie', author_role: 'Co-founder, Fig & Bloom',
+    read_label: 'Read the full entry', url: 'figandbloom.com',
+    photo: 'samples/osaka_45.png', theme: 'light'
+  };
+  const closingLight = assembleSlide(schema, 'carousel-journal', 'closing', closingLightTokens, '4:5');
+  assert.strictEqual(closingLight.leftover.length, 0, `closing light leftover: ${closingLight.leftover}`);
+  assert.strictEqual(logoOf(closingLight.html, 'llogo'), 'logo_h_black_wordmark.png',
+    'closing light default stamps the black wordmark on the author card');
+  const closingLightFull = assembleSlide(schema, 'carousel-journal', 'closing',
+    Object.assign({}, closingLightTokens, { lockup: 'full' }), '4:5');
+  assert.strictEqual(logoOf(closingLightFull.html, 'llogo'), 'logo_h_black.png',
+    'closing light lockup=full keeps logo_h_black.png');
+
+  const introTokens = sampleJournal.slides.find(s => s.slide === 'intro').tokens;
+  const intro = assembleSlide(schema, 'carousel-journal', 'intro', introTokens, '4:5');
+  assert.strictEqual(intro.leftover.length, 0, `intro leftover: ${intro.leftover}`);
+  assert.strictEqual(logoOf(intro.html, 'logo'), 'logo_h_black_wordmark.png',
+    'intro default stamps the wordmark');
+  const introFull = assembleSlide(schema, 'carousel-journal', 'intro',
+    Object.assign({}, introTokens, { lockup: 'full' }), '4:5');
+  assert.strictEqual(logoOf(introFull.html, 'logo'), 'logo_h_black.png',
+    'intro lockup=full keeps the historical lockup');
+
   const fs = require('fs');
   const path = require('path');
   const assets = path.join(__dirname, '..', 'design-system', 'assets');

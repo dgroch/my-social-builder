@@ -12,7 +12,8 @@
        photo   : image, optional | faint ground plate; omit for flat clay-tint
        voice   : text, optional  | Cervanttis voice line — its own block, never inline
      LEVERS:
-       font : enum editorial|script | Font pairing — editorial = Lust pills + Neuzeit body; script = Neuzeit pills + Cervanttis body.
+       font   : enum editorial|script | Font pairing — editorial = Lust pills + Neuzeit body; script = Neuzeit pills + Cervanttis body.
+       lockup : enum wordmark|full    | wordmark (default) = Fig & Bloom only — For Moment Makers is a lens, not a slogan, and must not sit on the image; full = the current lockup with the tagline, for the rare case that wants it
      NOTE        : exactly three sections by design — keeps the rhythm even. Do not add a fourth.
      PALETTE       : clay-tint #ECE6DF surface · ink #000000 type · clay #D8CCBE pill stroke
      TYPE          : font lever — editorial (default): Lust pills + Neuzeit body · script: Neuzeit pills + Cervanttis body
@@ -86,7 +87,7 @@ html,body{width:{{W}}px;height:{{H}}px;overflow:hidden}
     <div class="foot">
       <div class="frule"></div>
       <div class="footrow">
-        <img class="logo" src="{{ASSETS_BASE}}/assets/logo_h_black.png">
+        <img class="logo" src="{{ASSETS_BASE}}/assets/{{LOGO_FILE}}">
         <div class="read">{{cta}}</div>
       </div>
     </div>

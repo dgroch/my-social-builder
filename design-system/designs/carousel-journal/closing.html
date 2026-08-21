@@ -12,7 +12,8 @@
        author_role : text, optional  | light layout: author role, e.g. "Co-founder, Fig & Bloom"
        read_label  : text, optional  | light layout: label above the URL, e.g. "Read the full entry"
      LEVERS:
-       theme       : enum dark|light | dark (default) = the centred sign-off over a moody plate; light = the author-card closer on a warm ground
+       theme       : enum dark|light     | dark (default) = the centred sign-off over a moody plate; light = the author-card closer on a warm ground
+       lockup      : enum wordmark|full  | wordmark (default) = Fig & Bloom only — For Moment Makers is a lens, not a slogan, and must not sit on the image; full = the current lockup with the tagline, for the rare case that wants it. Honoured on both the dark plate logo and the light author-card logo.
      PALETTE       : ink #000000 ground · white #FFFFFF type · clay-tint #ECE6DF secondary
      TYPE          : Lust display + Cervanttis voice line + Neuzeit Grotesk sans
 -->
@@ -82,7 +83,7 @@ html,body{width:{{W}}px;height:{{H}}px;overflow:hidden}
 <div class="stage {{ORIENT}} {{RATIO_CLASS}}" data-theme="{{theme}}">
   <div class="ov"></div>
   <div class="col">
-    <img class="logo" src="{{ASSETS_BASE}}/assets/logo_h_white.png">
+    <img class="logo" src="{{ASSETS_BASE}}/assets/{{LOGO_FILE}}">
     <div class="spacer"></div>
     <div class="voice">{{voice}}</div>
     <div class="spacer"></div>
@@ -108,7 +109,7 @@ html,body{width:{{W}}px;height:{{H}}px;overflow:hidden}
       </div>
       <div class="read">{{read_label}}</div>
       <div class="lurl">{{url}}</div>
-      <img class="llogo" src="{{ASSETS_BASE}}/assets/logo_h_black.png">
+      <img class="llogo" src="{{ASSETS_BASE}}/assets/{{LOGO_FILE}}">
     </div>
   </div>
 </div></body></html>

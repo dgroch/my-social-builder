@@ -15,9 +15,9 @@ The first locked design in the Fig & Bloom social system. Type-led, restrained, 
 | `statement` | none | body / single statement | One serif headline + an optional sans body. The workhorse editorial slide. Repeatable. `theme` lever: `clay` (default), `dark`, `light`. Shows automatic `NN / NN` pagination. |
 | `quote` | none | pull-quote | Oversized opening glyph + centred serif quote + attribution. No quote marks in the token (the glyph is chrome). `theme` lever: `dark` (default), `clay`, `light`. Pagination top-right. |
 | `photo-statement` | required | photo-statement | Full-bleed plate, foot-anchored kicker + serif headline + optional standfirst over a bottom scrim. No masthead. Pagination top-right. |
-| `intro` | optional (faint) | lede / story | Serif lede + body paragraph + a bridge line. (Tips/triad register.) |
-| `interior` | optional (faint) | body / proof | Exactly three sample-message sections. Repeatable. `font` lever: editorial or script. (Tips/triad register.) |
-| `closing` | required | closer | `theme` lever: `dark` (default — centred brand mark + sign-off over a moody plate) or `light` (warm-ground author-card closer: kicker, serif headline, body, hairline, avatar + author name/role, "Read the full entry", URL, logo). |
+| `intro` | optional (faint) | lede / story | Serif lede + body paragraph + a bridge line. (Tips/triad register.) `lockup` lever: `wordmark` (default) or `full`. Footer stamps `{{LOGO_FILE}}`. |
+| `interior` | optional (faint) | body / proof | Exactly three sample-message sections. Repeatable. `font` lever: editorial or script. `lockup` lever: `wordmark` (default) or `full`. Footer stamps `{{LOGO_FILE}}`. Official CoS fails: AFTER THE FUNERAL / FAMILY FLOWERS ONLY, and THE JOURNAL 02 / start from their taste / BRIGHT Marseille. |
+| `closing` | required | closer | `theme` lever: `dark` (default — centred brand mark + sign-off over a moody plate) or `light` (warm-ground author-card closer: kicker, serif headline, body, hairline, avatar + author name/role, "Read the full entry", URL, logo). `lockup` lever: `wordmark` (default) or `full` — honoured on both the dark plate logo and the light author-card logo. Official CoS fails: dark closer "Once the service has ended…" and "Shop the person, then the room." |
 
 Two registers:
 
@@ -42,9 +42,9 @@ Non-cover body slides (`statement`, `quote`, `photo-statement`) show an automati
 **statement** — `kicker`, `headline` (markdown); `body` (optional); lever `theme: clay|dark|light`
 **quote** — `quote` (markdown), `attribution`; lever `theme: dark|clay|light`
 **photo-statement** — `kicker`, `headline` (markdown), `photo` (image); `standfirst` (optional)
-**intro** — `kicker`, `index`, `lede` (markdown), `body`, `lead_in`, `cta`, `photo` (image, optional)
-**interior** — `kicker`, `index`, `label_1..3`, `quote_1..3`, `cta`, `photo` (image, optional); lever `font: editorial|script`
-**closing** — `url`, `photo` (image); `voice` (markdown), `cta`, `kicker`, `headline` (markdown), `body`, `avatar` (image), `author_name`, `author_role`, `read_label` (optional); lever `theme: dark|light`
+**intro** — `kicker`, `index`, `lede` (markdown), `body`, `lead_in`, `cta`, `photo` (image, optional); lever `lockup: wordmark|full`
+**interior** — `kicker`, `index`, `label_1..3`, `quote_1..3`, `cta`, `photo` (image, optional); levers `font: editorial|script`, `lockup: wordmark|full`
+**closing** — `url`, `photo` (image); `voice` (markdown), `cta`, `kicker`, `headline` (markdown), `body`, `avatar` (image), `author_name`, `author_role`, `read_label` (optional); levers `theme: dark|light`, `lockup: wordmark|full`
 
 **Inline emphasis (markdown tokens).** Wrap the **turn word** in `_underscores_` to set it in **italic Lust** — the *only* sanctioned inline emphasis. Use it rarely (≤ 3 across a deck), per the editorial standard. Cervanttis stays an accent/voice face only — never an italicised word inside a sentence. `*asterisks*` is a legacy accent (renders roman) kept for back-compat. `<br>` is a controlled line break. The repo ships Lust Regular only, so the italic is a synthesised oblique until the licensed `Lust-Italic.otf` is added to `design-system/fonts/`; the CSS picks up the real italic automatically once present. Body tokens are plain text (`<br><br>` for a paragraph break).
 
@@ -62,18 +62,26 @@ Casing follows the pairing: `editorial` sets the Lust pills in **Title Case** an
 - `light` → ink type directly on the plate (needs a plate with a clean upper wall). Logo colour: black. No overlay.
 - `dark` → white type on a darkened plate (works on any plate). Logo colour: white. Overlay `rgba(0,0,0,.60)`.
 
-The builder derives `THEME_CLASS` and `LOGO_FILE` from the `theme` + `lockup` levers — they are not separate tokens.
+The builder derives `THEME_CLASS` and `LOGO_FILE` from the `theme` + `lockup` levers — they are not separate tokens. Intro and interior have no `theme` lever (always black ink); they still derive `LOGO_FILE` from `lockup`.
 
-## Lockup lever (cover)
+## Lockup lever (cover, intro, interior, closing)
 
-For Moment Makers is a **lens**, not a slogan, and **must not sit on the image**. The cover plate therefore defaults to the wordmark.
+For Moment Makers is a **lens**, not a slogan, and **must not sit on the image**. Every journal slide that stamps the logo therefore defaults to the wordmark. Same token (`{{LOGO_FILE}}`) on all four — not a CSS hide of the tagline.
 
 - `wordmark` (**default**) → Fig & Bloom only. Files: `logo_h_black_wordmark.png` / `logo_h_white_wordmark.png` (cropped from the existing 759×173 lockups — the mark is not redrawn). Omit the lever and this is what you get.
 - `full` → the historical lockup, Fig & Bloom + FOR MOMENT MAKERS (`logo_h_black.png` / `logo_h_white.png`). Keep this for the rare case that explicitly wants the tagline on the plate.
 
+Closing honours the lever on **both** themes: dark uses the white file on the plate; light uses the black file on the author card.
+
 Do **not** hide the masthead footer by switching `layout: editorial` to dodge the slogan — that layout is a different cover, not a lockup fix. The editorial layout has no footer logo, so `lockup` is a no-op there.
 
-The official CoS fail frame is a 4:5 masthead light cover — THE JOURNAL / chrome test / Birthday flowers — with FOR MOMENT MAKERS under Fig & Bloom on the plate. See `examples/journal-cover-masthead-light-4x5.json` (same chrome, lockup omitted → wordmark). `lockup: full` may still look like that frame.
+Official CoS fail frames (slogan on the plate / footer). Both packs must pass:
+
+- Cover — 4:5 masthead light: THE JOURNAL / chrome test / Birthday flowers. See `examples/journal-cover-masthead-light-4x5.json` (lockup omitted → wordmark).
+- Send it to the house — interior: AFTER THE FUNERAL / read the notice first / FAMILY FLOWERS ONLY (`examples/journal-interior-funeral-4x5.json`). Closing dark: "Once the service has ended, the kinder destination is the house." (`examples/journal-closing-dark-4x5.json`).
+- Birthday — interior: THE JOURNAL 02 / start from their taste / BRIGHT Marseille (`examples/journal-interior-birthday-4x5.json`). Closing dark: "Shop the person, then the room." (`examples/journal-closing-birthday-4x5.json`).
+
+`lockup: full` may still look like those frames.
 
 ## Faint ground (intro + interior)
 

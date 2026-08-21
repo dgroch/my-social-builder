@@ -366,6 +366,27 @@ FOR MOMENT MAKERS appears when `lockup` is omitted or `wordmark`, and still allo
 `lockup: full` to look like that frame. Hiding the footer via `layout: editorial` is
 not a fix and fails the check.
 
+## v3.6.4 — journal intro / interior / closing lockup
+
+v3.6.3 fixed the cover only. `intro.html` and `interior.html` still hardcoded
+`logo_h_black.png`; `closing.html` hardcoded `logo_h_white.png` (dark) and
+`logo_h_black.png` (light author-card). A three-up (cover + interior + closing)
+with `lockup=wordmark` still stamped **FOR MOMENT MAKERS** on the body and closer.
+
+**The lever.** The same `lockup: wordmark | full` (default `wordmark`) is now
+declared on `carousel-journal` `intro`, `interior`, and `closing`. Those templates
+stamp `{{LOGO_FILE}}` — the same token as the cover, not a type hide of the
+tagline. Closing honours it on both themes (white file on the dark plate; black
+file on the light author card). Intro and interior have no `theme` lever; they
+always take the black file.
+
+`lib/render.js` still derives `LOGO_FILE` from theme colour + lockup. Slides that
+do not declare the lever keep `logo_h_*.png`. Guard: `test/lockup-wordmark.js`
+raster-checks both official CoS packs — Send it to the house (AFTER THE FUNERAL /
+kinder destination) and Birthday (start from their taste / Shop the person, then
+the room.) — plus intro. Default/wordmark `taglineInk=0` on interior and closing
+for each pack; `lockup=full` still has the slogan. Cover behaviour is unchanged.
+
 ## Photo sourcing — the asset library contract
 
 Every `photo` token accepts three forms:

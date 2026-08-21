@@ -1,0 +1,17 @@
+{
+  "postName": "Birthday flowers — journal closing (dark, wordmark)",
+  "design": "carousel-journal",
+  "ratio": "4:5",
+  "slides": [
+    {
+      "slide": "closing",
+      "tokens": {
+        "voice": "Shop the person, then the room.",
+        "cta": "Read the guide",
+        "url": "figandbloom.com",
+        "photo": "samples/osaka_45.png",
+        "theme": "dark"
+      }
+    }
+  ]
+}

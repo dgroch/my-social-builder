@@ -377,4 +377,4 @@ if (require.main === module) {
   })().catch(e => { console.error(e); process.exit(1); });
 }
 
-module.exports = { assembleCover, logoFileFrom, COVER, INTERIOR, CLOSING_DARK, TAGLINE };
+module.exports = { assembleCover, logoFileFrom, COVER, INTERIOR, INTERIOR_BIRTHDAY, CLOSING_DARK, CLOSING_BIRTHDAY, TAGLINE };
